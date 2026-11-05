@@ -1,0 +1,18 @@
+version: 2
+models:
+  - name: dim_employee
+    description: One row per employee ID.
+    columns:
+      - name: employee_id
+        data_tests: [not_null, unique]
+  - name: mart_headcount_monthly
+    description: Month-end headcount, joiners and leavers.
+    columns:
+      - name: month_start
+        data_tests: [not_null, unique]
+      - name: headcount
+        data_tests: [not_null]
+  - name: mart_headcount_by_department
+    columns:
+      - name: department
+        data_tests: [not_null, unique]

@@ -1,0 +1,14 @@
+name: hr_data_quality
+version: "1.0.0"
+profile: hr_data_quality
+model-paths: ["models"]
+seed-paths: ["seeds"]
+vars:
+  raw_csv: "../data/employees_raw.csv"
+  as_of: "2026-10-31"
+models:
+  hr_data_quality:
+    staging:
+      +materialized: table
+    marts:
+      +materialized: table

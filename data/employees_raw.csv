@@ -1,0 +1,528 @@
+employee_id,first_name,last_name,work_email,department,cost_centre,job_title,job_level,manager_id,country,hire_date,termination_date,employment_status,contract_type,contract_end_date,fte,annual_salary_eur,date_of_birth
+E00295,Zoe,Selwyn,zoe.selwyn@example.com,Customer Support,CC300,Support Specialist,L2,E00503,Ireland,2018-05-04,2022-08-22,Terminated,Permanent,,1.0,56000,1983-09-03
+E00246,Ivan,Corwin,ivan.corwin@example.com,Engineering,CC100,Engineer,L1,E00182,France,2018-01-04,2023-06-01,Terminated,Permanent,,1.0,38000,1989-09-02
+E00249,Elio,Nettleton,elio.nettleton@example.com,Operations,CC400,Operations Analyst,L2,E00149,Netherlands,2019-06-05,,Active,Permanent,,0.8,50500,1993-12-05
+E00267,Dara,Ivers,dara.ivers@example.com,Customer Support,CC300,Support Specialist,L2,E00209,France,2023-03-05,,Active,Fixed-term,2027-02-07,1.0,45000,1982-06-10
+E00057,Sara,Ashgrove,sara.ashgrove@example.com,Operations,CC400,Operations Analyst,L3,E00375,Ireland,2025-10-27,,Active,Permanent,,1.0,61500,1981-06-01
+E00234,Lou,Vance,lou.vance@example.com,Operations,CC400,Operations Analyst,L1,E00269,France,2026-10-31,,Active,Permanent,,1.0,40000,1993-05-22
+E00020,Riley,Birch,riley.birch@example.com,Customer Support,CC300,Support Specialist,L1,E00023,France,2018-05-02,,Active,Fixed-term,2026-12-03,1.0,41000,1992-09-28
+E00407,Avery,Garland,avery.garland@example.com,Marketing,CC500,Marketing Specialist,L3,E00170,Ireland,2026-06-24,,Active,Permanent,,1.0,76500,1995-10-11
+E00098,Sam,Lorne,sam.lorne@example.com,Finance,CC600,Finance Analyst,L1,E00065,France,2019-03-20,,Active,Permanent,,1.0,35000,1974-10-19
+E00058,Remi,Pemberton,remi.pemberton@example.com,Sales,CC200,Account Executive,L1,E00369,France,2016-09-07,,Active,Fixed-term,2027-05-02,1.0,28000,1982-03-21
+E00117,Andrea,Stroud,andrea.stroud@example.com,Customer Support,CC300,Support Specialist,L1,E00200,France,2022-05-16,2021-10-20,Terminated,Permanent,,1.0,30000,1990-02-03
+E00219,Charlie,Jessup,charlie.jessup@example.com,Finance,CC600,Finance Analyst,L1,E00496,France,2025-01-18,,Active,Permanent,,1.0,40500,1991-09-19
+E00043,Omar,Arden,omar.arden@example.com,Sales,CC200,Account Executive,L2,E00032,France,2018-06-07,,Active,Permanent,,1.0,55500,1981-05-22
+E00284,Camille,Thackery,camille.thackery@example.com,Customer Support,CC300,Support Specialist,L2,E00004,France,2021-12-12,,Active,Permanent,,1.0,38000,1976-11-15
+E00231,Maya,Kirkby,maya.kirkby@example.com,Engineering,CC100,Engineer,L1,E00070,Ireland,2020-06-12,,Active,Permanent,,1.0,28000,1980-02-13
+E00153,Rowan,Whitlock,rowan.whitlock@example.com,Customer Support,CC300,Support Specialist,L2,E00133,France,2016-10-23,,Active,Apprenticeship,2028-01-20,1.0,49500,1990-01-21
+E00333,Casey,Belmont,casey.belmont@example.com,Sales,CC200,Account Executive,L2,E00028,France,2022-07-08,,Active,Permanent,,1.0,4600,1992-05-01
+E00148,Casey,Fenwick,casey.fenwick@example.com,Sales,CC200,Account Executive,L2,E00080,Netherlands,2023-04-23,,Active,Permanent,,1.0,55000,1999-05-06
+E00262,Mika,Jessup,mika.jessup@example.com,Engineering,CC100,Engineer,L2,E00240,Netherlands,2024-02-21,,Active,Permanent,,1.0,46000,1982-04-05
+E00389,Casey,Yarrow,casey.yarrow@example.com,Engineering,CC100,Engineer,L1,E00050,Ireland,2025-06-17,,Active,Permanent,,1.0,41500,1984-12-22
+E00185,Mika,Arden,mika.arden@example.com,Operations,CC400,Operations Analyst,L2,E00250,Ireland,2021-05-20,,Active,Permanent,,1.0,55000,1994-09-02
+E00383,Tao,Fenwick,tao.fenwick@example.com,Sales,CC200,Account Executive,L1,E00399,Netherlands,2016-12-19,,Active,Fixed-term,2027-01-06,1.0,31000,1981-08-05
+E00414,Ines,Jessup,ines.jessup@example.com,Sales,CC200,Account Executive,L2,E00032,Ireland,2026-01-29,,Active,Permanent,,1.0,44000,1989-03-24
+E00100,Nadia,Ivers,nadia.ivers@example.com,Customer Support,CC300,Support Specialist,L2,E00442,France,2017-08-19,2026-03-08,Terminated,Permanent,,1.0,48500,1984-12-10
+E00179,Ivan,Calder,ivan.calder@example.com,People,CC700,People Partner,L1,E00144,France,2025-10-28,,Active,Permanent,,1.0,35500,1997-11-06
+E00031,Maxime,Fairfax,maxime.fairfax@example.com,Sales,CC200,Account Executive,L2,E00477,France,2018-05-26,,Active,Permanent,,0,54500,1973-04-07
+E00169,Andrea,Fenwick,andrea.fenwick@example.com,Sales,CC200,Account Executive,L1,E00189,France,2017-06-08,,Active,Fixed-term,2027-08-09,1.0,36500,1993-10-11
+E00283,Taylor,Oakley,taylor.oakley@example.com,Engineering,CC100,Engineer,L1,E00048,France,2021-08-25,,Active,Permanent,,1.0,0,1995-09-06
+E00045,Yuri,Radley,yuri.radley@example.com,Finance,CC600,Finance Analyst,L2,E00213,France,2024-05-24,,Active,Permanent,,1.0,48000,2002-09-17
+E00429,Aya,Dunmore,aya.dunmore@example.com,Customer Support,CC300,Support Specialist,L1,,France,2024-03-13,,Active,Permanent,,1.0,41000,1984-04-26
+E00151,Paul,Fenwick,paul.fenwick@example.com,Engineering,CC100,Engineer,L3,E00404,Ireland,2016-07-10,,Active,Fixed-term,2027-11-22,1.0,62000,1990-06-22
+E00433,Rowan,Varley,rowan.varley@example.com,Marketing,CC500,Marketing Specialist,L4,E00006,France,2018-02-28,,Active,Permanent,,1.0,88000,1989-04-03
+E00233,Robin,Alder,robin.alder@example.com,Customer Support,CC300,Support Specialist,L4,E00004,Netherlands,2025-02-01,,Active,Permanent,,1.0,80500,1996-06-28
+E00142,Paul,Rensley,paul.rensley@example.com,Operations,CC400,Operations Analyst,L2,E00402,France,2019-03-08,,Active,Fixed-term,2027-02-10,1.0,56500,1980-04-01
+E00323,Maya,Cotter,maya.cotter@example.com,Finance,,Finance Analyst,L2,E00279,France,2023-07-28,,Active,Permanent,,1.0,40500,1979-12-26
+E00328,Sara,Zeller,sara.zeller@example.com,Sales,CC200,Account Executive,L1,E00398,Netherlands,2025-03-10,,Active,Fixed-term,2027-03-29,1.0,29500,1997-07-14
+E00224,Morgan,Wexley,morgan.wexley2@example.com,Engineering,CC100,Engineer,L2,E00152,Ireland,2018-12-11,,Active,Permanent,,1.0,57500,1981-12-24
+E00172,Mika,Lorne,mika.lorne@example.com,Customer Support,CC300,Support Specialist,L1,E00471,Ireland,2016-04-11,2017-12-02,Terminated,Permanent,,1.0,32500,1982-02-12
+E00075,Eden,Wexley,eden.wexley@example.com,Marketing,CC500,Marketing Specialist,L2,E00430,France,2023-01-31,2024-11-06,Terminated,Apprenticeship,2024-02-16,0.8,55500,1997-02-24
+E00269,Zoe,Arden,zoe.arden@example.com,Operations,CC400,Operations Analyst,L2,E00057,Ireland,2023-07-19,,Active,Permanent,,1.0,42500,1986-03-27
+E00223,Emil,Gresham,emil.gresham2@example.com,Engineering,CC100,Engineer,L1,E00212,France,2016-12-09,2021-08-24,Terminated,Permanent,,0.8,29000,1977-02-05
+E00343,Robin,Fenwick,robin.fenwick2@example.com,People,CC700,People Partner,L1,E00243,France,2016-07-06,2026-09-26,Active,Permanent,,1.0,35500,1980-03-06
+E00354,Yuri,Harrow,yuri.harrow@example.com,Engineering,CC100,Engineer,L1,E00288,Ireland,2016-09-25,,Active,Permanent,,1.0,33000,1984-05-22
+E00214,Maya,Marlowe,maya.marlowe2@example.com,Engineering,CC100,Engineer,L3,E00132,France,2026-01-25,,Active,Permanent,,1.0,56000,2000-04-21
+E00321,Paul,Jessup,paul.jessup@example.com,Engineering,CC100,Engineer,L1,E00321,France,2017-04-04,,Active,Permanent,,1.0,30000,1986-03-26
+E00171,Lou,Garland,lou.garland@example.com,Engineering,CC100,Engineer,L3,E00163,France,2020-03-20,,Active,Permanent,,1.0,57500,1996-01-16
+E00303,Sacha,Brindle,sacha.brindle@example.com,People,CC700,People Partner,L1,E00258,France,2023-07-01,2026-06-01,Terminated,Permanent,,1.0,29500,1988-11-13
+E00393,Paul,Marlowe,paul.marlowe2@example.com,Customer Support,CC300,Support Specialist,L2,E00316,Netherlands,2023-10-27,,Active,Permanent,,1.0,48000,1995-10-19
+E00073,Rosa,Fairfax,rosa.fairfax@example.com,Customer Support,CC300,Support Specialist,L2,E00233,Ireland,2020-07-15,,Active,Permanent,,1.0,43000,1994-04-14
+E00190,Nico,Lorne,nico.lorne@example.com,Marketing,CC500,Marketing Specialist,L1,E00433,France,2021-11-08,,Active,Permanent,,1.0,28500,1980-10-02
+E00207,Tao,Ellery,tao.ellery@example.com,Customer Support,CC300,Support Specialist,L1,E00364,France,2021-03-22,,Active,Permanent,,1.0,30000,1991-05-28
+E00226,Remi,Lindqvist,remi.lindqvist@example.com,Marketing,CC500,Marketing Specialist,L1,E00215,Netherlands,2024-12-06,,Active,Permanent,,1.0,30500,1979-01-03
+E00174,Robin,Cotter,robin.cotter@example.com,Engineering,CC100,Engineer,L3,E00182,Ireland,2019-01-28,,Active,Permanent,,0.8,73000,1987-03-01
+E00158,Mika,Belmont,mika.belmont@example.com,Customer Support,CC300,Support Specialist,L4,E00004,Ireland,2021-12-14,,Active,Permanent,,1.0,72000,1976-01-03
+E00477,Sara,Varley,sara.varley@example.com,Sales,CC200,Account Executive,L3,E00003,France,2024-10-29,,Active,Permanent,,1.0,63000,2002-08-27
+E00278,Maxime,Ashgrove,maxime.ashgrove@example.com,Sales,CC200,Account Executive,L2,E00443,France,2020-05-13,,Active,Permanent,,1.0,43500,1977-01-07
+E00379,Marc,Corwin,marc.corwin@example.com,Engineering,CC100,Engineer,L3,E00160,France,2021-07-08,,Active,Fixed-term,,1.0,72500,1994-09-05
+E00054,Omar,Zeller,omar.zeller@example.com,Sales,CC200,Account Executive,L4,E00003,France,2017-08-30,,Active,Permanent,,1.0,84000,1980-03-13
+E00236,Aya,Ashgrove,aya.ashgrove@example.com,Operations,CC400,Operations Analyst,L2,E00225,Ireland,2024-09-07,,Active,Permanent,,1.0,47500,1995-11-18
+E00399,Maxime,Radley,maxime.radley@example.com,Sales,CC200,Account Executive,L3,E00352,France,2020-09-10,,Active,Permanent,,1.0,58500,1994-12-18
+E00211,Robin,Fenwick,robin.fenwick@example.com,Finance,CC600,Finance Analyst,L1,E00045,France,2023-04-28,,Active,Permanent,,1.0,30000,1979-02-22
+E00431,Casey,Jessup,casey.jessup@example.com,Engineering,CC100,Engineer,L2,E00425,France,2018-09-06,,Active,Permanent,,1.0,44500,1976-12-07
+E00041,Sacha,Selwyn,sacha.selwyn@example.com,People,CC700,People Partner,L2,E00499,Ireland,2023-08-19,,Active,Permanent,,1.0,49500,1996-10-01
+E00056,Lena,Nettleton,lena.nettleton@example.com,Sales,CC200,Account Executive,L1,E00148,France,2024-12-15,,Active,Permanent,,1.0,37000,1981-11-08
+E00293,Dominique,Marlowe,dominique.marlowe@example.com,Marketing,CC500,Marketing Specialist,L1,E00255,France,2026-11-24,,Active,Permanent,,1.0,33500,1980-05-12
+E00497,Casey,Ivers,casey.ivers@example.com,Engineering,CC100,Engineer,L1,E00329,Netherlands,2025-01-30,2026-09-04,Terminated,Permanent,,1.0,39000,1980-01-03
+E00155,Ivan,Penhale,ivan.penhale@example.com,Customer Support,CC300,Support Specialist,L1,E00452,France,2018-06-02,,Active,Permanent,,1.0,29000,1984-07-07
+E00046,Ari,Ivers,ari.ivers@example.com,Customer Support,CC300,Support Specialist,L1,E00284,France,2025-10-23,,Active,Permanent,,0.8,32500,1993-02-02
+E00026,Adam,Yarrow,riley.quillon@example.com,Engineering,CC100,Engineer,L3,E00308,France,2019-07-27,,Active,Permanent,,1.0,59500,1981-11-17
+E00188,Robin,Ashgrove,robin.ashgrove@example.com,Operations,CC400,Operations Analyst,L2,E00311,Netherlands,2024-11-07,,Active,Fixed-term,2027-06-17,1.0,47500,1991-11-20
+E00044,Yuri,Fairfax,yuri.fairfax@example.com,Customer Support,CC300,Support Specialist,L2,E00004,France,2021-01-03,,Active,Permanent,,1.0,43500,1977-01-06
+E00280,Eden,Radley,eden.radley@example.com,Customer Support,CC300,Support Specialist,L2,E00461,Ireland,2021-05-28,,Active,Permanent,,1.0,48500,1976-05-06
+E00336,Omar,Ashgrove,omar.ashgrove@example.com,Engineering,CC100,Engineer,L1,E00198,Netherlands,2019-06-23,,Active,Permanent,,1.0,39500,1994-09-24
+E00514,Ari,Ellery,ari.ellery@example.com,Engineering,CC100,Engineer,L2,E00127,Ireland,2018-10-18,2022-11-18,Terminated,Fixed-term,2019-11-11,1.0,41500,1994-09-20
+E00472,Dominique,Orchard,dominique.orchard@example.com,Operations,CC400,Operations Analyst,L3,E00245,Ireland,2021-03-09,,Active,Permanent,,1.0,60000,1979-10-20
+E00320,Rowan,Nettleton,rowan.nettleton@example.com,Engineering,CC100,Engineer,L2,E00127,France,2018-07-05,2026-10-18,Terminated,Permanent,,1.0,38500,1980-01-27
+E00104,Zoe,Nettleton,zoe.nettleton@example.com,Sales,CC200,Account Executive,L3,E00080,Ireland,2021-09-25,,Active,Permanent,,1.0,62500,1977-04-12
+E00348,Andrea,Garland,andrea.garland@example.com,Engineering,CC100,Engineer,L1,E00424,Netherlands,2020-04-24,,Active,Permanent,,1.0,41500,1988-06-19
+E00150,Alex,Jolliffe,alex.jolliffe@example.com,Marketing,CC500,Marketing Specialist,L2,E00221,Netherlands,2018-12-06,,Active,Permanent,,0.8,47500,1990-11-05
+E00276,Kim,Birch,kim.birch@example.com,Sales,CC200,Account Executive,L2,E00259,Ireland,2017-09-09,2020-08-04,Terminated,Permanent,,1.0,50000,1990-12-09
+E00063,Casey,Oakley,casey.oakley@example.com,Sales,CC200,Account Executive,L1,E00359,Ireland,2022-06-17,2026-05-28,Active,Permanent,,1.0,31500,1979-09-24
+E00122,Ivan,Rensley,ivan.rensley@example.com,Engineering,CC100,Engineer,L2,E00013,France,2020-09-14,,Active,Permanent,,1.0,43000,1986-12-19
+E00318,Rowan,Vance,rowan.vance2@example.com,Sales,CC200,Account Executive,L2,E76128,Ireland,2016-06-10,,Active,Permanent,,1.0,50500,1977-08-05
+E00067,Taylor,Lindqvist,taylor.lindqvist@example.com,Finance,CC600,Finance Analyst,L2,E00076,Netherlands,2022-06-03,,Active,Permanent,,1.0,41500,1979-06-16
+E00032,Tao,Radley,tao.radley@example.com,Sales,CC200,Account Executive,L4,E00003,France,2018-08-09,,Active,Permanent,,1.0,96000,1996-11-14
+E00116,Sam,Arden,sam.arden@example.com,Engineering,CC100,Engineer,L2,E00182,France,2022-07-19,,Active,Fixed-term,2027-06-18,1.0,54000,2000-01-28
+E00509,Theo,Upton,theo.upton@example.com,Customer Support,CC300,Support Specialist,L2,E00209,Ireland,2022-02-16,,Active,Permanent,,1.0,56500,1986-11-04
+E00213,Omar,Pemberton,omar.pemberton@example.com,Finance,CC600,Finance Analyst,L4,E00007,France,2019-02-07,,Active,Permanent,,0.8,95000,1979-10-10
+E00204,Alex,Brindle,alex.brindle@example.com,Engineering,CC100,Engineer,L1,E00163,France,2024-10-14,,Active,Permanent,,1.0,33500,1992-04-18
+E00157,Elio,Lindqvist,elio.lindqvist@example.com,People,CC700,People Partner,L3,E00258,Ireland,2016-02-02,,Active,Permanent,,1.0,64500,1993-12-11
+E00082,Rowan,Jessup,rowan.jessup@example.com,People,CC700,People Partner,L1,E00157,Netherlands,31/02/2023,,Active,Permanent,,0.8,36000,1977-03-17
+E00359,Mika,Oakley,mika.oakley@example.com,Sales,CC200,Account Executive,L4,E00003,France,2019-04-28,,Active,Permanent,,1.0,97000,1981-06-10
+E00156,Alex,Ashgrove,alex.ashgrove@example.com,Engineering,CC100,Engineer,L1,E00502,Netherlands,2017-11-04,,Active,Permanent,,0.5,38500,1975-10-26
+E00312,Charlie,Fairfax,charlie.fairfax@example.com,Operations,CC400,Operations Analyst,L2,E00440,Ireland,2026-03-12,,Active,Permanent,,0.8,45500,1989-01-01
+E00159,Paul,Upton,paul.upton@example.com,Engineering,CC100,Engineer,L2,E00340,Ireland,2023-01-12,,Active,Permanent,,1.0,52000,1996-05-18
+E00432,Lena,Jolliffe,lena.jolliffe@example.com,Sales,CC200,Account Executive,L3,E00003,France,2026-01-19,,Active,Permanent,,1.0,76500,2004-10-11
+E00016,Robin,Harrow,robin.harrow@example.com,Engineering,CC100,Engineer,L1,E00454,France,2021-03-07,2024-01-19,Terminated,Permanent,,1.0,33000,1992-08-09
+E00415,Sacha,Yarrow,sacha.yarrow@example.com,Customer Support,CC300,Support Specialist,L1,E00355,France,2019-10-14,,Active,Permanent,,1.0,28500,1993-06-23
+E00008,Leo,Tarrant,leo.tarrant@example.com,People,CC700,"Director, People",L5,E00001,Ireland,2016-05-01,,Active,Permanent,,1.0,153000,1973-10-20
+E00494,Nora,Dorsey,tao.pemberton@example.com,Engineering,CC100,Engineer,L1,E00313,France,2020-02-26,,Active,Permanent,,0.8,41500,1978-02-28
+E00264,Eden,Yarrow,eden.yarrow@example.com,Engineering,CC100,Engineer,L3,E00132,France,2017-02-16,,Active,Permanent,,0.8,72500,1973-03-22
+E00340,Dara,Merrow,dara.merrow@example.com,Engineering,CC100,Engineer,L3,E00033,France,2020-09-01,,Active,Permanent,,1.0,66000,1983-03-17
+E00404,Alex,Hollis,alex.hollis2@example.com,Engineering,CC100,Engineer,L4,E00002,France,2019-05-10,,Active,Permanent,,1.0,99500,1991-11-04
+E00517,Nadia,Ivers,nadia.ivers2@example.com,Finance,CC600,Marketing Specialist,L1,E00084,Ireland,2025-11-02,,Active,Permanent,,1.0,36000,1998-06-07
+E00121,Jordan,Nettleton,jordan.nettleton@example.com,People,CC700,People Partner,L4,E00008,Ireland,2017-05-02,,Active,Permanent,,1.0,100500,1978-04-02
+E00502,Remi,Birch,remi.birch@example.com,Engineering,CC100,Engineer,L2,E00455,France,2021-07-21,,Active,Fixed-term,2027-10-07,1.0,41500,1992-08-13
+E00125,Maya,Radley,maya.radley@example.com,Customer Support,CC300,Support Specialist,L1,E00267,France,2023-04-28,2025-04-19,Terminated,Fixed-term,2026-02-06,1.0,28000,1990-01-02
+E00209,Taylor,Calder,taylor.calder@example.com,Customer Support,CC300,Support Specialist,L3,E00503,France,2022-04-30,,Active,Permanent,,1.0,75000,1984-03-19
+E00422,Taylor,Yarrow,taylor.yarrow@example.com,Engineering,CC100,Engineer,L1,E00127,France,2024-08-18,,Active,Fixed-term,2027-04-09,1.0,34000,1979-08-14
+E00196,Rosa,Stroud,rosa.stroud@example.com,Engineering,CC100,Engineer,L2,E00050,Netherlands,2019-05-18,,Active,Fixed-term,2027-05-31,1.0,48000,1997-08-25
+E00173,Adam,Merrow,adam.merrow@example.com,Sales,CC200,Account Executive,L1,E00036,Netherlands,2017-07-24,,Active,Permanent,,0.8,41500,1978-05-17
+E00418,Kim,Kestrel,kim.kestrel@example.com,Sales,CC200,Account Executive,L1,E00036,Ireland,2022-06-07,,Active,Permanent,,1.0,34500,1995-09-15
+E00489,Dominique,Radley,dominique.radley@example.com,Customer Support,CC300,Support Specialist,L3,E00503,France,2022-06-08,,Active,Fixed-term,2027-03-13,1.0,57500,1992-07-24
+E00049,Rowan,Kirkby,rowan.kirkby@example.com,Sales,CC200,Account Executive,L1,E00359,France,2021-01-02,2026-05-05,Terminated,Permanent,,0.8,31000,1994-03-19
+E00471,Elio,Dunmore,elio.dunmore@example.com,Customer Support,CC300,Support Specialist,L2,E00442,France,2024-10-20,,Active,Permanent,,1.0,51500,2000-06-03
+E00092,Emil,Ivers,emil.ivers@example.com,Operations,CC400,Operations Analyst,L2,E00245,Ireland,2024-01-08,,Active,Permanent,,1.0,45000,1995-11-20
+E00051,Nora,Kirkby,nora.kirkby@example.com,Engineering,CC100,Engineer,L1,E00358,Netherlands,2024-10-01,,Active,Permanent,,1.0,38500,1987-04-17
+E00409,Kim,Whitlock,kim.whitlock@example.com,Marketing,CC500,Marketing Specialist,L1,E00380,France,2017-01-05,,Active,Apprenticeship,2027-03-12,1.0,40500,1982-10-28
+E00126,Theo,Everly,theo.everly@example.com,Engineering,CC100,Engineer,L2,E00394,France,2021-01-11,,Active,Permanent,,1.0,57500,1984-02-13
+E00164,Aya,Stroud,aya.stroud@@example.com,People,CC700,People Partner,L2,E00157,Ireland,2020-10-23,,Active,Permanent,,1.0,56000,1985-10-10
+E00287,Alex,Wexley,alex.wexley@example.com,Engineering,CC100,Engineer,L1,E00159,Netherlands,2023-03-31,2024-10-22,Terminated,Permanent,,1.0,32000,1994-09-07
+E00357,Avery,Radley,avery.radley@example.com,Engineering,CC100,Engineer,L1,E00367,France,2016-07-19,,Active,Fixed-term,2028-01-20,1.0,32500,1979-09-26
+E00360,Camille,Nettleton,camille.nettleton@example.com,People,CC700,People Partner,L1,E00419,France,2018-12-19,2026-11-30,Active,Permanent,,1.0,31500,1995-02-12
+E00069,Jordan,Hollis,jordan.hollis@example.com,Engineering,CC100,Engineer,L2,E00404,France,2017-06-04,,Active,Permanent,,1.0,43000,1987-11-13
+E00134,Dara,Thackery,dara.thackery@example.com,People,CC700,People Partner,L1,E00041,France,2018-03-06,,Active,Permanent,,1.0,39000,1979-04-14
+E00002,Quinn,Kestrel,quinn.kestrel@example.com,Engineering,CC100,"Director, Engineering",L5,E00001,Ireland,2016-02-01,,Active,Permanent,,1.0,120000,1979-03-06
+E00420,Sacha,Zeller,sacha.zeller@example.com,Engineering,CC100,Engineer,L1,E00122,Netherlands,2019-12-06,2023-02-19,Terminated,Permanent,,1.0,33000,1997-09-25
+E00410,Riley,Rensley,riley.rensley@example.com,Engineering,CC100,Engineer,L1,E00416,Netherlands,2026-02-11,,Active,Permanent,,1.0,32000,1982-12-23
+E00446,Omar,Harrow,omar.harrow@example.com,Finance,CC600,Finance Analyst,L2,E00076,France,2018-03-04,,Active,Fixed-term,2027-02-25,0.8,47000,1978-08-07
+E00112,Dara,Whitlock,dara.whitlock@example.com,Operations,CC400,Operations Analyst,L1,E00269,Netherlands,2023-02-28,,Active,Permanent,,0.8,41000,1980-12-20
+E00093,Kim,Alder,kim.alder@example.com,Sales,CC200,Account Executive,L2,E00464,France,2020-05-20,,Active,Permanent,,1.0,52000,1996-02-03
+E00346,Zoe,Jolliffe,zoe.jolliffe2@example.com,Operations,CC400,Operations Analyst,L2,E00472,France,2024-04-26,,Active,Permanent,,1.0,38000,2000-11-01
+E00397,Alex,Everly,alex.everly@example.com,Engineering,CC100,Engineer,L1,E00151,Ireland,2021-12-21,,Active,Apprenticeship,2027-02-07,1.0,29000,1999-08-15
+E00307,Ari,Belmont,ari.belmont@example.com,Customer Support,CC300,Support Specialist,L1,E00355,France,2017-11-25,2020-10-24,Terminated,Fixed-term,2018-12-09,1.0,39000,1993-09-05
+E00097,Nadia,Rensley,nadia.rensley@example.com,Finance,CC600,Finance Analyst,L2,E00076,France,2016-11-03,2021-08-19,Terminated,Fixed-term,2019-02-19,1.0,47500,1977-02-26
+E00402,Omar,Thackery,omar.thackery@example.com,Operations,CC400,Operations Analyst,L3,E00245,France,2018-06-29,,Active,Permanent,,1.0,59000,1974-05-18
+E00451,Quinn,Varley,quinn.varley@example.com,Marketing,CC500,Marketing Specialist,L2,E00170,Ireland,2019-12-26,,Active,Permanent,,1.0,38000,1987-10-21
+E00127,Leo,Ivers,leo.ivers@example.com,Engineering,CC100,Engineer,L3,E00163,France,2019-10-13,,Active,Permanent,,1.0,64500,1990-06-18
+E00227,Dara,Norwood,dara.norwood@example.com,Sales,CC200,Account Executive,L1,E00505,Netherlands,2021-08-23,,Active,Permanent,,0.5,30500,1990-08-02
+E00313,Sara,Fenwick,sara.fenwick@example.com,Engineering,CC100,Engineer,L2,E00244,France,2022-09-22,,Active,Permanent,,1.0,41000,1992-07-21
+E00243,Maxime,Stroud,maxime.stroud@example.com,People,CC700,People Partner,L3,E00146,Netherlands,2021-10-30,,Active,Permanent,,1.0,74500,1994-11-18
+E00268,Quinn,Zeller,quinn.zeller@example.com,Operations,CC400,Operations Analyst,L2,E00135,France,2020-08-31,,Active,Permanent,,1.0,54000,1980-09-28
+E00453,Quinn,Quillon,quinn.quillon@example.com,Customer Support,CC300,Support Specialist,L1,E00471,France,2024-05-19,,Active,Fixed-term,2026-12-08,1.0,39000,1990-01-06
+E00470,Yuri,Pemberton,yuri.pemberton@example.com,Engineering,CC100,Engineer,L1,E00182,France,2017-01-02,,Active,Permanent,,1.0,36000,1977-02-26
+E00261,Dara,Zeller,dara.zeller@example.com,Engineering,,Engineer,L2,E00127,Netherlands,2024-10-15,,Active,Permanent,,1.0,56500,1984-09-21
+E00469,Ines,Fairfax,ines.fairfax@example.com,Customer Support,CC300,Support Specialist,L1,E00316,France,2018-06-25,,Active,Permanent,,0.8,36000,1973-04-09
+E00315,Sacha,Rensley,sacha.rensley@example.com,Customer Support,CC300,Support Specialist,L2,E00158,France,2021-10-18,2026-04-07,Terminated,Permanent,,1.0,44500,1979-11-02
+E00479,Mika,Varley,mika.varley@example.com,Sales,CC200,Account Executive,L2,E00028,Ireland,2024-01-16,,Active,Permanent,,1.0,43000,1996-02-04
+E00430,Hugo,Dorsey,hugo.dorsey2@example.com,Marketing,CC500,Marketing Specialist,L3,E00366,France,2016-07-14,,Active,Permanent,,0.8,69500,1988-05-22
+E00205,Remi,Brindle,remi.brindle@example.com,Sales,CC200,Account Executive,L1,E00432,Netherlands,2024-05-05,,Active,Permanent,,1.0,38000,1998-09-01
+E00365,Lena,Penhale,lena.penhale@example.com,Engineering,CC100,Engineer,L3,E00039,France,2024-01-17,,Active,Permanent,,1.0,76500,1992-04-14
+E00308,Dara,Ivers,dara.ivers2@example.com,Engineering,CC100,Engineer,L4,E00002,France,2020-03-27,,Active,Permanent,,1.0,107000,1996-08-08
+E00327,Zoe,Ivers,zoe.ivers@example.com,Sales,CC200,Account Executive,L1,E00118,Netherlands,2019-06-16,2023-04-18,Terminated,Permanent,,1.0,36000,1997-08-07
+E00271,Nico,Jessup,nico.jessup@example.com,Operations,CC400,Operations Analyst,L2,E00292,Netherlands,2026-08-08,,Active,Permanent,,1.0,48500,1993-08-02
+E00029,Sam,Selwyn,sam.selwyn@example.com,Engineering,CC100,Engineer,L3,E00317,France,2022-01-08,,Active,Permanent,,1.0,58500,1984-07-16
+E00492,Eden,Orchard,eden.orchard@example.com,Engineering,CC100,Engineer,L1,E00408,France,2017-06-07,,Active,Permanent,,0.5,39000,1980-01-06
+E00439,Ivan,Yarrow,ivan.yarrow@example.com,Engineering,CC100,Engineer,L3,E00378,France,2022-08-31,,Active,Permanent,,1.0,65000,1983-10-05
+E00245,Nadia,Gresham,nadia.gresham@example.com,Operations,CC400,Operations Analyst,L4,E00005,France,2023-03-30,,Active,Permanent,,1.0,77000,1990-12-21
+E00491,Maya,Merrow,maya.merrow@example.com,Engineering,CC100,Engineer,L1,E00216,France,2018-12-13,,Active,Permanent,,1.0,29500,1991-06-19
+E00416,Eden,Cotter,eden.cotter@example.com,Engineering,CC100,Engineer,L2,E00439,France,2021-07-22,,Active,Permanent,,1.0,43000,1999-09-11
+E00102,Maya,Marlowe,maya.marlowe@example.com,Customer Support,CC300,Support Specialist,L3,E00158,Ireland,2021-12-21,,Active,Permanent,,1.0,60500,1982-06-11
+E00510,Maxime,Corwin,maxime.corwin@example.com,People,CC700,People Partner,L1,E75158,Netherlands,2022-06-26,,Active,Permanent,,1.0,32000,1980-06-26
+E00220,Rosa,Upton,rosa.upton@example.com,Engineering,CC100,Engineer,L2,E00475,France,2019-08-05,,Active,Permanent,,1.0,46500,1990-04-23
+E00230,Rosa,Stroud,rosa.stroud2@example.com,Marketing,CC500,Marketing Specialist,L2,E00334,France,2024-02-08,2026-03-08,Terminated,Permanent,,1.0,40000,1995-01-21
+E00192,Theo,Ashgrove,theo.ashgrove@example.com,Sales,CC200,Account Executive,L2,E00054,France,2023-01-29,,Active,Permanent,,1.0,48500,1997-02-24
+E00517,Nadia,Ivers,nadia.ivers2@example.com,Marketing,CC500,Marketing Specialist,L1,E00084,Ireland,2025-11-02,,Active,Permanent,,1.0,36000,1998-06-07
+E00384,Maxime,Penhale,maxime.penhale2@example.com,Operations,CC400,Operations Analyst,L2,E00225,France,2018-06-12,2022-06-17,Terminated,Permanent,,1.0,46000,1974-06-21
+E00147,Sacha,Everly,sacha.everly@example.com,Sales,CC200,Account Executive,L1,E00259,Netherlands,2018-02-28,,Active,Permanent,,1.0,39500,1987-07-12
+E00394,Camille,Fairfax,camille.fairfax@example.com,Engineering,CC100,Engineer,L3,E00050,Ireland,2019-04-02,,Active,Fixed-term,2027-05-18,1.0,64000,1997-01-09
+E00350,Theo,Garland,theo.garland@example.com,Marketing,CC500,Marketing Specialist,L1,E00150,France,2024-11-03,,Active,Permanent,,1.0,38500,2012-05-14
+E00450,Maya,Zeller,maya.zeller@example.com,Engineering,CC100,Engineer,L3,E00039,Ireland,2018-04-17,,Active,Permanent,,1.0,70000,1984-05-01
+E00228,Nadia,Fairfax,nadia.fairfax@example.com,Engineering,CC100,Engineer,L2,E00439,France,2023-01-26,2026-09-24,Terminated,Permanent,,1.0,48000,1986-10-24
+E00434,Alex,Fairfax,alex.fairfax@example.com,Engineering,CC100,Engineer,L1,E00251,France,2024-11-26,,Active,Permanent,,1.0,33500,1994-07-13
+E00501,Nadia,Lorne,nadia.lorne@example.com,Marketing,CC500,Marketing Specialist,L2,E00247,France,2017-08-06,,Active,Permanent,,1.0,56000,1973-03-03
+E00137,Zoe,Corwin,zoe.corwin@example.com,Finance,CC600,Finance Analyst,L1,E00497,France,2020-01-22,,Active,Permanent,,1.0,28000,1984-04-07
+E00306,Lou,Zeller,lou.zeller@example.com,Sales,CC200,Account Executive,L1,E00464,France,2024-03-12,,Active,Permanent,,1.0,30500,1991-09-03
+E00208,Rowan,Birch,rowan.birch@example.com,Engineering,CC100,Engineer,L3,E00085,Ireland,2024-11-04,,Active,Permanent,,1.0,59500,1986-10-04
+E00362,Charlie,Tarrant,charlie.tarrant@example.com,Marketing,CC500,Marketing Specialist,L1,E00006,Netherlands,2019-07-08,,Active,Fixed-term,2027-06-22,1.0,39000,1983-05-15
+E00438,Sacha,Jolliffe,sacha.jolliffe@example.com,Customer Support,CC300,Support Specialist,L1,E00500,France,2019-12-11,,Active,Permanent,,0.5,31000,1979-11-08
+E00403,Eden,Lindqvist,eden.lindqvist@example.com,Marketing,CC500,Marketing Specialist,L4,E00006,Ireland,2018-07-02,,Terminated,Permanent,,1.0,84500,1981-10-02
+E00460,Adam,Tarrant,adam.tarrant@example.com,Sales,CC200,Account Executive,L1,E00386,France,2021-03-23,,Active,Permanent,,1.0,37000,1996-02-08
+E00250,Hugo,Selwyn,hugo.selwyn@example.com,Operations,CC400,Operations Analyst,L3,E00183,France,2020-12-04,,Active,Permanent,,1.0,54500,1975-06-01
+E00493,Yuri,Everly,yuri.everly@example.com,Sales,CC200,Account Executive,L1,E00110,France,2018-12-25,,Active,Permanent,,1.0,31500,1994-03-15
+E00345,Quinn,Kestrel,quinn.kestrel2@example.com,Customer Support,CC300,Support Specialist,L3,E00503,France,2026-09-23,,Active,Permanent,,1.0,72000,1988-07-19
+E00201,Eden,Calder,eden.calder@example.com,Customer Support,CC300,Support Specialist,L1,E00503,Ireland,2018-08-26,2025-07-03,Terminated,Permanent,,1.0,33500,1986-08-06
+E00338,Zoe,Harrow,zoe.harrow@example.com,People,,People Partner,L1,E00258,France,2024-11-28,,Active,Permanent,,1.0,33500,1982-11-24
+E00335,Elio,Thackery,elio.thackery@example.com,Engineering,CC100,Engineer,L1,E00174,Ireland,2018-07-25,,Active,Permanent,,1.0,30500,1985-02-11
+E00080,Dominique,Ashgrove,dominique.ashgrove@example.com,Sales,CC200,Account Executive,L4,E00003,France,2016-06-06,,Active,Permanent,,1.0,94000,1992-06-12
+E00166,Lena,Dunmore,lena.dunmore@example.com,Finance,CC600,Finance Analyst,L3,E00007,France,2022-12-02,,Active,Permanent,,0.8,63500,1990-06-05
+E00218,Sam,Ivers,sam.ivers@example.com,Customer Support,CC300,Support Specialist,L1,E00133,France,2020-06-11,,Active,Permanent,,1.0,39000,1978-02-15
+E00378,Zoe,Ashgrove,zoe.ashgrove@example.com,Engineering,CC100,Engineer,L4,E00002,Ireland,2018-05-30,,Active,Permanent,,1.0,102500,1987-07-10
+E00401,Jules,Garland,jules.garland@example.com,Sales,CC200,Account Executive,L1,E00486,France,2018-02-26,,Active,Permanent,,1.0,36000,1973-09-26
+E00385,Marc,Harrow,marc.harrow@example.com,Engineering,CC100,Engineer,L2,E00002,France,2019-10-29,,Active,Permanent,,1.0,54500,2007-05-14
+E00455,Zoe,Hollis,zoe.hollis@example.com,Engineering,CC100,Engineer,L3,E00308,France,2019-08-05,,Active,Permanent,,1.0,71000,1979-05-24
+E00087,Taylor,Quillon,taylor.quillon@example.com,Operations,CC400,Operations Analyst,L1,E00092,France,2021-05-25,,Active,Permanent,,1.0,30000,1985-04-05
+E00458,Noa,Pemberton,noa.pemberton@example.com,Sales,CC200,Account Executive,L1,E00192,Ireland,2024-03-16,,Active,Permanent,,0.8,36000,1980-01-10
+E00421,Quinn,Hollis,quinn.hollis@example.com,Engineering,CC100,Engineer,L3,E00163,Ireland,2025-10-06,,Active,Permanent,,1.0,76500,1983-11-11
+E00038,Andrea,Alder,andrea.alder@example.com,Marketing,CC500,Marketing Specialist,L2,E00366,Ireland,2018-11-30,,Active,Permanent,,1.0,52500,1981-08-11
+E00232,Sam,Fenwick,sam.fenwick@example.com,Engineering,CC100,Engineer,L1,E00317,France,2019-03-19,,Active,Permanent,,80,28500,1977-09-05
+E00314,Rowan,Lindqvist,rowan.lindqvist@example.com,Sales,CC200,Account Executive,L3,E00032,Netherlands,2017-12-21,,Active,Permanent,,1.0,62000,1985-02-02
+E00454,Rosa,Upton,rosa.upton2@example.com,Engineering,CC100,Engineer,L4,E00002,Ireland,2026-01-04,,Active,Permanent,,0.5,86000,1998-07-23
+E00508,Taylor,Norwood,taylor.norwood@example.com,Finance,CC600,Finance Analyst,L1,E00482,France,2019-06-30,,Active,CDI ,,1.0,36500,1997-08-24
+E00036,Morgan,Wexley,morgan.wexley@example.com,Sales,CC200,Account Executive,L3,E00080,Ireland,2021-06-26,,Active,Permanent,,1.0,79000,1997-10-15
+E00255,Jordan,Belmont,jordan.belmont@example.com,Marketing,CC500,Marketing Specialist,L2,E00202,France,2026-07-03,,Active,Fixed-term,2027-10-21,0.8,53500,2004-07-01
+E00222,Emil,Pemberton,emil.pemberton@example.com,Customer Support,CC300,Support Specialist,L1,E00509,Ireland,2019-08-25,2026-04-19,Active,Permanent,,1.0,28500,1975-07-22
+E00191,Ivan,Varley,ivan.varley@example.com,Customer Support,CC300,Support Specialist,L1,E00158,France,2020-11-04,,Active,Permanent,,1.0,32000,1998-08-19
+E00516,Dara,Norwood,charlie.ingram@example.com,Engineering,CC100,Engineer,L2,E00275,France,2019-12-12,,Active,Permanent,,1.0,52000,1997-08-02
+E00449,Ari,Thackery,ari.thackery@example.com,Engineering,CC100,Engineer,L1,E00033,France,2017-01-16,,Active,Permanent,,0.8,39500,1990-11-01
+E00028,Aya,Marlowe,aya.marlowe@example.com,Sales,CC200,Account Executive,L3,E00003,France,2024-01-06,,Active,Permanent,,1.0,62500,1985-09-02
+E00009,Avery,Calder,avery.calder@example.com,Engineering,CC100,Engineer,L2,E00224,France,2025-04-29,,Active,Permanent,,1.0,50500,2001-01-27
+E00217,Quinn,Radley,quinn.radley@example.com,Finance,CC600,Finance Analyst,L1,E00279,Ireland,2016-09-29,,Active,Permanent,,-1,38500,1986-07-21
+E00197,Lena,Lorne,lena.lorne@example.com,Engineering,CC100,Engineer,L2,E00275,France,2018-03-04,,Active,Permanent,,0.8,56000,1986-01-25
+E00273,Dara,Calder,dara.calder at example.com,Engineering,CC100,Engineer,L1,E00367,France,2023-01-09,,Active,Permanent,,1.0,34000,1985-06-21
+E00405,Leo,Wexley,leo.wexley@example.com,Engineering,CC100,Engineer,L1,E00329,Ireland,2023-09-23,,Active,Permanent,,1.0,37500,2000-06-16
+E00265,Riley,Quillon,riley.quillon@example.com,Sales,CC200,Account Executive,L2,E00505,France,2024-07-01,,Active,Permanent,,1.0,40000,1986-02-15
+E00040,Zoe,Pemberton,zoe.pemberton@example.com,Marketing,CC500,Marketing Specialist,L1,E75811,Netherlands,2017-10-06,,Active,Permanent,,1.0,38000,1982-09-24
+E00095,Quinn,Stroud,quinn.stroud@example.com,People,CC700,People Partner,L3,E00258,France,2026-04-14,,Active,Permanent,,1.0,71000,1995-09-14
+E00077,Andrea,Lindqvist,andrea.lindqvist@example.com,Sales,CC200,Account Executive,L1,E00314,Netherlands,2023-02-04,,Active,Permanent,,1.0,35500,1995-04-18
+E00395,Nora,Selwyn,nora.selwyn@example.com,Customer Support,CC300,Support Specialist,L1,E00074,Ireland,2023-12-25,,Active,Permanent,,1.0,41500,2007-01-01
+E00344,Ivan,Wexley,ivan.wexley@example.com,Operations,CC400,Operations Analyst,L1,E00245,France,2020-08-19,,Active,Permanent,,1.0,28500,1982-02-11
+E00440,Ari,Dunmore,ari.dunmore@example.com,Operations,CC400,Operations Analyst,L3,E00245,France,2025-05-16,,Active,Permanent,,1.0,73500,1990-05-15
+E00162,Rowan,Fairfax,rowan.fairfax@example.com,Engineering,CC100,Engineer,L2,E00450,Ireland,2023-11-25,,Active,Fixed-term,2027-07-23,1.0,47500,1998-04-07
+E00109,Rowan,Vance,rowan.vance@example.com,Marketing,CC500,Marketing Specialist,L2,,Ireland,2025-03-03,,Active,Permanent,,1.0,50000,1981-08-20
+E00465,Avery,Brindle,avery.brindle@example.com,Marketing,CC500,Marketing Specialist,L1,E00474,France,2025-07-10,,Active,Permanent,,1.0,40000,2013-05-14
+E00488,Morgan,Rensley,morgan.rensley@example.com,Sales,CC200,Account Executive,L1,E00386,France,2018-08-02,,Active,Permanent,,1.0,32000,1985-08-04
+E00258,Lena,Selwyn,lena.selwyn@example.com,People,CC700,People Partner,L4,E00008,Ireland,2022-08-25,,Active,Permanent,,1.0,97500,1983-07-24
+E00330,Camille,Ingram,camille.ingram@example.com,Engineering,CC100,Engineer,L1,E00013,France,2025-06-12,,Active,Permanent,,0.8,3050,1991-10-04
+E00059,Emil,Kirkby,emil.kirkby@example.com,Operations,CC400,Operations Analyst,L1,E00402,Netherlands,2018-01-15,,Terminated,Permanent,,1.0,34500,1974-12-27
+E00034,Ivan,Lindqvist,ivan.lindqvist@example.com,Operations,CC400,Operations Analyst,L2,E00402,France,2022-12-13,,Active,Permanent,,1.0,47000,1993-04-04
+E00341,Dominique,Upton,dominique.upton@example.com,Operations,CC400,Operations Analyst,L1,E00472,Ireland,2018-05-31,2025-11-11,Terminated,Permanent,,1.0,32500,1983-12-11
+E00132,Noa,Ivers,noa.ivers@example.com,Engineering,CC100,Engineer,L4,E00002,France,2026-03-03,,Active,Fixed-term,2027-12-02,0.8,72500,1984-06-11
+E00011,Maya,Quillon,maya.quillon@example.com,Engineering,CC100,Engineer,L1,E00017,Ireland,2026-01-12,,Active,Permanent,,0.8,32500,1999-09-23
+E00506,Maxime,Fairfax,maxime.fairfax2@example.com,Engineering,CC100,Engineer,L2,E00264,France,2027-01-24,,Active,Permanent,,1.0,51000,1997-11-09
+E00193,Eden,Kirkby,eden.kirkby@example.com,Operations,CC400,Operations Analyst,L3,E00375,France,2021-07-19,,Active,Permanent,,1.0,74500,1999-08-27
+E00361,Rowan,Stroud,rowan.stroud@example.com,Sales,CC200,Account Executive,L2,E00505,France,2025-12-07,,Active,Permanent,,1.0,49000,1982-12-01
+E00374,Marc,Nettleton,marc.nettleton@example.com,Customer Support,CC300,Support Specialist,L2,E00345,France,2017-03-01,2020-12-22,Terminated,Permanent,,1.0,46000,1994-10-08
+E00288,Ari,Stroud,ari.stroud@example.com,Engineering,CC100,Engineer,L3,E00317,France,2026-06-02,,Active,Permanent,,1.0,77000,1982-04-12
+E00048,Dara,Everly,dara.everly@example.com,Engineering,CC100,Engineer,L2,E00002,Ireland,2022-12-13,,Active,Permanent,,1.0,50500,1995-04-01
+E00513,Sam,Stroud,sam.stroud@example.com,Engineering,CC100,Engineer,L3,E00308,France,2018-12-14,,Active,Fixed-term,2027-11-11,0.5,60500,1988-11-01
+E00175,Alex,Hollis,alex.hollis@example.com,Engineering,CC100,Engineer,L1,E00085,France,2024-10-28,2026-10-29,Terminated,Permanent,,0.8,34500,1992-03-01
+E00078,Sasha,Corwin,sasha.corwin@example.com,Sales,CC200,Account Executive,L2,E00443,France,2018-09-12,,Active,Fixed-term,2027-11-28,1.0,57500,1994-12-13
+E00022,Leo,Calder,leo.calder@example.com,Engineering,CC100,Engineer,L1,E00197,France,2017-01-17,,Active,Permanent,,1.0,28500,1986-08-11
+E00076,Leo,Thackery,leo.thackery@example.com,Finance,CC600,Finance Analyst,L4,E00007,Ireland,2019-04-28,,Active,Permanent,,0.8,90500,1986-11-23
+E00074,Robin,Jolliffe,robin.jolliffe@example.com,Customer Support,CC300,Support Specialist,L2,E00316,France,2017-07-21,,Active,Permanent,,1.0,47500,1988-06-16
+E00408,Jordan,Underhill,jordan.underhill@example.com,Engineering,CC100,Engineer,L3,E00113,France,2023-12-17,,Active,Permanent,,1.0,63500,1982-11-11
+E00297,Alex,Calder,alex.calder3@example.com,Sales,CC200,Account Executive,L2,E00003,Ireland,2020-06-13,,Active,Permanent,,1.0,38500,1986-06-11
+E00186,Ari,Fenwick,ari.fenwick@example.com,Sales,CC200,Account Executive,L3,E00444,France,2018-12-13,,Active,Permanent,,1.0,70500,1974-11-17
+E00086,Adam,Brindle,adam.brindle@example.com,Sales,CC200,Account Executive,L1,E00140,Ireland,2023-13-01,,Active,Permanent,,1.0,29000,1983-08-21
+E00136,Theo,Birch,theo.birch3@example.com,Engineering,CC100,Engineer,L2,E00113,Ireland,2024-02-26,,Active,Fixed-term,2027-06-13,1.0,48500,2001-03-11
+E00215,Alex,Tarrant,alex.tarrant@example.com,Marketing,CC500,Marketing Specialist,L2,E00221,France,2019-01-19,,Active,Permanent,,1.0,38500,1992-12-07
+E00062,Adam,Kestrel,adam.kestrel@example.com,People,CC700,People Partner,L2,E00241,France,2026-07-08,,Active,Permanent,,1.0,56500,1998-11-11
+E00319,Robin,Ellery,robin.ellery@example.com,Customer Support,CC300,Support Specialist,L2,E00489,France,2021-12-09,,Active,Permanent,,1.0,42000,1997-07-06
+E00483,Maxime,Belmont,maxime.belmont@example.com,Engineering,CC100,Engineer,L3,E00317,Netherlands,2023-07-22,2024-05-22,Terminated,Permanent,,1.0,74500,1980-03-27
+E00281,Morgan,Everly,morgan.everly@example.com,Engineering,CC100,Engineer,L1,,France,2018-03-06,,Active,Permanent,,1.0,28500,1978-04-21
+E00101,Hugo,Dorsey,hugo.dorsey@example.com,Customer Support,CC300,Support Specialist,L1,E00319,France,2017-02-01,,Active,Permanent,,1.0,28500,1990-04-05
+E00018,Camille,Orchard,camille.orchard@example.com,Sales,CC200,Account Executive,L2,E00352,France,2020-07-27,,Active,Permanent,,1.0,57500,1978-05-26
+E00457,Maya,Gresham,maya.gresham@example.com,Customer Support,CC300,Support Specialist,L2,E00158,France,2023-05-17,2024-09-18,Terminated,Permanent,,0.8,39000,1992-08-17
+E00413,Lou,Belmont,lou.belmont@example.com,Operations,CC400,Operations Analyst,L1,E00185,France,2017-02-01,2016-05-24,Terminated,Permanent,,1.0,30500,1988-11-03
+E00263,Lena,Brindle,lena.brindle@example.com,Sales,CC200,Account Executive,L2,E00263,France,2018-03-08,,Active,Permanent,,1.0,42500,1994-05-26
+E00474,Alex,Gresham,alex.gresham@example.com,Marketing,CC500,Marketing Specialist,L2,E00094,France,2023-05-05,,Active,Permanent,,1.0,46000,1986-08-11
+E00131,Theo,Hollis,theo.hollis@example.com,Finance,CC600,Finance Analyst,L1,E00266,France,2022-11-05,,Active,Permanent,,1.0,3050,1984-09-21
+E00482,Rowan,Alder,rowan.alder@example.com,Finance,CC600,Finance Analyst,L2,E00065,Netherlands,2019-05-26,,Active,Permanent,,1.0,57000,1989-06-07
+E00484,Lena,Lindqvist,lena.lindqvist@example.com,Engineering,CC100,Engineer,L1,E00182,France,2018-03-09,,Active,Fixed-term,2027-01-31,0.8,39500,1992-06-04
+E00486,Noa,Tarrant,noa.tarrant@example.com,Sales,CC200,Account Executive,L4,E00003,France,2023-01-08,,Active,Permanent,,0.5,100500,1978-07-23
+E00485,Tao,Pemberton,tao.pemberton@example.com,Engineering,CC100,Engineer,L1,E00478,France,2026-03-09,,Active,Permanent,,1.0,32000,1991-09-01
+E00163,Dara,Birch,dara.birch@example.com,Engineering,CC100,Engineer,L4,E00002,France,2016-07-24,,Active,Fixed-term,2027-11-09,1.0,76500,1994-09-20
+E00417,Jules,Stroud,jules.stroud@example.com,Finance,,Finance Analyst,L2,E00007,Netherlands,2017-02-03,,Active,Permanent,,0.5,57000,1983-11-04
+E00352,Eden,Birch,eden.birch@example.com,Sales,CC200,Account Executive,L4,E00003,Ireland,2024-02-29,,Active,Permanent,,1.0,101000,1991-06-25
+E00466,Paul,Dorsey,paul.dorsey@example.com,Engineering,CC100,Engineer,L3,E00308,France,2020-07-23,,Active,Permanent,,1.0,59500,1982-02-16
+E00083,Sam,Jolliffe,sam.jolliffe@example.com,Sales,CC200,Account Executive,L1,E00352,France,2024-09-28,,Active,Permanent,,1.0,36500,1987-08-03
+E00322,Remi,Belmont,remi.belmont@example.com,Customer Support,CC300,Support Specialist,L3,E00503,Netherlands,2024-09-25,,Active,Permanent,,1.0,80000,1991-03-13
+E00165,Mika,Ashgrove,mika.ashgrove@example.com,Sales,CC200,Account Executive,L3,E00486,France,2023-10-06,,Active,Permanent,,1.0,56500,1993-06-07
+E00291,Leo,Corwin,leo.corwin@example.com,Engineering,CC100,Engineer,L1,E00373,France,2024-08-02,,Active,Permanent,,1.0,35000,1987-09-03
+E00424,Lou,Ellery,lou.ellery2@example.com,Engineering,CC100,Engineer,L3,E00163,Ireland,2016-04-30,,Active,Permanent,,1.0,63000,1988-05-10
+E00139,Omar,Belmont,omar.belmont@example.com,Engineering,CC100,Engineer,L2,E00373,France,2017-04-11,,Terminated,Permanent,,1.0,57000,1994-02-25
+E00242,Quinn,Calder,quinn.calder2@example.com,Sales,,Account Executive,L2,E00359,France,2022-03-19,,Active,Permanent,,1.0,47000,1984-02-28
+E00317,Noa,Dunmore,noa.dunmore@example.com,Engineering,CC100,Engineer,L4,E00002,Ireland,2022-08-18,,Active,Permanent,,1.0,101500,1985-01-11
+E00014,Omar,Orchard,omar.orchard@example.com,Operations,CC400,Operations Analyst,L1,E00185,Ireland,2020-02-08,,Active,Permanent,,1.0,30000,1976-01-09
+E00286,Dara,Kirkby,dara.kirkby@example.com,Marketing,CC500,Marketing Specialist,L2,E00349,France,2022-12-24,,Active,Fixed-term,2027-02-25,1.0,52000,1999-11-21
+E00004,Hugo,Zeller,hugo.zeller@example.com,Customer Support,CC300,"Director, Customer Support",L5,E00001,Netherlands,2016-09-01,,Active,Permanent,,1.0,150000,1980-12-17
+E00240,Kim,Rensley,kim.rensley@example.com,Engineering,CC100,Engineer,L3,E00182,France,2022-01-28,,Active,Fixed-term,2028-03-13,1.0,59000,1982-01-02
+E00183,Paul,Jolliffe,paul.jolliffe@example.com,Operations,CC400,Operations Analyst,L4,E00005,France,2024-09-08,,Active,Permanent,,1.0,94500,1988-10-03
+E00133,Jules,Belmont,jules.belmont@example.com,Customer Support,CC300,Support Specialist,L3,E00233,France,2026-08-07,,Active,Permanent,,1.0,59000,1997-09-08
+E00326,Nico,Upton,nico.upton@example.com,Engineering,CC100,Engineer,L2,E00288,France,2021-10-26,,Active,Permanent,,1.0,55500,1987-04-18
+E00334,Maya,Oakley,maya.oakley@example.com,Marketing,CC500,Marketing Specialist,L3,E00221,Ireland,2021-06-18,,Active,Permanent,,1.0,78000,1999-07-03
+E00290,Sam,Cotter,sam.cotter@example.com,Operations,CC400,Operations Analyst,L2,E00245,France,2023-05-06,,Active,Fixed-term,2028-01-10,1.0,39500,1984-05-03
+E00149,Hugo,Quillon,hugo.quillon@example.com,Operations,CC400,Operations Analyst,L3,E00005,France,2019-12-16,,Active,Apprenticeship,2027-04-24,1.0,71000,1988-11-17
+E00505,Avery,Underhill,avery.underhill@example.com,Sales,CC200,Account Executive,L3,E00444,Ireland,2020-07-16,,Active,Permanent,,1.0,75000,1989-10-19
+E00178,Tao,Norwood,tao.norwood@example.com,Engineering,CC100,Engineer,L1,E00371,France,2020-01-18,,Active,Permanent,,1.0,33000,1992-08-22
+E00030,Andrea,Brindle,andrea.brindle@example.com,Customer Support,CC300,Support Specialist,L1,E00209,France,2021-02-15,,Active,Permanent,,0.5,29500,1995-10-25
+E00452,Jules,Ivers,jules.ivers@example.com,Customer Support,CC300,Support Specialist,L2,E00304,France,2019-04-17,,Active,Fixed-term,2027-09-20,1.0,53000,1975-04-19
+E00061,Jules,Zeller,jules.zeller@example.com,People,CC700,People Partner,L1,E00296,France,2025-09-03,,Active,Permanent,,1.0,35500,1985-03-25
+E00423,Paul,Lorne,paul.lorne@example.com,People,CC700,People Partner,L2,E00305,France,2018-09-22,2023-01-20,Terminated,Permanent,,1.0,57500,1984-08-16
+E00007,Remi,Stroud,remi.stroud@example.com,Finance,CC600,"Director, Finance",L5,E00001,France,2016-07-01,,Active,Permanent,,1.0,133000,1979-11-09
+E00252,Maxime,Lindqvist,maxime.lindqvist@example.com,Sales,CC200,Account Executive,L2,E00376,Ireland,2020-08-01,,Active,Permanent,,1.0,47500,1994-05-27
+E00050,Charlie,Brindle,charlie.brindle@example.com,Engineering,CC100,Engineer,L4,E00002,Netherlands,2022-07-20,,Active,Permanent,,1.0,108500,1990-07-22
+E00503,Zoe,Harrow,zoe.harrow2@example.com,Customer Support,CC300,Support Specialist,L4,E00004,Ireland,2018-06-18,,Active,Permanent,,1.0,97000,1975-02-18
+E00355,Lena,Brindle,lena.brindle2@example.com,Customer Support,CC300,Support Specialist,L3,E00503,France,2018-07-17,,Active,Permanent,,0.8,60500,1990-10-27
+E00091,Avery,Kirkby,avery.kirkby@example.com,Sales,CC200,Account Executive,L1,E00003,France,2026-04-03,,Active,Permanent,,1.0,35500,2004-11-03
+E00332,Adam,Wexley,adam.wexley@example.com,Operations,CC400,Operations Analyst,L1,E00312,France,2023-04-09,,Active,Permanent,,1.0,32500,1987-11-22
+E00511,Casey,Penhale,casey.penhale2@example.com,Sales,CC200,Account Executive,L1,E00177,France,2019-03-18,,Active,Permanent,,1.0,30500,1993-11-05
+E00475,Ivan,Whitlock,ivan.whitlock@example.com,Engineering,CC100,Engineer,L3,E00039,Ireland,2017-02-12,,Active,Permanent,,1.0,73000,1973-07-27
+E00203,Dominique,Garland,dominique.garland@example.com,Finance,CC600,Finance Analyst,L1,E00007,France,2026-04-30,,Active,Permanent,,0.8,32000,2003-12-26
+E00138,Camille,Wexley,camille.wexley@example.com,Engineering,CC100,Engineer,L2,E00404,Netherlands,2018-01-08,,Active,Permanent,,1.0,55000,1990-12-28
+E00089,Theo,Birch,theo.birch2@example.com,People,CC700,People Partner,L1,E00285,France,2025-01-12,,Active,Fixed-term,2026-12-11,1.0,34000,1991-02-10
+E00247,Sam,Zeller,sam.zeller@example.com,Marketing,CC500,Marketing Specialist,L3,E00221,France,2017-11-26,,Active,Permanent,,1.0,66000,1976-07-12
+E00120,Alex,Calder,alex.calder2@example.com,People,CC700,Engineer,L1,E00072,France,2025-10-20,,Active,Permanent,,1.0,30000,1984-01-15
+E00037,Yuri,Ashgrove,yuri.ashgrove@example.com,Engineering,CC100,Engineer,L2,E00024,Ireland,March 2022,,Active,Permanent,,1.0,50000,1992-05-22
+E00015,Aya,Vance,aya.vance@example.com,Marketing,CC500,Marketing Specialist,L2,E00334,Ireland,2022-08-04,,Active,Permanent,,1.0,57000,1994-07-07
+E00141,Yuri,Rensley,yuri.rensley@example.com,Finance,CC600,Finance Analyst,L2,E00213,France,2025-10-03,,Active,Apprenticeship,2026-12-10,1.0,49500,2003-03-13
+E00187,Lou,Ellery,lou.ellery@example.com,Customer Support,CC300,Support Specialist,L2,E00102,Ireland,2018-12-10,,Active,Permanent,,0.5,39500,1989-07-28
+E00128,Yuri,Brindle,yuri.brindle@example.com,Finance,CC600,Finance Analyst,L2,E00213,France,2019-09-17,,Active,Permanent,,1.0,51500,1981-02-24
+E00053,Zoe,Norwood,zoe.norwood@example.com,Customer Support,CC300,Support Specialist,L1,E00233,France,2017-06-14,,Active,Permanent,,1.0,38500,1989-03-01
+E00180,Camille,Lindqvist,camille.lindqvist@example.com,Customer Support,CC300,Support Specialist,L2,E00316,Ireland,2019-11-18,,Active,Permanent,,1.0,53500,1980-06-26
+E00189,Lena,Stroud,lena.stroud@example.com,Sales,CC200,Account Executive,L2,E00376,France,2022-06-12,,Active,Permanent,,1.0,43500,1993-05-21
+E00467,Elio,Whitlock,elio.whitlock@example.com,Engineering,CC100,Engineer,L1,E00132,France,2025-11-03,,Active,Fixed-term,2027-11-11,1.0,40000,1984-05-17
+E00462,Amal,Oakley,amal.oakley@example.com,Customer Support,CC300,Support Specialist,L2,E00200,France,2016-10-02,2025-12-26,Terminated,Permanent,,1.0,42000,1993-06-20
+E00382,Dominique,Norwood,dominique.norwood@example.com,Operations,CC400,Operations Analyst,L2,E00135,France,2017-06-26,,Active,Permanent,,0.8,44000,1994-11-14
+E00260,Charlie,Kestrel,charlie.kestrel@example.com,Engineering,CC100,Engineer,L3,E00085,Ireland,2025-06-16,,Active,Permanent,,1.0,70500,1981-04-10
+E00202,Emil,Radley,emil.radley@example.com,Marketing,CC500,Marketing Specialist,L3,E00349,France,2023-06-15,,Active,Permanent,,1.0,56500,1991-09-18
+E00005,Aya,Dorsey,aya.dorsey@example.com,Operations,CC400,"Director, Operations",L5,E00001,France,2016-05-01,,Active,Permanent,,1.0,114500,1974-02-28
+E00114,Andrea,Lorne,andrea.lorne at example.com,Marketing,CC500,Marketing Specialist,L1,E00286,France,2019-10-17,,Active,Permanent,,1.0,35000,1987-01-23
+E00177,Sara,Vance,sara.vance@example.com,Sales,CC200,Account Executive,L2,E00186,Ireland,2016-09-12,,Active,Permanent,,1.0,54000,1971-04-10
+E00052,Amal,Norwood,amal.norwood@example.com,Engineering,CC100,Engineer,L1,E00504,France,2017-11-21,2023-12-12,Terminated,Permanent,,0.8,34000,1995-04-09
+E00373,Taylor,Jolliffe,taylor.jolliffe@example.com,Engineering,CC100,Engineer,L3,E00308,Ireland,2024-05-12,,Active,Permanent,,1.0,61500,1989-02-08
+E00023,Rosa,Jessup,rosa.jessup@example.com,Customer Support,CC300,Support Specialist,L2,E00316,Ireland,2024-08-21,,Active,Permanent,,1.0,47500,1983-06-14
+E00010,Maya,Yarrow,maya.yarrow@example.com,Sales,CC200,Account Executive,L2,E00391,Ireland,2026-04-21,,Active,CDI ,,0.8,50500,2001-10-03
+E00391,Kim,Vance,kim.vance@example.com,Sales,CC200,Account Executive,L3,E00352,France,2016-01-07,,Active,Permanent,,1.0,68500,1983-11-05
+E00066,Theo,Birch,theo.birch@example.com,Engineering,CC100,Engineer,L1,E00475,France,2023-04-27,,Active,Permanent,,1.0,39500,1984-02-14
+E00088,Quinn,Calder,quinn.calder@example.com,Engineering,CC100,Engineer,L1,E00381,France,2025-06-12,2026-02-18,Terminated,Permanent,,1.0,31000,1991-12-28
+E00194,Lou,Yarrow,lou.yarrow@example.com,Sales,CC200,Account Executive,L1,E00487,France,2017-01-16,2024-11-05,Terminated,Permanent,,1.0,28500,1995-05-04
+E00118,Sam,Ashgrove,sam.ashgrove@example.com,Sales,CC200,Account Executive,L2,E00399,France,2018-07-09,,Active,Permanent,,0.8,55500,1976-04-06
+E00353,Sara,Merrow,sara.merrow@example.com,Engineering,CC100,Engineer,L3,E00163,France,2021-07-08,2025-12-23,Terminated,Permanent,,1.0,78500,1984-10-28
+E00135,Sacha,Lorne,sacha.lorne@example.com,Operations,CC400,Operations Analyst,L4,E00005,France,2021-05-10,,Active,Permanent,,1.0,80500,1992-12-07
+E00371,Dominique,Brindle,dominique.brindle@example.com,Engineering,CC100,Engineer,L2,E00208,France,2026-08-19,,Active,Permanent,,1.0,41500,1999-07-10
+E00021,Marc,Alder,marc.alder@example.com,Engineering,CC100,Engineer,L2,E00151,France,2018-12-29,,Active,Permanent,,1.0,410000,1993-11-17
+E00487,Leo,Marlowe,leo.marlowe@example.com,Sales,CC200,Account Executive,L2,E00444,France,2020-07-13,,Active,Permanent,,0.8,51000,1986-05-27
+E00380,Dominique,Zeller,dominique.zeller@example.com,Marketing,CC500,Marketing Specialist,L2,E00430,Netherlands,2017-11-15,,Active,Permanent,,1.0,42000,1992-12-08
+E00239,Amal,Varley,amal.varley@example.com,Engineering,CC100,Engineer,L1,E00308,Ireland,2016-01-05,,Active,Permanent,,1.0,29500,1975-01-16
+E90002,Quinn,Zeller,quinn.zeller.2@example.com,Operations,CC400,Operations Analyst,L2,E00135,France,2020-08-31,,Active,Permanent,,1.0,54000,1980-09-28
+E00468,Camille,Arden,camille.arden@example.com,Engineering,CC100,Engineer,L1,E00050,France,2017-03-02,,Active,Permanent,,1.0,40000,1991-08-26
+E00435,Nico,Merrow,nico.merrow@example.com,Customer Support,CC300,Support Specialist,L1,E00437,France,2025-01-29,,Active,Permanent,,1.0,35500,2002-08-01
+E00363,Morgan,Calder,morgan.calder@example.com,Operations,CC400,Operations Analyst,L2,E00311,Netherlands,,,Active,Permanent,,1.0,56000,1994-11-26
+E00500,Jules,Belmont,jules.belmont2@example.com,Customer Support,CC300,Support Specialist,L2,E00345,Netherlands,2020-04-15,,Active,Permanent,,1.0,42500,1993-11-28
+E00035,Amal,Upton,quinn.stroud@example.com,People,CC700,People Partner,L2,E00305,France,2023-09-12,,Active,Permanent,,1.0,49500,1988-09-21
+E00285,Lena,Corwin,lena.corwin@example.com,People,CC700,People Partner,L3,E00258,Ireland,2016-10-17,,Active,Fixed-term,2028-01-25,1.0,63000,1994-02-07
+E00377,Sasha,Quillon,sasha.quillon@example.com,Engineering,CC100,Engineer,L1,E00425,Ireland,2024-03-18,,Active,Apprenticeship,2027-08-01,1.0,39000,1994-05-23
+E00515,Sasha,Pemberton,sasha.pemberton@example.com,Operations,CC400,Operations Analyst,L2,E00472,Netherlands,2026-11-20,,Active,Permanent,,1.0,48000,1990-03-05
+E00003,Quinn,Rensley,quinn.rensley@example.com,Sales,CC200,"Director, Sales",L5,E00001,France,2016-04-01,,Active,Fixed-term,2027-08-03,1.0,136000,1968-03-16
+E00292,Sam,Radley,sam.radley@example.com,Operations,CC400,Operations Analyst,L3,E00005,Ireland,2025-04-14,,Active,Permanent,,1.0,56500,1984-07-20
+E00351,Ivan,Wexley,ivan.wexley2#example.com,Finance,CC600,Finance Analyst,L2,E00213,Ireland,2018-07-11,,Active,Permanent,,0.8,49500,1996-11-01
+E00369,Dara,Marlowe,dara.marlowe@example.com,Sales,CC200,Account Executive,L2,E00036,Ireland,2022-03-18,,Active,Permanent,,1.0,43000,1985-07-09
+E00507,Maxime,Garland,maxime.garland@example.com,Marketing,CC500,Marketing Specialist,L2,E00430,Ireland,2025-07-14,,Active,Permanent,,1.0,49500,1994-07-09
+E00105,Casey,Kestrel,casey.kestrel@example.com,Engineering,CC100,Engineer,L1,E00105,Netherlands,2020-08-16,,Active,Permanent,,1.0,31000,1991-07-04
+E00375,Ari,Varley,ari.varley@example.com,Operations,CC400,Operations Analyst,L4,E00005,France,2024-08-29,,Active,Fixed-term,2028-01-01,1.0,89000,1998-07-10
+E00518,Amal,Varley,amal.varley2@example.com,Marketing,CC500,Marketing Specialist,L2,E00094,France,2017-11-22,,Active,Fixed-term,2027-10-08,1.0,50500,1982-07-02
+E00274,Sara,Yarrow,sara.yarrow@example.com,Finance,CC600,Finance Analyst,L2,E00213,Ireland,2020-09-14,,Active,Permanent,,1.0,48500,1989-06-09
+E00241,Mika,Penhale,mika.penhale@example.com,People,CC700,People Partner,L3,E00146,Ireland,2019-05-14,,Active,Permanent,,1.0,57000,1983-04-24
+E00257,Ari,Selwyn,ari.selwyn@example.com,Finance,CC600,Finance Analyst,L1,E00076,France,2022-07-21,,Active,Permanent,,0.5,39500,1995-09-07
+E00358,Adam,Radley,adam.radley@example.com,Engineering,CC100,Engineer,L2,E00308,Ireland,2023-10-10,,Active,Permanent,,1.0,52500,1989-11-20
+E00094,Avery,Everly,avery.everly@example.com,Marketing,CC500,Marketing Specialist,L3,E00366,France,2025-07-10,,Active,Permanent,,0.5,58500,2002-07-23
+E00411,Riley,Ivers,riley.ivers@example.com,Customer Support,CC300,Support Specialist,L3,E00233,France,2022-04-18,,Active,Permanent,,1.0,77000,1983-11-21
+E00520,Jordan,Marlowe,jordan.marlowe@example.com,Engineering,CC100,Engineer,L2,E00174,Netherlands,2017-10-11,,Active,Permanent,,1.0,44000,1989-05-02
+E00199,Casey,Whitlock,casey.whitlock@example.com,Sales,CC200,Account Executive,L1,E00386,France,2016-12-07,,Active,CDI ,,1.0,40000,1976-03-10
+E00499,Emil,Arden,emil.arden@example.com,People,CC700,People Partner,L3,E00008,Netherlands,2026-04-06,,Active,Permanent,,0.8,77000,1992-05-03
+E00254,Sam,Upton,sam.upton@example.com,Customer Support,CC300,Support Specialist,L1,E00200,Netherlands,2023-11-01,,Active,Permanent,,0.8,31500,1998-05-09
+E00111,Sam,Jolliffe,sam.jolliffe2@example.com,Sales,CC200,Account Executive,L4,E00003,France,2025-11-12,,Active,Permanent,,1.0,108500,1984-03-10
+E00042,Sasha,Fenwick,sasha.fenwick@example.com,Engineering,CC100,Engineer,L1,E00159,Netherlands,2024-06-17,,Active,Permanent,,1.0,41500,1996-01-11
+E00331,Leo,Upton,leo.upton@example.com,Marketing,CC500,Marketing Specialist,L3,E00006,France,2020-03-27,2026-07-02,Terminated,Permanent,,1.0,70000,1991-02-16
+E00476,Casey,Penhale,casey.penhale@example.com,Sales,CC200,Account Executive,L1,E00018,France,2022-12-29,,Active,Permanent,,1.0,34500,2000-08-24
+E00444,Sacha,Corwin,sacha.corwin@example.com,Sales,CC200,Account Executive,L4,E00003,France,2026-01-21,,Active,Permanent,,1.0,106000,2003-03-13
+E00167,Maxime,Penhale,maxime.penhale@example.com,Operations,CC400,Operations Analyst,L1,E00119,France,2019-11-26,,Active,Permanent,,1.0,35500,1986-09-22
+E00033,Andrea,Radley,andrea.radley@example.com,Engineering,CC100,Engineer,L4,E00002,Netherlands,2021-06-09,,Active,Permanent,,0.8,73500,1995-01-28
+E00182,Elio,Norwood,elio.norwood@example.com,Engineering,CC100,Engineer,L4,E00002,France,2025-12-03,,Active,Permanent,,0.8,106000,1996-03-11
+E00324,Sara,Ashgrove,sara.ashgrove2@example.com,Operations,CC400,Operations Analyst,L1,E00346,France,,,Active,Permanent,,1.0,35000,1983-04-04
+E00304,Jordan,Fairfax,jordan.fairfax@example.com,Customer Support,CC300,Support Specialist,L3,E00004,France,2020-02-15,,Active,Permanent,,1.0,57000,1980-10-10
+E00412,Jules,Brindle,jules.brindle@example.com,Engineering,CC100,Engineer,L3,E00039,Ireland,2020-01-22,,Active,Permanent,,0.8,74000,1980-10-26
+E00481,Zoe,Oakley,zoe.oakley@example.com,Sales,CC200,Account Executive,L2,E00165,France,2022-11-17,,Active,Permanent,,1.0,51500,1997-04-15
+E00390,Eden,Belmont,eden.belmont@example.com,Engineering,CC100,Engineer,L1,E75886,Ireland,2022-07-17,,Active,Permanent,,1.0,28000,1997-09-11
+E00372,Dominique,Calder,dominique.calder@example.com,Engineering,CC100,Engineer,L1,E00216,Netherlands,2024-02-27,,Active,Permanent,,0.8,31000,2001-04-26
+E00140,Alex,Jessup,alex.jessup@example.com,Sales,CC200,Account Executive,L2,E00111,France,2016-05-04,,Active,Permanent,,1.0,51000,1992-05-08
+E00060,Noa,Dorsey,noa.dorsey@example.com,Sales,CC200,Account Executive,L2,E00206,France,2025-02-17,,Active,Permanent,,1.0,49500,1992-09-03
+E00108,Mika,Vance,mika.vance@example.com,Marketing,CC500,Marketing Specialist,L1,E00518,France,2017-09-10,,Active,Permanent,,0.2,38500,1974-08-14
+E00085,Leo,Orchard,leo.orchard@example.com,Engineering,CC100,Engineer,L4,E00002,France,2020-01-18,,Active,Apprenticeship,2027-11-24,1.0,100000,1989-07-10
+E00248,Sara,Dunmore,sara.dunmore@example.com,Sales,CC200,Account Executive,L2,E00464,France,2019-07-07,,Active,Permanent,,1.0,43500,1992-06-22
+E00229,Sasha,Alder,sasha.alder@example.com,Engineering,CC100,Engineer,L2,E00151,France,2025-08-07,2026-10-06,Terminated,Permanent,,1.0,57500,1999-02-15
+E00144,Sam,Tarrant,sam.tarrant@example.com,People,CC700,People Partner,L2,E00285,France,2024-05-01,,Active,Permanent,,1.0,44500,1993-10-18
+E00302,Charlie,Upton,charlie.upton@example.com,Engineering,CC100,Engineer,L1,E00326,France,March 2022,,Active,Permanent,,1.0,41500,1980-06-24
+E00198,Zoe,Jolliffe,zoe.jolliffe@example.com,Engineering,CC100,Engineer,L3,E00002,France,2026-09-17,,Active,Fixed-term,2028-08-25,1.0,68000,1993-04-14
+E00279,Sam,Ivers,sam.ivers2@example.com,Finance,CC600,Finance Analyst,L3,E00007,France,2022-08-23,,Active,Permanent,,1.0,62000,1989-01-26
+E00310,Taylor,Upton,taylor.upton@example.com,Engineering,CC100,Engineer,L1,E00081,Ireland,2023-12-21,,Active,Permanent,,1.0,29500,1991-03-17
+E00115,Amal,Brindle,amal.brindle@example.com,Sales,CC200,Account Executive,L1,E00259,Netherlands,2018-04-23,,Active,Permanent,,1.0,40500,1989-09-19
+E00442,Sara,Harrow,sara.harrow@example.com,Customer Support,CC300,Support Specialist,L3,E00503,Ireland,2016-10-26,,Active,Permanent,,1.0,56500,1990-07-10
+E00039,Sam,Thackery,sam.thackery@example.com,Engineering,CC100,Engineer,L4,E00002,France,2023-02-24,,Active,Permanent,,1.0,81500,1997-08-20
+E00427,Ines,Corwin,ines.corwin@example.com,Operations,CC400,Operations Analyst,L2,E00005,France,2020-04-17,,Active,Permanent,,1.0,53000,1989-05-27
+E00337,Mika,Harrow,mika.harrow@example.com,Engineering,CC100,Engineer,L2,E00208,Netherlands,2017-03-10,,Active,Permanent,,1.0,48000,1983-09-16
+E00419,Rosa,Jessup,rosa.jessup2@example.com,People,CC700,People Partner,L3,E00146,France,2023-08-25,,Active,Permanent,,1.0,65000,1994-08-22
+E00294,Robin,Penhale,robin.penhale@example.com,Marketing,CC500,Marketing Specialist,L2,E00433,Netherlands,2025-05-31,,Active,Permanent,,1.0,0,2000-05-09
+E00366,Ivan,Dorsey,ivan.dorsey@example.com,Marketing,CC500,Marketing Specialist,L4,E00006,France,2018-11-16,,Active,Permanent,,1.0,88500,1975-05-10
+E00154,Maxime,Marlowe,maxime.marlowe#example.com,Customer Support,CC300,Support Specialist,L1,E00437,France,2021-10-18,,Active,Permanent,,1.0,38500,1996-05-10
+E00342,Leo,Whitlock,leo.whitlock@example.com,Sales,,Account Executive,L2,E00505,Ireland,2017-03-28,,Active,Permanent,,1.0,43000,1975-05-20
+E00145,Riley,Cotter,riley.cotter@example.com,Engineering,CC100,Engineer,L1,E00519,France,2023-11-24,,Active,Fixed-term,2028-03-07,1.0,36000,1985-03-20
+E00425,Maxime,Kirkby,maxime.kirkby@example.com,Engineering,CC100,Engineer,L3,E00039,France,2018-05-25,,Active,Permanent,,0.8,63000,1973-11-14
+E00282,Emil,Stroud,emil.stroud@example.com,Engineering,CC100,Engineer,L2,E00171,Ireland,2020-07-12,,Active,Permanent,,1.0,54000,1986-06-23
+E00200,Dara,Jolliffe,dara.jolliffe@example.com,Customer Support,CC300,Support Specialist,L3,E00158,France,2024-10-31,,Active,Permanent,,1.0,74000,1990-10-16
+E00206,Mika,Yarrow,mika.yarrow@example.com,Engineering,CC100,Engineer,L1,E00060,France,2024-07-03,,Active,Permanent,,1.0,34500,1994-10-06
+E00225,Taylor,Nettleton,taylor.nettleton@example.com,Operations,CC400,Operations Analyst,L3,E00375,France,2020-12-05,,Active,Permanent,,1.0,56500,1981-01-10
+E00447,Noa,Cotter,noa.cotter@example.com,Customer Support,CC300,Support Specialist,L1,E00509,France,2021-08-18,,Active,Permanent,,1.0,41500,1985-06-03
+E00238,Elio,Ellery,elio.ellery@example.com,Operations,CC400,Operations Analyst,L1,E00142,Ireland,2023-08-19,,Active,Fixed-term,2028-02-01,1.0,40500,1990-11-16
+E00347,Aya,Yarrow,aya.yarrow@example.com,Engineering,CC100,Engineer,L2,E00168,Netherlands,2025-08-09,,Active,Permanent,,1.0,43500,1982-08-18
+E00181,Emil,Underhill,emil.underhill@example.com,Finance,CC600,Finance Analyst,L1,E00446,Netherlands,2023-09-28,,Active,Permanent,,1.0,38000,1988-06-01
+E00079,Alex,Calder,alex.calder@example.com,Operations,CC400,Operations Analyst,L1,,France,2017-10-25,,Active,Permanent,,1.0,29000,1973-04-22
+E00495,Rosa,Everly,rosa.everly@example.com,Engineering,CC100,Engineer,L4,E00002,France,2024-03-10,,Active,Permanent,,0.8,77500,1998-08-08
+E90001,Robin,Rensley,robin.rensley.2@example.com,Engineering,CC100,Engineer,L2,E00378,Ireland,2020-01-12,,Active,Permanent,,1.0,52000,1991-09-03
+E90003,Camille,Birch,camille.birch.2@example.com,Engineering,CC100,Engineer,L1,E00412,Netherlands,2024-06-12,,Active,Permanent,,1.0,38000,1981-07-27
+E00256,Dominique,Merrow,dominique.merrow@example.com,Marketing,CC500,Marketing Specialist,L2,E00006,France,2026-09-02,,Active,Permanent,,1.0,50500,1983-05-14
+E00426,Quinn,Harrow,quinn.harrow@example.com,Sales,CC200,Account Executive,L1,E00177,Netherlands,2016-09-13,,Active,Permanent,,1.0,31000,1991-11-19
+E00436,Remi,Yarrow,remi.yarrow@example.com,Operations,CC400,Operations Analyst,L1,E00249,France,2023-03-24,,Active,Permanent,,0.8,32000,1998-07-23
+E00055,Casey,Dorsey,casey.dorsey@example.com,Marketing,CC500,Marketing Specialist,L1,E00015,Ireland,2021-03-31,2022-03-17,Terminated,Permanent,,1.0,40000,1976-02-07
+E00270,Jordan,Birch,jordan.birch2@example.com,Sales,CC200,Account Executive,L3,E00032,France,2022-12-27,,Active,Permanent,,1.0,64500,1991-01-23
+E00428,Avery,Dunmore,avery.dunmore@example.com,Customer Support,CC300,Support Specialist,L1,E00153,Ireland,2017-02-17,2019-02-14,Terminated,Fixed-term,2019-08-16,1.0,28000,1987-05-09
+E00065,Mika,Pemberton,mika.pemberton@example.com,Finance,CC600,Finance Analyst,L3,E00076,Ireland,2018-10-08,,Active,Permanent,,1.0,67000,1995-10-25
+E00356,Hugo,Ellery,hugo.ellery@example.com,Sales,CC200,Account Executive,L2,E00505,Ireland,2019-05-21,2025-01-02,Terminated,Permanent,,1.0,55000,1989-12-23
+E00176,Ines,Brindle,ines.brindle@example.com,Customer Support,CC300,Support Specialist,L1,E00133,Ireland,2023-12-15,2025-09-28,Terminated,Permanent,,1.0,30500,1993-09-13
+E00235,Eden,Thackery,eden.thackery@example.com,Marketing,CC500,Marketing Specialist,L2,E00006,Netherlands,2024-01-02,,Active,Permanent,,1.0,40000,1998-06-01
+E00464,Nico,Whitlock,nico.whitlock@example.com,Sales,CC200,Account Executive,L4,E00003,France,2025-02-27,,Active,Permanent,,1.0,86500,1990-11-03
+E00019,Jordan,Corwin,jordan.corwin@example.com,Operations,CC400,Operations Analyst,L2,E00245,Ireland,2020-06-15,,Active,Permanent,,1.0,47000,1994-04-10
+E00456,Ines,Jessup,ines.jessup2@example.com,Engineering,CC100,Engineer,L2,E00365,Ireland,2017-02-25,,Active,Permanent,,0.8,55500,1991-09-24
+E00212,Avery,Tarrant,avery.tarrant@example.com,Engineering,CC100,Engineer,L2,E00163,France,2017-08-20,,Active,Permanent,,1.0,45500,1979-08-08
+E00289,Nico,Everly,nico.everly@example.com,Engineering,CC100,Engineer,L1,E00081,Ireland,2017-02-25,2016-08-02,Terminated,Permanent,,1.0,38500,1974-01-27
+E00445,Paul,Lindqvist,paul.lindqvist@example.com,Engineering,CC100,Engineer,L1,E00198,Ireland,2024-04-30,2024-11-24,Terminated,Permanent,,1.0,33000,1996-08-19
+E00090,Robin,Jolliffe,robin.jolliffe2@example.com,Customer Support,CC300,Support Specialist,L1,,France,2017-07-28,,Active,Permanent,,1.0,31500,1976-01-09
+E00400,Lena,Belmont,lena.belmont@example.com,Engineering,CC100,Engineer,L1,E00214,Ireland,2025-09-21,2026-09-09,Terminated,Permanent,,1.0,29500,1988-04-03
+E00113,Mika,Upton,mika.upton@example.com,Engineering,CC100,Engineer,L4,E00002,France,2026-09-09,,Active,Permanent,,1.0,80000,1990-10-24
+E00013,Omar,Lorne,omar.lorne@example.com,Engineering,CC100,Engineer,L3,E00160,France,2022-01-12,,Active,Permanent,,1.0,69000,1991-08-27
+E00160,Yuri,Underhill,yuri.underhill@example.com,Engineering,CC100,Engineer,L4,E00002,France,2022-12-08,,Active,Permanent,,1.0,95000,1994-05-01
+E00396,Avery,Zeller,avery.zeller@example.com,Engineering,CC100,Engineer,L1,E00198,Netherlands,2025-07-14,,Active,Fixed-term,2027-02-10,1.0,39000,1982-08-04
+E00024,Tao,Corwin,tao.corwin@example.com,Engineering,CC100,Engineer,L3,E00033,Ireland,2018-05-30,,Active,Permanent,,1.0,70500,1995-09-04
+E00299,Marc,Ingram,marc.ingram@example.com,Engineering,CC100,Engineer,L2,E00244,France,2020-07-04,,Active,Permanent,,1.0,40500,1988-02-08
+E00081,Sara,Dorsey,sara.dorsey@example.com,Engineering,CC100,Engineer,L2,E00127,Ireland,2023-08-15,,Active,Permanent,,1.0,44000,1996-07-23
+E00071,Emil,Lindqvist,emil.lindqvist@example.com,Customer Support,CC300,Support Specialist,L2,E00102,France,2019-12-22,,Active,Permanent,,0.8,56500,1974-02-13
+E00120,Alex,Calder,alex.calder2@example.com,Engineering,CC100,Engineer,L1,E00072,France,2025-10-20,,Active,Permanent,,1.0,30000,1984-01-15
+E00259,Charlie,Brindle,charlie.brindle2@example.com,Sales,CC200,Account Executive,L3,E00054,France,2025-04-07,,Active,Permanent,,1.0,58000,1997-05-05
+E00298,Sara,Calder,sara.calder@example.com,Sales,CC200,Account Executive,L1,E00398,France,2024-09-20,2025-04-14,Terminated,Apprenticeship,2027-01-28,1.0,38500,1985-09-25
+E00368,Remi,Cotter,remi.cotter@example.com,Operations,CC400,Operations Analyst,L1,E00149,Netherlands,2023-12-12,2026-02-13,Terminated,Permanent,,1.0,34000,1999-05-20
+E00386,Amal,Selwyn,amal.selwyn@example.com,Sales,CC200,Account Executive,L2,E00104,Ireland,2017-12-11,,Active,Permanent,,1.0,48500,1989-05-15
+E00103,Rowan,Oakley,rowan.oakley@example.com,Operations,CC400,Operations Analyst,L1,E00183,Netherlands,2020-08-16,,Active,Perm,,1.0,41500,1978-01-14
+E00129,Jules,Kirkby,jules.kirkby@example.com,Finance,CC600,Finance Analyst,L2,E00076,France,2017-02-07,2022-08-15,Terminated,Permanent,,0.5,54500,1983-03-07
+E00519,Rowan,Lorne,rowan.lorne@example.com,Engineering,CC100,Engineer,L2,E00365,Ireland,2016-09-16,,Active,Permanent,,1.0,57500,1992-09-12
+E00184,Emil,Norwood,emil.norwood@example.com,Engineering,CC100,Engineer,L1,E00300,France,,,Active,Permanent,,1.0,34000,1992-08-23
+E00012,Emil,Everly,emil.everly@example.com,Engineering,CC100,Engineer,L1,E00048,France,2020-08-14,2025-03-25,Terminated,Fixed-term,2022-11-01,1.0,29000,1986-01-02
+E00072,Riley,Selwyn,riley.selwyn@example.com,Engineering,CC100,Engineer,L2,E00260,Ireland,2024-05-26,,Active,Permanent,,1.0,50000,1993-12-03
+E00459,Tao,Nettleton,tao.nettleton@example.com,Operations,CC400,Operations Analyst,L1,E00382,France,2020-03-05,2025-02-11,Terminated,Permanent,,1.0,29000,1976-11-20
+E00300,Emil,Quillon,emil.quillon@example.com,Engineering,CC100,Engineer,L3,E00033,Ireland,2020-07-03,,Active,Permanent,,0.8,72500,1978-10-19
+E00025,Lou,Lorne,lou.lorne@example.com,Sales,CC200,Account Executive,L2,E00054,Ireland,2017-09-21,,Terminated,Permanent,,1.0,42000,1988-10-23
+E00068,Robin,Rensley,robin.rensley@example.com,Engineering,CC100,Engineer,L2,E00378,Ireland,2020-01-12,,Active,Permanent,,1.0,52000,1991-09-03
+E00364,Hugo,Dunmore,hugo.dunmore@example.com,Customer Support,CC300,Support Specialist,L2,E00233,Ireland,2018-05-12,,Active,Permanent,,1.0,41000,1973-09-17
+E00461,Dominique,Fairfax,dominique.fairfax@example.com,Customer Support,CC300,Support Specialist,L3,E00004,France,2016-12-26,,Active,Permanent,,1.0,59000,1993-11-15
+E00099,Dominique,Selwyn,dominique.selwyn@example.com,Customer Support,CC300,Support Specialist,L1,E00153,Ireland,2020-07-29,,Active,Apprenticeship,2027-11-08,1.0,29500,1989-04-12
+E00152,Quinn,Jolliffe,quinn.jolliffe@example.com,Operations,CC400,Operations Analyst,L2,E00009,France,2023-02-26,,Active,Permanent,,1.0,39000,2001-12-02
+E00443,Leo,Stroud,leo.stroud@example.com,Sales,CC200,Account Executive,L3,E00444,Netherlands,2026-04-26,,Active,Permanent,,1.0,57000,1981-09-26
+E00309,Ivan,Pemberton,ivan.pemberton@example.com,Engineering,CC100,Engineer,L1,E00033,France,2016-08-09,,Active,Fixed-term,2026-12-12,1.0,41000,1991-09-09
+E00316,Aya,Underhill,aya.underhill@example.com,Customer Support,CC300,Support Specialist,L3,E00158,Netherlands,2023-01-12,,Active,Permanent,,1.0,56000,1998-08-09
+E00387,Tao,Ivers,tao.ivers@example.com,Engineering,CC100,Engineer,L1,E00138,France,2021-07-14,,Active,Permanent,,1.0,33000,1989-08-14
+E00272,Theo,Tarrant,theo.tarrant@example.com,Marketing,CC500,Marketing Specialist,L1,E00407,Ireland,2024-04-15,,Active,Fixed-term,,1.0,31000,2001-06-14
+E00253,Rosa,Fairfax,rosa.fairfax2@example.com,Engineering,CC100,Engineer,L1,E00013,Ireland,2025-04-05,,Active,Permanent,,1.0,37500,1995-04-10
+E00168,Nora,Kirkby,nora.kirkby2@example.com,Engineering,CC100,Engineer,L3,E00275,Ireland,2023-06-19,,Active,Permanent,,1.0,54500,1984-06-22
+E00370,Avery,Rensley,avery.rensley@example.com,Marketing,CC500,Marketing Specialist,L2,E00349,France,2026-04-13,,Active,Fixed-term,2028-09-01,1.0,45500,1997-10-07
+E00237,Rosa,Zeller,rosa.zeller@example.com,People,CC700,People Partner,L3,E00258,Netherlands,2026-08-17,,Active,Fixed-term,,1.0,72500,1997-11-05
+E90004,Noa,Cotter,noa.cotter.2@example.com,Customer Support,CC300,Support Specialist,L1,E00509,France,2021-08-18,,Active,Permanent,,1.0,41500,1985-06-03
+E00376,Quinn,Thackery,quinn.thackery@example.com,Sales,CC200,Account Executive,L3,E00054,Netherlands,2023-12-18,,Active,Permanent,,1.0,76000,1981-09-23
+E00367,Avery,Yarrow,avery.yarrow@example.com,Engineering,CC100,Engineer,L3,E00275,France,2017-04-14,,Active,Permanent,,1.0,65500,1986-04-21
+E00473,Casey,Kirkby,casey.kirkby@example.com,Engineering,CC100,Engineer,L1,E00132,Ireland,2025-07-16,,Active,Permanent,,1.0,40000,1994-01-07
+E00221,Remi,Alder,remi.alder@example.com,Marketing,CC500,Marketing Specialist,L4,E00006,France,2022-05-12,,Active,Permanent,,1.0,94000,1984-06-15
+E00448,Zoe,Norwood,zoe.norwood2@example.com,Finance,CC600,Finance Analyst,L2,E00166,Netherlands,2018-04-10,,Active,Apprenticeship,2027-06-12,1.0,49000,1980-11-12
+E00277,Eden,Quillon,eden.quillon@example.com,Engineering,CC100,Engineer,L1,E00262,Netherlands,2020-01-23,,Active,Permanent,,1.0,28000,1976-09-04
+E00047,Rosa,Merrow,rosa.merrow@example.com,People,CC700,People Partner,L1,E00243,France,2022-01-03,2026-09-25,Active,Permanent,,0.5,41500,1990-09-05
+E00251,Aya,Wexley,aya.wexley@example.com,Engineering,CC100,Engineer,L2,E00244,Ireland,2023-07-05,,Active,Permanent,,1.0,39500,1987-08-01
+E00130,Leo,Penhale,leo.penhale@example.com,Sales,CC200,Account Executive,L2,E00111,France,2022-11-07,2025-04-02,Terminated,Permanent,,0.8,55500,1992-04-01
+E00329,Hugo,Ingram,hugo.ingram@example.com,Engineering,CC100,Engineer,L2,E00208,Ireland,2016-09-27,,Active,Permanent,,1.0,41500,1992-07-18
+E00216,Omar,Stroud,omar.stroud@example.com,Engineering,CC100,Engineer,L2,E00208,Netherlands,2025-09-26,,Active,Permanent,,0.8,51500,1995-04-03
+E00001,Maxime,Tarrant,maxime.tarrant@example.com,Operations,CC400,Chief Executive,L6,,Ireland,2016-01-04,,Active,Apprenticeship,2026-12-20,1.0,231000,1979-03-14
+E00381,Nora,Upton,nora.upton@example.com,Engineering,CC100,Engineer,L2,E00174,Netherlands,2016-09-02,,Active,Permanent,,1.0,51000,1981-11-24
+E00504,Lou,Thackery,lou.thackery@example.com,Engineering,CC100,Engineer,L2,E00308,France,2019-10-18,,Active,Permanent,,1.0,50000,1980-03-06
+E00006,Sam,Varley,sam.varley@example.com,Marketing,CC500,"Director, Marketing",L5,E00001,Netherlands,2016-03-01,,Active,Permanent,,1.0,146000,1977-04-17
+E00512,Dominique,Arden,dominique.arden@example.com,Engineering,CC100,Engineer,L1,E00029,Ireland,2020-11-29,,Active,Fixed-term,2028-02-08,1.0,28000,1988-04-10
+E00496,Riley,Corwin,riley.corwin@example.com,Engineering,CC100,Engineer,L2,E00378,Netherlands,2017-01-20,2026-08-05,Terminated,Permanent,,1.0,44500,1976-02-10
+E00244,Tao,Ingram,tao.ingram@example.com,Engineering,CC100,Engineer,L3,E00085,Netherlands,2018-04-23,,Active,Permanent,,1.0,57000,1973-12-05
+E00431,Casey,Jessup,casey.jessup@example.com,Sales,CC200,Engineer,L2,E00425,France,2018-09-06,,Active,Permanent,,1.0,44500,1976-12-07
+E00143,Paul,Marlowe,paul.marlowe@example.com,Marketing,CC500,Marketing Specialist,L2,E00221,France,2019-12-17,2019-08-24,Terminated,Permanent,,1.0,56000,1975-09-08
+E00398,Jules,Pemberton,jules.pemberton@example.com,Sales,CC200,Account Executive,L2,E00259,France,2026-09-27,,Active,Apprenticeship,2029-01-23,1.0,50500,1984-05-24
+E00170,Dominique,Jolliffe,dominique.jolliffe@example.com,Marketing,CC500,Marketing Specialist,L4,E00006,Netherlands,2023-04-19,,Active,Permanent,,1.0,103000,1986-04-19
+E00388,Charlie,Thackery,charlie.thackery@example.com,Engineering,CC100,Engineer,L1,E00371,France,2018-07-07,,Active,Fixed-term,,1.0,31500,1974-05-25
+E00305,Morgan,Oakley,morgan.oakley@example.com,People,CC700,People Partner,L3,E00121,France,2019-11-07,,Active,Permanent,,1.0,77500,1992-05-09
+E00463,Tao,Gresham,tao.gresham@example.com,Sales,CC200,Account Executive,L2,E00028,France,2022-01-23,,Active,Permanent,,1.0,47000,1984-05-21
+E00275,Nadia,Corwin,nadia.corwin@example.com,Engineering,CC100,Engineer,L4,E00002,France,2024-10-24,,Active,Permanent,,1.0,90000,1998-10-06
+E00195,Leo,Quillon,leo.quillon@example.com,Customer Support,CC300,Support Specialist,L2,E00158,France,2019-03-03,,Active,Permanent,,1.0,45000,1978-08-04
+E00084,Morgan,Fairfax,morgan.fairfax@example.com,Marketing,CC500,Marketing Specialist,L2,E00407,France,2023-02-06,,Active,Permanent,,0.8,57500,1993-06-24
+E00266,Kim,Belmont,kim.belmont@example.com,Finance,CC600,Finance Analyst,L2,E00213,France,2019-08-20,,Active,Permanent,,1.0,46000,1988-11-10
+E00441,Jordan,Whitlock,jordan.whitlock@example.com,Engineering,CC100,Engineer,L2,E00450,Netherlands,2022-12-29,2024-05-09,Terminated,Permanent,,1.0,39000,1978-02-13
+E00311,Maya,Hollis,maya.hollis@example.com,Operations,CC400,Operations Analyst,L3,E00245,Ireland,2021-09-17,,Active,Permanent,,0.5,65000,1984-06-17
+E00339,Camille,Birch,camille.birch@example.com,Engineering,CC100,Engineer,L1,E00412,Netherlands,2024-06-12,,Active,Permanent,,1.0,38000,1981-07-27
+E00480,Sara,Yarrow,sara.yarrow2@example.com,Engineering,CC100,Engineer,L1,E00455,France,2025-08-25,,Active,Permanent,,1.0,35500,1998-12-09
+E00070,Nico,Varley,nico.varley@example.com,Engineering,CC100,Engineer,L2,E00198,France,2023-09-05,,Active,Permanent,,1.0,39000,1992-08-08
+E00110,Marc,Belmont,marc.belmont@example.com,Operations,CC400,Operations Analyst,L1,E00271,France,2019-05-15,2026-07-12,Terminated,Permanent,,0.5,29000,1994-08-14
+E00027,Maxime,Quillon,maxime.quillon@example.com,Engineering,CC100,Engineer,L2,E00513,France,2024-11-11,,Active,Permanent,,0,55500,1987-07-28
+E00123,Rosa,Calder,rosa.calder@example.com,Finance,CC600,Finance Analyst,L2,E00213,Ireland,2023-02-05,,Active,Permanent,,0.5,39000,1996-11-07
+E00498,Leo,Tarrant,leo.tarrant2@example.com,Sales,CC200,Account Executive,L1,E00359,Ireland,2025-02-19,,Active,Fixed-term,2027-04-19,0.8,32500,1990-11-28
+E00124,Taylor,Radley,taylor.radley@example.com,Operations,CC400,Operations Analyst,L2,E00193,France,2021-11-06,,Active,Permanent,,1.0,38500,1987-11-07
+E00161,Emil,Gresham,emil.gresham@example.com,Operations,CC400,Operations Analyst,L2,E00402,Ireland,2026-02-25,,Active,Permanent,,1.0,52000,1993-01-17
+E00106,Jordan,Birch,jordan.birch@example.com,Operations,CC400,Operations Analyst,L1,E00142,France,2016-10-02,2022-09-21,Terminated,Permanent,,1.0,39000,1974-07-15
+E00478,Sacha,Whitlock,sacha.whitlock@example.com,Engineering,CC100,Engineer,L2,E00394,France,2017-05-14,,Active,Permanent,,0.8,54000,1974-11-25
+E00349,Kim,Ellery,kim.ellery@example.com,Marketing,CC500,Marketing Specialist,L4,E00006,France,2021-01-06,,Active,Permanent,,1.0,81500,1980-04-03
+E00096,Remi,Garland,remi.garland@example.com,Customer Support,CC300,Support Specialist,L3,E00503,Ireland,2020-02-17,,Active,Permanent,,1.0,64500,1989-08-26
+E00296,Maya,Radley,maya.radley2@example.com,People,CC700,People Partner,L2,E00157,Netherlands,2019-11-16,,Active,Permanent,,1.0,40000,1981-11-11
+E00301,Alex,Yarrow,alex.yarrow@example.com,People,CC700,People Partner,L2,E00241,Netherlands,2018-10-24,,Active,Fixed-term,2027-10-02,1.0,41500,1973-12-24
+E00107,Nora,Jessup,nora.jessup@example.com,Sales,CC200,Account Executive,L1,E00054,France,2025-09-04,,Active,Permanent,,1.0,36000,1998-06-19
+E00392,Aya,Jolliffe,aya.jolliffe@example.com,People,CC700,People Partner,L2,E00258,France,2019-02-16,2024-08-26,Terminated,Permanent,,1.0,45500,1983-01-25
+E00064,Sara,Wexley,sara.wexley@example.com,Sales,CC200,Account Executive,L1,E00481,Ireland,2017-05-25,,Active,Permanent,,1.0,40000,1988-03-03
+E00325,Eden,Pemberton,eden.pemberton@example.com,Sales,CC200,Account Executive,L2,E00399,Netherlands,2024-09-11,2025-06-09,Terminated,Permanent,,1.0,56500,2001-05-28
+E00490,Jordan,Penhale,jordan.penhale@example.com,Engineering,CC100,Engineer,L2,E00317,France,2018-07-24,,Active,Fixed-term,2026-12-22,1.0,45000,1989-02-15
+E00119,Lena,Ingram,lena.ingram@example.com,Operations,CC400,Operations Analyst,L2,E00440,France,2022-07-05,,Active,Permanent,,0.5,47500,1986-04-24
+E00437,Dominique,Everly,dominique.everly@example.com,Customer Support,CC300,Support Specialist,L2,E00355,France,2019-07-23,,Active,Fixed-term,2028-02-10,1.0,47500,1977-09-09
+E00406,Riley,Norwood,riley.norwood@example.com,Customer Support,CC300,Support Specialist,L1,E00180,France,2025-11-02,,Active,Fixed-term,2026-11-07,1.0,30500,2002-11-08
+E00210,Ivan,Ingram,ivan.ingram@example.com,Customer Support,CC300,Support Specialist,L1,E00267,Ireland,2020-02-27,,Active,Fixed-term,2027-08-09,1.0,29000,1979-09-06
+E00017,Tao,Fairfax,tao.fairfax@example.com,Engineering,CC100,Engineer,L3,E00317,Netherlands,2022-12-28,,Active,Permanent,,1.0,61000,1992-12-18
+E00146,Lou,Alder,lou.alder@example.com,People,CC700,People Partner,L4,E00008,Netherlands,2017-03-11,,Active,Permanent,,1.0,107500,1993-03-26

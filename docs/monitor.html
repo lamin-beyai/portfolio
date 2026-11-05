@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HR Data Quality Monitor · Lamin Beyai</title>
+<meta name="description" content="A working HR data-quality monitor built by Lamin Beyai with Python, SQL, dbt and DuckDB. All data is synthetic.">
+<style>
+:root{color-scheme:light;--surface:#fcfcfb;--page:#f4f3ef;--ink:#0b0b0b;--ink2:#52514e;--muted:#6f6d68;--grid:#e1e0d9;--line:#d6d4cc;--series:#2a78d6;--track:#ecebe5;--good:#0ca30c;--warning:#fab219;--serious:#ec835a;--critical:#d03b3b;--link:#1c5fb0}
+@media (prefers-color-scheme:dark){:root{color-scheme:dark;--surface:#1a1a19;--page:#111110;--ink:#f0efec;--ink2:#c3c2b7;--muted:#a09e96;--grid:#2c2c2a;--line:#3a3a37;--series:#3987e5;--track:#272725;--link:#7db3f2}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--page);color:var(--ink);font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+a{color:var(--link)}
+.wrap{max-width:1080px;margin:0 auto;padding:40px 24px 64px}
+h1{font-size:clamp(30px,5vw,44px);line-height:1.1;margin:0 0 12px;letter-spacing:-.02em}
+h2{font-size:20px;margin:0 0 4px}
+.lede{font-size:18px;color:var(--ink2);max-width:680px;margin:0 0 16px}
+.byline{color:var(--ink2);font-size:15px;margin:0}
+.notice{display:inline-block;margin-top:18px;padding:6px 12px;border:1px solid var(--line);border-radius:6px;background:var(--surface);font-size:14px;color:var(--ink2)}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:32px 0 12px}
+.tile,.card{background:var(--surface);border:1px solid var(--line);border-radius:10px}
+.tile{padding:16px 18px}
+.tile b{display:block;font-size:32px;line-height:1.15;font-weight:650;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+.tile span{font-size:14px;color:var(--ink2)}
+.card{padding:22px 24px;margin-top:12px}
+.sub{margin:0 0 18px;color:var(--ink2);font-size:15px;max-width:720px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.two .card{min-width:0}
+.proof{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:0 0 14px}
+.proof b{display:block;font-size:24px;font-variant-numeric:tabular-nums}
+.proof span{font-size:14px;color:var(--ink2)}
+.bars{display:grid;gap:2px}
+.bar{display:grid;grid-template-columns:minmax(0,1fr) 120px 28px;gap:12px;align-items:center;width:100%;padding:5px 6px;margin:0;border:0;border-radius:6px;background:none;color:inherit;font:inherit;font-size:14px;text-align:left;cursor:pointer}
+.bar:hover,.bar:focus-visible,.bar[aria-pressed=true]{background:var(--track)}
+.bar:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--series);outline-offset:1px}
+.bar.static{cursor:default}.bar.static:hover{background:none}
+.bar .name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar .fill{display:block;height:14px;background:var(--series);border-radius:0 4px 4px 0;min-width:2px}
+.bar .val{text-align:right;font-variant-numeric:tabular-nums;color:var(--ink2)}
+.dept .bar{grid-template-columns:130px minmax(0,1fr) 54px}
+#line{width:100%;height:auto;display:block;touch-action:pan-y}
+.tip{position:fixed;z-index:5;pointer-events:none;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:6px 10px;font-size:13px;box-shadow:0 2px 8px rgba(0,0,0,.14);display:none;max-width:260px}
+details.view{margin-top:12px;font-size:14px;color:var(--ink2)}
+details.view summary{cursor:pointer}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th{font-weight:600;text-align:left;color:var(--ink2);border-bottom:1px solid var(--line);padding:6px 10px 6px 0;white-space:nowrap}
+td{border-bottom:1px solid var(--grid);padding:8px 10px 8px 0;vertical-align:top}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.sev{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;text-transform:capitalize}
+.sev i{width:10px;height:10px;display:inline-block}
+.sev.critical i{background:var(--critical)}
+.sev.high i{background:var(--serious);border-radius:50%}
+.sev.medium i{background:var(--warning);transform:rotate(45deg)}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+select,input[type=search],input[type=number]{font:inherit;font-size:14px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:7px 9px}
+input[type=search]{flex:1;min-width:180px}
+button.clear{font:inherit;font-size:14px;background:none;border:1px solid var(--line);border-radius:6px;padding:7px 11px;color:var(--ink);cursor:pointer}
+.count{font-size:14px;color:var(--ink2);margin:0 0 8px}
+.more{margin-top:12px}
+.calc{display:flex;flex-wrap:wrap;gap:18px;align-items:end}
+.calc label{display:grid;gap:4px;font-size:14px;color:var(--ink2)}
+.calc input{width:120px}
+.calc output{font-size:24px;font-weight:650;font-variant-numeric:tabular-nums}
+.steps{margin:0;padding-left:20px;color:var(--ink2);font-size:15px}
+.steps li{margin:4px 0}
+.steps b{color:var(--ink)}
+footer{margin-top:28px;color:var(--ink2);font-size:14px}
+@media (max-width:820px){.tiles{grid-template-columns:repeat(2,1fr)}.two{grid-template-columns:1fr}}
+@media (max-width:560px){.wrap{padding:28px 16px 48px}.card{padding:18px 16px}.proof{grid-template-columns:1fr}.bar{grid-template-columns:minmax(0,1fr) 70px 26px}.dept .bar{grid-template-columns:110px minmax(0,1fr) 50px}.tile b{font-size:26px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>HR Data Quality Monitor</h1>
+  <p class="lede">It reads an HR extract, finds records that would break payroll, reporting or approvals, and tells someone how to fix each one.</p>
+  <p class="byline">Designed by <a href="https://www.linkedin.com/in/lamin-beyai/">Lamin Beyai</a> and built with AI assistance, using Python, SQL, dbt and DuckDB. <a href="index.html">Back to the portfolio</a>.</p>
+  <div class="notice">Every person, salary and company here is fictional. Errors were planted on purpose.</div>
+</header>
+
+<section class="tiles" aria-label="Summary" id="tiles"></section>
+
+<section class="card">
+  <h2>Can the checks be trusted?</h2>
+  <p class="sub">Errors with known locations were planted in the data, along with unusual records that are valid. The monitor had to find the first group and leave the second alone.</p>
+  <div class="proof" id="proof"></div>
+  <p class="sub" style="margin:0">This shows the rules do what they were written to do. It doesn't show how they'd perform on a real company's data, which would contain errors nobody has planned for.</p>
+</section>
+
+<section class="card">
+  <h2>Issues by rule</h2>
+  <p class="sub">Select a rule to see its records in the list below.</p>
+  <div class="bars" id="rules"></div>
+</section>
+
+<div class="two">
+<section class="card">
+  <h2>Records with an issue, by department</h2>
+  <p class="sub">Share of each department's records with at least one issue.</p>
+  <div class="bars dept" id="depts"></div>
+</section>
+<section class="card">
+  <h2>Month-end headcount</h2>
+  <p class="sub">Records with an unusable hire date can't be placed in time, so they're left out until fixed.</p>
+  <svg id="line" role="img" aria-label="Line chart of month-end headcount"></svg>
+  <details class="view"><summary>Show as a table</summary><div class="scroll" id="monthTable"></div></details>
+</section>
+</div>
+
+<section class="card" id="list">
+  <h2>Fix list</h2>
+  <p class="sub">What someone in HR would work through, most serious first.</p>
+  <div class="filters">
+    <input type="search" id="q" placeholder="Search ID or problem" aria-label="Search ID or problem">
+    <select id="fSev" aria-label="Severity"></select>
+    <select id="fDept" aria-label="Department"></select>
+    <select id="fRule" aria-label="Rule"></select>
+    <button class="clear" id="clear" type="button">Clear</button>
+  </div>
+  <p class="count" id="count" aria-live="polite"></p>
+  <div class="scroll"><table><thead><tr><th>Severity</th><th>Employee</th><th>Department</th><th>Problem</th><th>Fix</th></tr></thead><tbody id="rows"></tbody></table></div>
+  <button class="clear more" id="more" type="button">Show more</button>
+</section>
+
+<section class="card">
+  <h2>What would this save you?</h2>
+  <p class="sub">An illustration, not a measurement. Enter your own figures.</p>
+  <div class="calc">
+    <label>Minutes to check one record by hand<input type="number" id="mins" min="0" step="0.5" value="1"></label>
+    <label>Full checks a month<input type="number" id="runs" min="0" step="1" value="1"></label>
+    <div><div class="count" style="margin:0">Hand-checking replaced</div><output id="saved"></output></div>
+  </div>
+</section>
+
+<section class="card">
+  <h2>How it works</h2>
+  <ol class="steps">
+    <li><b>Generate.</b> Python creates a fictional company, then plants known errors.</li>
+    <li><b>Model.</b> dbt types the raw extract in DuckDB without losing the original values, then builds reporting tables.</li>
+    <li><b>Check.</b> Rules in SQL and Python flag records and explain why each one matters.</li>
+    <li><b>Prove.</b> Automated tests compare findings with the planted errors across several random datasets.</li>
+    <li><b>Publish.</b> This page and the CSV files are rebuilt from the results.</li>
+  </ol>
+  <p class="sub" style="margin:14px 0 0">Download the results: <a href="exports/issues.csv">issues</a>, <a href="exports/issues_by_rule.csv">by rule</a>, <a href="exports/issue_rate_by_department.csv">by department</a>, <a href="exports/headcount_monthly.csv">monthly headcount</a>.</p>
+</section>
+
+<footer>Data as of <span id="asof"></span>. This is a personal portfolio project built on fictional data.</footer>
+</div>
+<div class="tip" id="tip" role="status"></div>
+
+<script>
+const D = {"asOf": "2026-10-31", "records": 524, "withIssue": 91, "cleanRate": 82.6, "issueCount": 91, "ruleCount": 21, "critical": 26, "seconds": 0.03, "score": {"planted": 91, "found": 91, "correct": 91, "missed": 0, "unexpected": 0, "edge_cases": 9, "edge_cases_flagged": 0}, "rules": [{"id": "possible_duplicate_person", "title": "Same person under two employee IDs", "dimension": "Uniqueness", "severity": "critical", "why": "A rehire or import may have created a second record, splitting pay and history.", "fix": "Confirm with HR and merge the records.", "count": 8}, {"id": "missing_cost_centre", "title": "No cost centre", "dimension": "Completeness", "severity": "high", "why": "Pay cost cannot be charged to the right budget.", "fix": "Add the cost centre for the department.", "count": 6}, {"id": "salary_outside_band", "title": "Salary outside the band for the level", "dimension": "Plausibility", "severity": "high", "why": "Often a typing error, and it distorts pay analysis.", "fix": "Check against the contract. If correct, record the approved exception.", "count": 6}, {"id": "duplicate_email", "title": "Work email shared by two employees", "dimension": "Uniqueness", "severity": "high", "why": "System sign-in and notifications can reach the wrong person.", "fix": "Give each person a unique address.", "count": 6}, {"id": "missing_manager", "title": "Active employee with no manager", "dimension": "Completeness", "severity": "high", "why": "Approvals and reviews have nowhere to go.", "fix": "Assign the correct manager.", "count": 5}, {"id": "reporting_loop", "title": "Reporting line loops back on itself", "dimension": "Integrity", "severity": "high", "why": "Nobody at the top of this chain, so org charts and approval routing fail.", "fix": "Correct the manager on at least one person in the loop.", "count": 5}, {"id": "invalid_email", "title": "Work email format is invalid", "dimension": "Validity", "severity": "medium", "why": "Messages and account creation will fail.", "fix": "Correct the address.", "count": 5}, {"id": "invalid_hire_date", "title": "Hire date cannot be read", "dimension": "Validity", "severity": "critical", "why": "The value is not a real date, so reports drop this person.", "fix": "Correct it from the contract.", "count": 4}, {"id": "termination_before_hire", "title": "Leaving date before hire date", "dimension": "Consistency", "severity": "critical", "why": "Tenure is negative and turnover reports break.", "fix": "Correct whichever date is wrong.", "count": 4}, {"id": "active_with_past_termination", "title": "Marked active after the leaving date", "dimension": "Consistency", "severity": "critical", "why": "This person may still be paid or keep system access.", "fix": "Confirm the status and close the record if they have left.", "count": 4}, {"id": "fixed_term_missing_end_date", "title": "Fixed-term contract with no end date", "dimension": "Consistency", "severity": "high", "why": "The contract can expire with nobody alerted.", "fix": "Add the end date from the contract.", "count": 4}, {"id": "manager_not_found", "title": "Manager ID does not exist", "dimension": "Integrity", "severity": "high", "why": "The reporting line is broken, so org charts and approvals fail.", "fix": "Assign a valid manager.", "count": 4}, {"id": "terminated_without_date", "title": "Terminated with no leaving date", "dimension": "Consistency", "severity": "high", "why": "Turnover cannot be placed in the right month.", "fix": "Enter the leaving date.", "count": 4}, {"id": "fte_out_of_range", "title": "Working time outside 0 to 1", "dimension": "Validity", "severity": "high", "why": "Pay and full-time-equivalent reporting are distorted.", "fix": "Correct the working-time fraction.", "count": 4}, {"id": "unknown_contract_type", "title": "Contract type not on the approved list", "dimension": "Validity", "severity": "medium", "why": "Contract reporting and legal end-date tracking miss this person.", "fix": "Choose an approved contract type.", "count": 4}, {"id": "missing_hire_date", "title": "No hire date", "dimension": "Completeness", "severity": "critical", "why": "Tenure, leave and headcount trends cannot be calculated.", "fix": "Enter the date from the contract.", "count": 3}, {"id": "duplicate_employee_id", "title": "Same employee ID on more than one row", "dimension": "Uniqueness", "severity": "critical", "why": "Headcount and payroll feeds count this person twice.", "fix": "Find which row is correct and remove the other at source.", "count": 3}, {"id": "self_manager", "title": "Listed as their own manager", "dimension": "Integrity", "severity": "high", "why": "Self-approval bypasses a basic control.", "fix": "Assign a different manager.", "count": 3}, {"id": "manager_inactive", "title": "Reports to someone who has left", "dimension": "Integrity", "severity": "high", "why": "Requests go to a person who is no longer there.", "fix": "Move this employee to a current manager.", "count": 3}, {"id": "underage_at_hire", "title": "Under 16 on the hire date", "dimension": "Plausibility", "severity": "high", "why": "Almost certainly a wrong birth date or hire date.", "fix": "Check against an identity document.", "count": 3}, {"id": "future_hire_marked_active", "title": "Active before the start date", "dimension": "Consistency", "severity": "medium", "why": "Headcount is overstated until the person actually joins.", "fix": "Set the status to pending until the start date.", "count": 3}], "departments": [{"department": "People", "records": 34, "affected": 10, "rate": 29.4}, {"department": "Finance", "records": 32, "affected": 9, "rate": 28.1}, {"department": "Marketing", "records": 47, "affected": 10, "rate": 21.3}, {"department": "Engineering", "records": 181, "affected": 31, "rate": 17.1}, {"department": "Operations", "records": 59, "affected": 10, "rate": 16.9}, {"department": "Sales", "records": 95, "affected": 14, "rate": 14.7}, {"department": "Customer Support", "records": 76, "affected": 7, "rate": 9.2}], "months": [{"month": "2024-01", "headcount": 365, "joiners": 5, "leavers": 1}, {"month": "2024-02", "headcount": 370, "joiners": 5, "leavers": 0}, {"month": "2024-03", "headcount": 375, "joiners": 5, "leavers": 0}, {"month": "2024-04", "headcount": 378, "joiners": 3, "leavers": 0}, {"month": "2024-05", "headcount": 382, "joiners": 6, "leavers": 2}, {"month": "2024-06", "headcount": 385, "joiners": 3, "leavers": 0}, {"month": "2024-07", "headcount": 387, "joiners": 2, "leavers": 0}, {"month": "2024-08", "headcount": 390, "joiners": 4, "leavers": 1}, {"month": "2024-09", "headcount": 395, "joiners": 6, "leavers": 1}, {"month": "2024-10", "headcount": 402, "joiners": 8, "leavers": 1}, {"month": "2024-11", "headcount": 405, "joiners": 6, "leavers": 3}, {"month": "2024-12", "headcount": 407, "joiners": 2, "leavers": 0}, {"month": "2025-01", "headcount": 410, "joiners": 4, "leavers": 1}, {"month": "2025-02", "headcount": 413, "joiners": 4, "leavers": 1}, {"month": "2025-03", "headcount": 414, "joiners": 2, "leavers": 1}, {"month": "2025-04", "headcount": 415, "joiners": 4, "leavers": 3}, {"month": "2025-05", "headcount": 417, "joiners": 2, "leavers": 0}, {"month": "2025-06", "headcount": 420, "joiners": 4, "leavers": 1}, {"month": "2025-07", "headcount": 424, "joiners": 5, "leavers": 1}, {"month": "2025-08", "headcount": 427, "joiners": 3, "leavers": 0}, {"month": "2025-09", "headcount": 430, "joiners": 4, "leavers": 1}, {"month": "2025-10", "headcount": 436, "joiners": 6, "leavers": 0}, {"month": "2025-11", "headcount": 439, "joiners": 4, "leavers": 1}, {"month": "2025-12", "headcount": 439, "joiners": 2, "leavers": 2}, {"month": "2026-01", "headcount": 445, "joiners": 6, "leavers": 0}, {"month": "2026-02", "headcount": 445, "joiners": 2, "leavers": 2}, {"month": "2026-03", "headcount": 446, "joiners": 3, "leavers": 2}, {"month": "2026-04", "headcount": 451, "joiners": 7, "leavers": 2}, {"month": "2026-05", "headcount": 449, "joiners": 0, "leavers": 2}, {"month": "2026-06", "headcount": 450, "joiners": 2, "leavers": 1}, {"month": "2026-07", "headcount": 450, "joiners": 2, "leavers": 2}, {"month": "2026-08", "headcount": 453, "joiners": 4, "leavers": 1}, {"month": "2026-09", "headcount": 453, "joiners": 5, "leavers": 5}, {"month": "2026-10", "headcount": 451, "joiners": 1, "leavers": 3}], "issues": [{"employee_id": "E00037", "department": "Engineering", "rule_id": "invalid_hire_date", "title": "Hire date cannot be read", "severity": "critical", "dimension": "Validity", "detail": "Hire date reads \"March 2022\"", "fix": "Correct it from the contract."}, {"employee_id": "E00082", "department": "People", "rule_id": "invalid_hire_date", "title": "Hire date cannot be read", "severity": "critical", "dimension": "Validity", "detail": "Hire date reads \"31/02/2023\"", "fix": "Correct it from the contract."}, {"employee_id": "E00086", "department": "Sales", "rule_id": "invalid_hire_date", "title": "Hire date cannot be read", "severity": "critical", "dimension": "Validity", "detail": "Hire date reads \"2023-13-01\"", "fix": "Correct it from the contract."}, {"employee_id": "E00302", "department": "Engineering", "rule_id": "invalid_hire_date", "title": "Hire date cannot be read", "severity": "critical", "dimension": "Validity", "detail": "Hire date reads \"March 2022\"", "fix": "Correct it from the contract."}, {"employee_id": "E00117", "department": "Customer Support", "rule_id": "termination_before_hire", "title": "Leaving date before hire date", "severity": "critical", "dimension": "Consistency", "detail": "Left 2021-10-20, hired 2022-05-16", "fix": "Correct whichever date is wrong."}, {"employee_id": "E00143", "department": "Marketing", "rule_id": "termination_before_hire", "title": "Leaving date before hire date", "severity": "critical", "dimension": "Consistency", "detail": "Left 2019-08-24, hired 2019-12-17", "fix": "Correct whichever date is wrong."}, {"employee_id": "E00289", "department": "Engineering", "rule_id": "termination_before_hire", "title": "Leaving date before hire date", "severity": "critical", "dimension": "Consistency", "detail": "Left 2016-08-02, hired 2017-02-25", "fix": "Correct whichever date is wrong."}, {"employee_id": "E00413", "department": "Operations", "rule_id": "termination_before_hire", "title": "Leaving date before hire date", "severity": "critical", "dimension": "Consistency", "detail": "Left 2016-05-24, hired 2017-02-01", "fix": "Correct whichever date is wrong."}, {"employee_id": "E00047", "department": "People", "rule_id": "active_with_past_termination", "title": "Marked active after the leaving date", "severity": "critical", "dimension": "Consistency", "detail": "Active, but left on 2026-09-25", "fix": "Confirm the status and close the record if they have left."}, {"employee_id": "E00063", "department": "Sales", "rule_id": "active_with_past_termination", "title": "Marked active after the leaving date", "severity": "critical", "dimension": "Consistency", "detail": "Active, but left on 2026-05-28", "fix": "Confirm the status and close the record if they have left."}, {"employee_id": "E00222", "department": "Customer Support", "rule_id": "active_with_past_termination", "title": "Marked active after the leaving date", "severity": "critical", "dimension": "Consistency", "detail": "Active, but left on 2026-04-19", "fix": "Confirm the status and close the record if they have left."}, {"employee_id": "E00343", "department": "People", "rule_id": "active_with_past_termination", "title": "Marked active after the leaving date", "severity": "critical", "dimension": "Consistency", "detail": "Active, but left on 2026-09-26", "fix": "Confirm the status and close the record if they have left."}, {"employee_id": "E00184", "department": "Engineering", "rule_id": "missing_hire_date", "title": "No hire date", "severity": "critical", "dimension": "Completeness", "detail": "Hire date is blank", "fix": "Enter the date from the contract."}, {"employee_id": "E00324", "department": "Operations", "rule_id": "missing_hire_date", "title": "No hire date", "severity": "critical", "dimension": "Completeness", "detail": "Hire date is blank", "fix": "Enter the date from the contract."}, {"employee_id": "E00363", "department": "Operations", "rule_id": "missing_hire_date", "title": "No hire date", "severity": "critical", "dimension": "Completeness", "detail": "Hire date is blank", "fix": "Enter the date from the contract."}, {"employee_id": "E00120", "department": "People", "rule_id": "duplicate_employee_id", "title": "Same employee ID on more than one row", "severity": "critical", "dimension": "Uniqueness", "detail": "ID appears on 2 rows", "fix": "Find which row is correct and remove the other at source."}, {"employee_id": "E00431", "department": "Engineering", "rule_id": "duplicate_employee_id", "title": "Same employee ID on more than one row", "severity": "critical", "dimension": "Uniqueness", "detail": "ID appears on 2 rows", "fix": "Find which row is correct and remove the other at source."}, {"employee_id": "E00517", "department": "Finance", "rule_id": "duplicate_employee_id", "title": "Same employee ID on more than one row", "severity": "critical", "dimension": "Uniqueness", "detail": "ID appears on 2 rows", "fix": "Find which row is correct and remove the other at source."}, {"employee_id": "E00068", "department": "Engineering", "rule_id": "possible_duplicate_person", "title": "Same person under two employee IDs", "severity": "critical", "dimension": "Uniqueness", "detail": "Same name and birth date as E90001", "fix": "Confirm with HR and merge the records."}, {"employee_id": "E00268", "department": "Operations", "rule_id": "possible_duplicate_person", "title": "Same person under two employee IDs", "severity": "critical", "dimension": "Uniqueness", "detail": "Same name and birth date as E90002", "fix": "Confirm with HR and merge the records."}, {"employee_id": "E00339", "department": "Engineering", "rule_id": "possible_duplicate_person", "title": "Same person under two employee IDs", "severity": "critical", "dimension": "Uniqueness", "detail": "Same name and birth date as E90003", "fix": "Confirm with HR and merge the records."}, {"employee_id": "E00447", "department": "Customer Support", "rule_id": "possible_duplicate_person", "title": "Same person under two employee IDs", "severity": "critical", "dimension": "Uniqueness", "detail": "Same name and birth date as E90004", "fix": "Confirm with HR and merge the records."}, {"employee_id": "E90001", "department": "Engineering", "rule_id": "possible_duplicate_person", "title": "Same person under two employee IDs", "severity": "critical", "dimension": "Uniqueness", "detail": "Same name and birth date as E00068", "fix": "Confirm with HR and merge the records."}, {"employee_id": "E90002", "department": "Operations", "rule_id": "possible_duplicate_person", "title": "Same person under two employee IDs", "severity": "critical", "dimension": "Uniqueness", "detail": "Same name and birth date as E00268", "fix": "Confirm with HR and merge the records."}, {"employee_id": "E90003", "department": "Engineering", "rule_id": "possible_duplicate_person", "title": "Same person under two employee IDs", "severity": "critical", "dimension": "Uniqueness", "detail": "Same name and birth date as E00339", "fix": "Confirm with HR and merge the records."}, {"employee_id": "E90004", "department": "Customer Support", "rule_id": "possible_duplicate_person", "title": "Same person under two employee IDs", "severity": "critical", "dimension": "Uniqueness", "detail": "Same name and birth date as E00447", "fix": "Confirm with HR and merge the records."}, {"employee_id": "E00079", "department": "Operations", "rule_id": "missing_manager", "title": "Active employee with no manager", "severity": "high", "dimension": "Completeness", "detail": "Operations Analyst has no manager", "fix": "Assign the correct manager."}, {"employee_id": "E00090", "department": "Customer Support", "rule_id": "missing_manager", "title": "Active employee with no manager", "severity": "high", "dimension": "Completeness", "detail": "Support Specialist has no manager", "fix": "Assign the correct manager."}, {"employee_id": "E00109", "department": "Marketing", "rule_id": "missing_manager", "title": "Active employee with no manager", "severity": "high", "dimension": "Completeness", "detail": "Marketing Specialist has no manager", "fix": "Assign the correct manager."}, {"employee_id": "E00281", "department": "Engineering", "rule_id": "missing_manager", "title": "Active employee with no manager", "severity": "high", "dimension": "Completeness", "detail": "Engineer has no manager", "fix": "Assign the correct manager."}, {"employee_id": "E00429", "department": "Customer Support", "rule_id": "missing_manager", "title": "Active employee with no manager", "severity": "high", "dimension": "Completeness", "detail": "Support Specialist has no manager", "fix": "Assign the correct manager."}, {"employee_id": "E00237", "department": "People", "rule_id": "fixed_term_missing_end_date", "title": "Fixed-term contract with no end date", "severity": "high", "dimension": "Consistency", "detail": "Active fixed-term contract has no end date", "fix": "Add the end date from the contract."}, {"employee_id": "E00272", "department": "Marketing", "rule_id": "fixed_term_missing_end_date", "title": "Fixed-term contract with no end date", "severity": "high", "dimension": "Consistency", "detail": "Active fixed-term contract has no end date", "fix": "Add the end date from the contract."}, {"employee_id": "E00379", "department": "Engineering", "rule_id": "fixed_term_missing_end_date", "title": "Fixed-term contract with no end date", "severity": "high", "dimension": "Consistency", "detail": "Active fixed-term contract has no end date", "fix": "Add the end date from the contract."}, {"employee_id": "E00388", "department": "Engineering", "rule_id": "fixed_term_missing_end_date", "title": "Fixed-term contract with no end date", "severity": "high", "dimension": "Consistency", "detail": "Active fixed-term contract has no end date", "fix": "Add the end date from the contract."}, {"employee_id": "E00105", "department": "Engineering", "rule_id": "self_manager", "title": "Listed as their own manager", "severity": "high", "dimension": "Integrity", "detail": "Manager ID is the same as employee ID", "fix": "Assign a different manager."}, {"employee_id": "E00263", "department": "Sales", "rule_id": "self_manager", "title": "Listed as their own manager", "severity": "high", "dimension": "Integrity", "detail": "Manager ID is the same as employee ID", "fix": "Assign a different manager."}, {"employee_id": "E00321", "department": "Engineering", "rule_id": "self_manager", "title": "Listed as their own manager", "severity": "high", "dimension": "Integrity", "detail": "Manager ID is the same as employee ID", "fix": "Assign a different manager."}, {"employee_id": "E00040", "department": "Marketing", "rule_id": "manager_not_found", "title": "Manager ID does not exist", "severity": "high", "dimension": "Integrity", "detail": "Manager E75811 is not on file", "fix": "Assign a valid manager."}, {"employee_id": "E00318", "department": "Sales", "rule_id": "manager_not_found", "title": "Manager ID does not exist", "severity": "high", "dimension": "Integrity", "detail": "Manager E76128 is not on file", "fix": "Assign a valid manager."}, {"employee_id": "E00390", "department": "Engineering", "rule_id": "manager_not_found", "title": "Manager ID does not exist", "severity": "high", "dimension": "Integrity", "detail": "Manager E75886 is not on file", "fix": "Assign a valid manager."}, {"employee_id": "E00510", "department": "People", "rule_id": "manager_not_found", "title": "Manager ID does not exist", "severity": "high", "dimension": "Integrity", "detail": "Manager E75158 is not on file", "fix": "Assign a valid manager."}, {"employee_id": "E00242", "department": "Sales", "rule_id": "missing_cost_centre", "title": "No cost centre", "severity": "high", "dimension": "Completeness", "detail": "Sales record has no cost centre", "fix": "Add the cost centre for the department."}, {"employee_id": "E00261", "department": "Engineering", "rule_id": "missing_cost_centre", "title": "No cost centre", "severity": "high", "dimension": "Completeness", "detail": "Engineering record has no cost centre", "fix": "Add the cost centre for the department."}, {"employee_id": "E00323", "department": "Finance", "rule_id": "missing_cost_centre", "title": "No cost centre", "severity": "high", "dimension": "Completeness", "detail": "Finance record has no cost centre", "fix": "Add the cost centre for the department."}, {"employee_id": "E00338", "department": "People", "rule_id": "missing_cost_centre", "title": "No cost centre", "severity": "high", "dimension": "Completeness", "detail": "People record has no cost centre", "fix": "Add the cost centre for the department."}, {"employee_id": "E00342", "department": "Sales", "rule_id": "missing_cost_centre", "title": "No cost centre", "severity": "high", "dimension": "Completeness", "detail": "Sales record has no cost centre", "fix": "Add the cost centre for the department."}, {"employee_id": "E00417", "department": "Finance", "rule_id": "missing_cost_centre", "title": "No cost centre", "severity": "high", "dimension": "Completeness", "detail": "Finance record has no cost centre", "fix": "Add the cost centre for the department."}, {"employee_id": "E00009", "department": "Engineering", "rule_id": "reporting_loop", "title": "Reporting line loops back on itself", "severity": "high", "dimension": "Integrity", "detail": "Reporting line returns to this person: E00009 > E00224 > E00152 > E00009", "fix": "Correct the manager on at least one person in the loop."}, {"employee_id": "E00060", "department": "Sales", "rule_id": "reporting_loop", "title": "Reporting line loops back on itself", "severity": "high", "dimension": "Integrity", "detail": "Reporting line returns to this person: E00060 > E00206 > E00060", "fix": "Correct the manager on at least one person in the loop."}, {"employee_id": "E00152", "department": "Operations", "rule_id": "reporting_loop", "title": "Reporting line loops back on itself", "severity": "high", "dimension": "Integrity", "detail": "Reporting line returns to this person: E00152 > E00009 > E00224 > E00152", "fix": "Correct the manager on at least one person in the loop."}, {"employee_id": "E00206", "department": "Engineering", "rule_id": "reporting_loop", "title": "Reporting line loops back on itself", "severity": "high", "dimension": "Integrity", "detail": "Reporting line returns to this person: E00206 > E00060 > E00206", "fix": "Correct the manager on at least one person in the loop."}, {"employee_id": "E00224", "department": "Engineering", "rule_id": "reporting_loop", "title": "Reporting line loops back on itself", "severity": "high", "dimension": "Integrity", "detail": "Reporting line returns to this person: E00224 > E00152 > E00009 > E00224", "fix": "Correct the manager on at least one person in the loop."}, {"employee_id": "E00137", "department": "Finance", "rule_id": "manager_inactive", "title": "Reports to someone who has left", "severity": "high", "dimension": "Integrity", "detail": "Manager E00497 left on 2026-09-04", "fix": "Move this employee to a current manager."}, {"employee_id": "E00219", "department": "Finance", "rule_id": "manager_inactive", "title": "Reports to someone who has left", "severity": "high", "dimension": "Integrity", "detail": "Manager E00496 left on 2026-08-05", "fix": "Move this employee to a current manager."}, {"employee_id": "E00493", "department": "Sales", "rule_id": "manager_inactive", "title": "Reports to someone who has left", "severity": "high", "dimension": "Integrity", "detail": "Manager E00110 left on 2026-07-12", "fix": "Move this employee to a current manager."}, {"employee_id": "E00021", "department": "Engineering", "rule_id": "salary_outside_band", "title": "Salary outside the band for the level", "severity": "high", "dimension": "Plausibility", "detail": "L2 salary is 410000, band is 38000 to 58000", "fix": "Check against the contract. If correct, record the approved exception."}, {"employee_id": "E00131", "department": "Finance", "rule_id": "salary_outside_band", "title": "Salary outside the band for the level", "severity": "high", "dimension": "Plausibility", "detail": "L1 salary is 3050, band is 28000 to 42000", "fix": "Check against the contract. If correct, record the approved exception."}, {"employee_id": "E00283", "department": "Engineering", "rule_id": "salary_outside_band", "title": "Salary outside the band for the level", "severity": "high", "dimension": "Plausibility", "detail": "L1 salary is 0, band is 28000 to 42000", "fix": "Check against the contract. If correct, record the approved exception."}, {"employee_id": "E00294", "department": "Marketing", "rule_id": "salary_outside_band", "title": "Salary outside the band for the level", "severity": "high", "dimension": "Plausibility", "detail": "L2 salary is 0, band is 38000 to 58000", "fix": "Check against the contract. If correct, record the approved exception."}, {"employee_id": "E00330", "department": "Engineering", "rule_id": "salary_outside_band", "title": "Salary outside the band for the level", "severity": "high", "dimension": "Plausibility", "detail": "L1 salary is 3050, band is 28000 to 42000", "fix": "Check against the contract. If correct, record the approved exception."}, {"employee_id": "E00333", "department": "Sales", "rule_id": "salary_outside_band", "title": "Salary outside the band for the level", "severity": "high", "dimension": "Plausibility", "detail": "L2 salary is 4600, band is 38000 to 58000", "fix": "Check against the contract. If correct, record the approved exception."}, {"employee_id": "E00025", "department": "Sales", "rule_id": "terminated_without_date", "title": "Terminated with no leaving date", "severity": "high", "dimension": "Consistency", "detail": "Status is Terminated, leaving date is blank", "fix": "Enter the leaving date."}, {"employee_id": "E00059", "department": "Operations", "rule_id": "terminated_without_date", "title": "Terminated with no leaving date", "severity": "high", "dimension": "Consistency", "detail": "Status is Terminated, leaving date is blank", "fix": "Enter the leaving date."}, {"employee_id": "E00139", "department": "Engineering", "rule_id": "terminated_without_date", "title": "Terminated with no leaving date", "severity": "high", "dimension": "Consistency", "detail": "Status is Terminated, leaving date is blank", "fix": "Enter the leaving date."}, {"employee_id": "E00403", "department": "Marketing", "rule_id": "terminated_without_date", "title": "Terminated with no leaving date", "severity": "high", "dimension": "Consistency", "detail": "Status is Terminated, leaving date is blank", "fix": "Enter the leaving date."}, {"employee_id": "E00350", "department": "Marketing", "rule_id": "underage_at_hire", "title": "Under 16 on the hire date", "severity": "high", "dimension": "Plausibility", "detail": "Born 2012-05-14, hired 2024-11-03", "fix": "Check against an identity document."}, {"employee_id": "E00385", "department": "Engineering", "rule_id": "underage_at_hire", "title": "Under 16 on the hire date", "severity": "high", "dimension": "Plausibility", "detail": "Born 2007-05-14, hired 2019-10-29", "fix": "Check against an identity document."}, {"employee_id": "E00465", "department": "Marketing", "rule_id": "underage_at_hire", "title": "Under 16 on the hire date", "severity": "high", "dimension": "Plausibility", "detail": "Born 2013-05-14, hired 2025-07-10", "fix": "Check against an identity document."}, {"employee_id": "E00026", "department": "Engineering", "rule_id": "duplicate_email", "title": "Work email shared by two employees", "severity": "high", "dimension": "Uniqueness", "detail": "Shares riley.quillon@example.com", "fix": "Give each person a unique address."}, {"employee_id": "E00035", "department": "People", "rule_id": "duplicate_email", "title": "Work email shared by two employees", "severity": "high", "dimension": "Uniqueness", "detail": "Shares quinn.stroud@example.com", "fix": "Give each person a unique address."}, {"employee_id": "E00095", "department": "People", "rule_id": "duplicate_email", "title": "Work email shared by two employees", "severity": "high", "dimension": "Uniqueness", "detail": "Shares quinn.stroud@example.com", "fix": "Give each person a unique address."}, {"employee_id": "E00265", "department": "Sales", "rule_id": "duplicate_email", "title": "Work email shared by two employees", "severity": "high", "dimension": "Uniqueness", "detail": "Shares riley.quillon@example.com", "fix": "Give each person a unique address."}, {"employee_id": "E00485", "department": "Engineering", "rule_id": "duplicate_email", "title": "Work email shared by two employees", "severity": "high", "dimension": "Uniqueness", "detail": "Shares tao.pemberton@example.com", "fix": "Give each person a unique address."}, {"employee_id": "E00494", "department": "Engineering", "rule_id": "duplicate_email", "title": "Work email shared by two employees", "severity": "high", "dimension": "Uniqueness", "detail": "Shares tao.pemberton@example.com", "fix": "Give each person a unique address."}, {"employee_id": "E00027", "department": "Engineering", "rule_id": "fte_out_of_range", "title": "Working time outside 0 to 1", "severity": "high", "dimension": "Validity", "detail": "FTE is 0.0", "fix": "Correct the working-time fraction."}, {"employee_id": "E00031", "department": "Sales", "rule_id": "fte_out_of_range", "title": "Working time outside 0 to 1", "severity": "high", "dimension": "Validity", "detail": "FTE is 0.0", "fix": "Correct the working-time fraction."}, {"employee_id": "E00217", "department": "Finance", "rule_id": "fte_out_of_range", "title": "Working time outside 0 to 1", "severity": "high", "dimension": "Validity", "detail": "FTE is -1.0", "fix": "Correct the working-time fraction."}, {"employee_id": "E00232", "department": "Engineering", "rule_id": "fte_out_of_range", "title": "Working time outside 0 to 1", "severity": "high", "dimension": "Validity", "detail": "FTE is 80.0", "fix": "Correct the working-time fraction."}, {"employee_id": "E00293", "department": "Marketing", "rule_id": "future_hire_marked_active", "title": "Active before the start date", "severity": "medium", "dimension": "Consistency", "detail": "Active, but starts 2026-11-24", "fix": "Set the status to pending until the start date."}, {"employee_id": "E00506", "department": "Engineering", "rule_id": "future_hire_marked_active", "title": "Active before the start date", "severity": "medium", "dimension": "Consistency", "detail": "Active, but starts 2027-01-24", "fix": "Set the status to pending until the start date."}, {"employee_id": "E00515", "department": "Operations", "rule_id": "future_hire_marked_active", "title": "Active before the start date", "severity": "medium", "dimension": "Consistency", "detail": "Active, but starts 2026-11-20", "fix": "Set the status to pending until the start date."}, {"employee_id": "E00010", "department": "Sales", "rule_id": "unknown_contract_type", "title": "Contract type not on the approved list", "severity": "medium", "dimension": "Validity", "detail": "Contract type reads \"CDI\"", "fix": "Choose an approved contract type."}, {"employee_id": "E00103", "department": "Operations", "rule_id": "unknown_contract_type", "title": "Contract type not on the approved list", "severity": "medium", "dimension": "Validity", "detail": "Contract type reads \"Perm\"", "fix": "Choose an approved contract type."}, {"employee_id": "E00199", "department": "Sales", "rule_id": "unknown_contract_type", "title": "Contract type not on the approved list", "severity": "medium", "dimension": "Validity", "detail": "Contract type reads \"CDI\"", "fix": "Choose an approved contract type."}, {"employee_id": "E00508", "department": "Finance", "rule_id": "unknown_contract_type", "title": "Contract type not on the approved list", "severity": "medium", "dimension": "Validity", "detail": "Contract type reads \"CDI\"", "fix": "Choose an approved contract type."}, {"employee_id": "E00114", "department": "Marketing", "rule_id": "invalid_email", "title": "Work email format is invalid", "severity": "medium", "dimension": "Validity", "detail": "Email reads \"andrea.lorne at example.com\"", "fix": "Correct the address."}, {"employee_id": "E00154", "department": "Customer Support", "rule_id": "invalid_email", "title": "Work email format is invalid", "severity": "medium", "dimension": "Validity", "detail": "Email reads \"maxime.marlowe#example.com\"", "fix": "Correct the address."}, {"employee_id": "E00164", "department": "People", "rule_id": "invalid_email", "title": "Work email format is invalid", "severity": "medium", "dimension": "Validity", "detail": "Email reads \"aya.stroud@@example.com\"", "fix": "Correct the address."}, {"employee_id": "E00273", "department": "Engineering", "rule_id": "invalid_email", "title": "Work email format is invalid", "severity": "medium", "dimension": "Validity", "detail": "Email reads \"dara.calder at example.com\"", "fix": "Correct the address."}, {"employee_id": "E00351", "department": "Finance", "rule_id": "invalid_email", "title": "Work email format is invalid", "severity": "medium", "dimension": "Validity", "detail": "Email reads \"ivan.wexley2#example.com\"", "fix": "Correct the address."}]};
+const $ = id => document.getElementById(id);
+const el = (tag, props = {}, ...kids) => { const n = Object.assign(document.createElement(tag), props); n.append(...kids); return n; };
+const fmtMonth = m => new Date(m + "-01T12:00:00").toLocaleDateString("en-GB", { month: "short", year: "numeric" });
+const fmtDate = d => new Date(d + "T12:00:00").toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+const sev = s => el("span", { className: "sev " + s }, el("i", { ariaHidden: "true" }), s);
+
+$("asof").textContent = fmtDate(D.asOf);
+[[D.records, "records checked"], [D.withIssue, `records with an issue (${(100 - D.cleanRate).toFixed(1)}%)`],
+ [D.critical, "critical issues"], [D.seconds < 1 ? "Under 1s" : D.seconds + "s", `to run all ${D.ruleCount} rules`]]
+  .forEach(([v, t]) => $("tiles").append(el("div", { className: "tile" }, el("b", { textContent: v }), el("span", { textContent: t }))));
+
+const s = D.score;
+[[`${s.correct} of ${s.planted}`, "planted errors found"], [s.unexpected, "false alarms"],
+ [`${s.edge_cases_flagged} of ${s.edge_cases}`, "valid unusual records flagged"]]
+  .forEach(([v, t]) => $("proof").append(el("div", {}, el("b", { textContent: v }), el("span", { textContent: t }))));
+
+const tip = $("tip");
+function showTip(x, y, text) {
+  tip.textContent = text; tip.style.display = "block";
+  const w = tip.offsetWidth, h = tip.offsetHeight;
+  tip.style.left = Math.max(8, Math.min(x + 12, innerWidth - w - 8)) + "px";
+  tip.style.top = Math.max(8, y - h - 10) + "px";
+}
+const hideTip = () => tip.style.display = "none";
+
+const state = { q: "", sev: "", dept: "", rule: "", limit: 25 };
+const ruleButtons = {};
+const maxRule = Math.max(...D.rules.map(r => r.count));
+D.rules.forEach(r => {
+  const b = el("button", { className: "bar", type: "button" },
+    el("span", { className: "name", textContent: r.title }),
+    el("span", {}, Object.assign(el("span", { className: "fill" }), { style: `width:${100 * r.count / maxRule}%` })),
+    el("span", { className: "val", textContent: r.count }));
+  b.setAttribute("aria-pressed", "false");
+  b.setAttribute("aria-label", `${r.title}: ${r.count} issues, ${r.severity}. Show in fix list.`);
+  b.onmousemove = e => showTip(e.clientX, e.clientY, `${r.count} issues, ${r.severity}. ${r.why}`);
+  b.onmouseleave = hideTip;
+  b.onclick = () => { state.rule = state.rule === r.id ? "" : r.id; $("fRule").value = state.rule; state.limit = 25; render(); if (state.rule) $("list").scrollIntoView({ behavior: "smooth", block: "start" }); };
+  ruleButtons[r.id] = b; $("rules").append(b);
+});
+
+const maxDept = Math.max(...D.departments.map(d => d.rate));
+D.departments.forEach(d => {
+  const row = el("div", { className: "bar static", tabIndex: 0 },
+    el("span", { className: "name", textContent: d.department }),
+    el("span", {}, Object.assign(el("span", { className: "fill" }), { style: `width:${100 * d.rate / maxDept}%` })),
+    el("span", { className: "val", textContent: d.rate.toFixed(0) + "%" }));
+  row.setAttribute("aria-label", `${d.department}: ${d.affected} of ${d.records} records have an issue`);
+  row.onmousemove = e => showTip(e.clientX, e.clientY, `${d.affected} of ${d.records} records have an issue`);
+  row.onmouseleave = hideTip;
+  $("depts").append(row);
+});
+
+function drawLine() {
+  const svg = $("line"), W = Math.max(280, svg.parentElement.clientWidth - 48), H = 230;
+  const m = { t: 12, r: 12, b: 26, l: 36 }, iw = W - m.l - m.r, ih = H - m.t - m.b;
+  const vals = D.months.map(d => d.headcount);
+  const lo = Math.floor(Math.min(...vals) / 50) * 50, hi = Math.ceil(Math.max(...vals) / 50) * 50;
+  const x = i => m.l + iw * i / (D.months.length - 1), y = v => m.t + ih * (1 - (v - lo) / (hi - lo));
+  const NS = "http://www.w3.org/2000/svg";
+  const n = (t, a, txt) => { const e = document.createElementNS(NS, t); for (const k in a) e.setAttribute(k, a[k]); if (txt != null) e.textContent = txt; return e; };
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`); svg.replaceChildren();
+  const css = getComputedStyle(document.documentElement), c = v => css.getPropertyValue(v).trim();
+  for (let v = lo; v <= hi; v += 50) {
+    svg.append(n("line", { x1: m.l, x2: W - m.r, y1: y(v), y2: y(v), stroke: c("--grid") }));
+    svg.append(n("text", { x: m.l - 6, y: y(v) + 4, "text-anchor": "end", "font-size": 12, fill: c("--muted") }, v));
+  }
+  const step = Math.ceil(D.months.length / (W < 420 ? 3 : 5));
+  D.months.forEach((d, i) => { if (i % step === 0) svg.append(n("text", { x: x(i), y: H - 8, "text-anchor": i ? "middle" : "start", "font-size": 12, fill: c("--muted") }, fmtMonth(d.month))); });
+  svg.append(n("path", { d: D.months.map((d, i) => `${i ? "L" : "M"}${x(i)} ${y(d.headcount)}`).join(""), fill: "none", stroke: c("--series"), "stroke-width": 2, "stroke-linejoin": "round", "stroke-linecap": "round" }));
+  const last = D.months.length - 1;
+  svg.append(n("text", { x: x(last), y: y(vals[last]) - 8, "text-anchor": "end", "font-size": 13, "font-weight": 600, fill: c("--ink") }, vals[last]));
+  const cross = n("line", { y1: m.t, y2: m.t + ih, stroke: c("--muted"), visibility: "hidden" });
+  const dot = n("circle", { r: 4, fill: c("--series"), stroke: c("--surface"), "stroke-width": 2, visibility: "hidden" });
+  svg.append(cross, dot);
+  svg.onpointermove = e => {
+    const r = svg.getBoundingClientRect(), px = (e.clientX - r.left) * W / r.width;
+    const i = Math.max(0, Math.min(last, Math.round((px - m.l) / iw * last))), d = D.months[i];
+    cross.setAttribute("x1", x(i)); cross.setAttribute("x2", x(i)); cross.setAttribute("visibility", "visible");
+    dot.setAttribute("cx", x(i)); dot.setAttribute("cy", y(d.headcount)); dot.setAttribute("visibility", "visible");
+    showTip(e.clientX, e.clientY, `${fmtMonth(d.month)}: ${d.headcount} people, ${d.joiners} joined, ${d.leavers} left`);
+  };
+  svg.onpointerleave = () => { cross.setAttribute("visibility", "hidden"); dot.setAttribute("visibility", "hidden"); hideTip(); };
+}
+drawLine();
+let resizeTimer; addEventListener("resize", () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(drawLine, 120); });
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change", drawLine);
+
+const mt = el("table"); mt.innerHTML = '<thead><tr><th>Month</th><th class="num">Headcount</th><th class="num">Joined</th><th class="num">Left</th></tr></thead>';
+const mb = el("tbody");
+[...D.months].reverse().forEach(d => { const tr = el("tr"); tr.append(el("td", { textContent: fmtMonth(d.month) }), ...[d.headcount, d.joiners, d.leavers].map(v => el("td", { className: "num", textContent: v }))); mb.append(tr); });
+mt.append(mb); $("monthTable").append(mt);
+
+const fill = (id, label, opts) => { $(id).append(el("option", { value: "", textContent: label })); opts.forEach(([v, t]) => $(id).append(el("option", { value: v, textContent: t }))); };
+fill("fSev", "All severities", [["critical", "Critical"], ["high", "High"], ["medium", "Medium"]]);
+fill("fDept", "All departments", [...new Set(D.issues.map(i => i.department))].sort().map(d => [d, d]));
+fill("fRule", "All rules", [...D.rules].sort((a, b) => a.title.localeCompare(b.title)).map(r => [r.id, r.title]));
+
+function render() {
+  const q = state.q.toLowerCase();
+  const list = D.issues.filter(i => (!state.sev || i.severity === state.sev) && (!state.dept || i.department === state.dept)
+    && (!state.rule || i.rule_id === state.rule)
+    && (!q || `${i.employee_id} ${i.title} ${i.detail}`.toLowerCase().includes(q)));
+  $("count").textContent = `${list.length} ${list.length === 1 ? "issue" : "issues"}`;
+  const body = $("rows"); body.replaceChildren();
+  list.slice(0, state.limit).forEach(i => {
+    const tr = el("tr"), problem = el("td");
+    problem.append(el("div", { textContent: i.title }), el("div", { textContent: i.detail, style: "color:var(--ink2);font-size:13px;overflow-wrap:anywhere" }));
+    const severity = el("td"); severity.append(sev(i.severity));
+    tr.append(severity, el("td", { textContent: i.employee_id }), el("td", { textContent: i.department }), problem, el("td", { textContent: i.fix }));
+    body.append(tr);
+  });
+  if (!list.length) { const tr = el("tr"); tr.append(el("td", { colSpan: 5, textContent: "No issues match these filters." })); body.append(tr); }
+  $("more").hidden = list.length <= state.limit;
+  for (const id in ruleButtons) ruleButtons[id].setAttribute("aria-pressed", String(id === state.rule));
+}
+$("q").oninput = e => { state.q = e.target.value; state.limit = 25; render(); };
+$("fSev").onchange = e => { state.sev = e.target.value; state.limit = 25; render(); };
+$("fDept").onchange = e => { state.dept = e.target.value; state.limit = 25; render(); };
+$("fRule").onchange = e => { state.rule = e.target.value; state.limit = 25; render(); };
+$("more").onclick = () => { state.limit += 50; render(); };
+$("clear").onclick = () => { Object.assign(state, { q: "", sev: "", dept: "", rule: "", limit: 25 }); ["q", "fSev", "fDept", "fRule"].forEach(id => $(id).value = ""); render(); };
+render();
+
+function calc() {
+  const hours = D.records * Math.max(0, +$("mins").value || 0) * Math.max(0, +$("runs").value || 0) / 60;
+  $("saved").textContent = `${hours.toFixed(1)} hours a month`;
+}
+$("mins").oninput = calc; $("runs").oninput = calc; calc();
+</script>
+</body>
+</html>
