@@ -1,0 +1,13 @@
+[project]
+name = "hr-data-quality-monitor"
+version = "1.0.0"
+description = "Finds errors in an HR extract and explains how to fix them. All data is synthetic."
+requires-python = ">=3.11"
+dependencies = ["duckdb", "dbt-duckdb"]
+
+[project.optional-dependencies]
+test = ["pytest"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

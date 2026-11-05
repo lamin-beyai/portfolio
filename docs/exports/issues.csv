@@ -1,0 +1,92 @@
+employee_id,department,rule_id,title,severity,dimension,detail,fix
+E00037,Engineering,invalid_hire_date,Hire date cannot be read,critical,Validity,"Hire date reads ""March 2022""",Correct it from the contract.
+E00082,People,invalid_hire_date,Hire date cannot be read,critical,Validity,"Hire date reads ""31/02/2023""",Correct it from the contract.
+E00086,Sales,invalid_hire_date,Hire date cannot be read,critical,Validity,"Hire date reads ""2023-13-01""",Correct it from the contract.
+E00302,Engineering,invalid_hire_date,Hire date cannot be read,critical,Validity,"Hire date reads ""March 2022""",Correct it from the contract.
+E00117,Customer Support,termination_before_hire,Leaving date before hire date,critical,Consistency,"Left 2021-10-20, hired 2022-05-16",Correct whichever date is wrong.
+E00143,Marketing,termination_before_hire,Leaving date before hire date,critical,Consistency,"Left 2019-08-24, hired 2019-12-17",Correct whichever date is wrong.
+E00289,Engineering,termination_before_hire,Leaving date before hire date,critical,Consistency,"Left 2016-08-02, hired 2017-02-25",Correct whichever date is wrong.
+E00413,Operations,termination_before_hire,Leaving date before hire date,critical,Consistency,"Left 2016-05-24, hired 2017-02-01",Correct whichever date is wrong.
+E00047,People,active_with_past_termination,Marked active after the leaving date,critical,Consistency,"Active, but left on 2026-09-25",Confirm the status and close the record if they have left.
+E00063,Sales,active_with_past_termination,Marked active after the leaving date,critical,Consistency,"Active, but left on 2026-05-28",Confirm the status and close the record if they have left.
+E00222,Customer Support,active_with_past_termination,Marked active after the leaving date,critical,Consistency,"Active, but left on 2026-04-19",Confirm the status and close the record if they have left.
+E00343,People,active_with_past_termination,Marked active after the leaving date,critical,Consistency,"Active, but left on 2026-09-26",Confirm the status and close the record if they have left.
+E00184,Engineering,missing_hire_date,No hire date,critical,Completeness,Hire date is blank,Enter the date from the contract.
+E00324,Operations,missing_hire_date,No hire date,critical,Completeness,Hire date is blank,Enter the date from the contract.
+E00363,Operations,missing_hire_date,No hire date,critical,Completeness,Hire date is blank,Enter the date from the contract.
+E00120,People,duplicate_employee_id,Same employee ID on more than one row,critical,Uniqueness,ID appears on 2 rows,Find which row is correct and remove the other at source.
+E00431,Engineering,duplicate_employee_id,Same employee ID on more than one row,critical,Uniqueness,ID appears on 2 rows,Find which row is correct and remove the other at source.
+E00517,Finance,duplicate_employee_id,Same employee ID on more than one row,critical,Uniqueness,ID appears on 2 rows,Find which row is correct and remove the other at source.
+E00068,Engineering,possible_duplicate_person,Same person under two employee IDs,critical,Uniqueness,Same name and birth date as E90001,Confirm with HR and merge the records.
+E00268,Operations,possible_duplicate_person,Same person under two employee IDs,critical,Uniqueness,Same name and birth date as E90002,Confirm with HR and merge the records.
+E00339,Engineering,possible_duplicate_person,Same person under two employee IDs,critical,Uniqueness,Same name and birth date as E90003,Confirm with HR and merge the records.
+E00447,Customer Support,possible_duplicate_person,Same person under two employee IDs,critical,Uniqueness,Same name and birth date as E90004,Confirm with HR and merge the records.
+E90001,Engineering,possible_duplicate_person,Same person under two employee IDs,critical,Uniqueness,Same name and birth date as E00068,Confirm with HR and merge the records.
+E90002,Operations,possible_duplicate_person,Same person under two employee IDs,critical,Uniqueness,Same name and birth date as E00268,Confirm with HR and merge the records.
+E90003,Engineering,possible_duplicate_person,Same person under two employee IDs,critical,Uniqueness,Same name and birth date as E00339,Confirm with HR and merge the records.
+E90004,Customer Support,possible_duplicate_person,Same person under two employee IDs,critical,Uniqueness,Same name and birth date as E00447,Confirm with HR and merge the records.
+E00079,Operations,missing_manager,Active employee with no manager,high,Completeness,Operations Analyst has no manager,Assign the correct manager.
+E00090,Customer Support,missing_manager,Active employee with no manager,high,Completeness,Support Specialist has no manager,Assign the correct manager.
+E00109,Marketing,missing_manager,Active employee with no manager,high,Completeness,Marketing Specialist has no manager,Assign the correct manager.
+E00281,Engineering,missing_manager,Active employee with no manager,high,Completeness,Engineer has no manager,Assign the correct manager.
+E00429,Customer Support,missing_manager,Active employee with no manager,high,Completeness,Support Specialist has no manager,Assign the correct manager.
+E00237,People,fixed_term_missing_end_date,Fixed-term contract with no end date,high,Consistency,Active fixed-term contract has no end date,Add the end date from the contract.
+E00272,Marketing,fixed_term_missing_end_date,Fixed-term contract with no end date,high,Consistency,Active fixed-term contract has no end date,Add the end date from the contract.
+E00379,Engineering,fixed_term_missing_end_date,Fixed-term contract with no end date,high,Consistency,Active fixed-term contract has no end date,Add the end date from the contract.
+E00388,Engineering,fixed_term_missing_end_date,Fixed-term contract with no end date,high,Consistency,Active fixed-term contract has no end date,Add the end date from the contract.
+E00105,Engineering,self_manager,Listed as their own manager,high,Integrity,Manager ID is the same as employee ID,Assign a different manager.
+E00263,Sales,self_manager,Listed as their own manager,high,Integrity,Manager ID is the same as employee ID,Assign a different manager.
+E00321,Engineering,self_manager,Listed as their own manager,high,Integrity,Manager ID is the same as employee ID,Assign a different manager.
+E00040,Marketing,manager_not_found,Manager ID does not exist,high,Integrity,Manager E75811 is not on file,Assign a valid manager.
+E00318,Sales,manager_not_found,Manager ID does not exist,high,Integrity,Manager E76128 is not on file,Assign a valid manager.
+E00390,Engineering,manager_not_found,Manager ID does not exist,high,Integrity,Manager E75886 is not on file,Assign a valid manager.
+E00510,People,manager_not_found,Manager ID does not exist,high,Integrity,Manager E75158 is not on file,Assign a valid manager.
+E00242,Sales,missing_cost_centre,No cost centre,high,Completeness,Sales record has no cost centre,Add the cost centre for the department.
+E00261,Engineering,missing_cost_centre,No cost centre,high,Completeness,Engineering record has no cost centre,Add the cost centre for the department.
+E00323,Finance,missing_cost_centre,No cost centre,high,Completeness,Finance record has no cost centre,Add the cost centre for the department.
+E00338,People,missing_cost_centre,No cost centre,high,Completeness,People record has no cost centre,Add the cost centre for the department.
+E00342,Sales,missing_cost_centre,No cost centre,high,Completeness,Sales record has no cost centre,Add the cost centre for the department.
+E00417,Finance,missing_cost_centre,No cost centre,high,Completeness,Finance record has no cost centre,Add the cost centre for the department.
+E00009,Engineering,reporting_loop,Reporting line loops back on itself,high,Integrity,Reporting line returns to this person: E00009 > E00224 > E00152 > E00009,Correct the manager on at least one person in the loop.
+E00060,Sales,reporting_loop,Reporting line loops back on itself,high,Integrity,Reporting line returns to this person: E00060 > E00206 > E00060,Correct the manager on at least one person in the loop.
+E00152,Operations,reporting_loop,Reporting line loops back on itself,high,Integrity,Reporting line returns to this person: E00152 > E00009 > E00224 > E00152,Correct the manager on at least one person in the loop.
+E00206,Engineering,reporting_loop,Reporting line loops back on itself,high,Integrity,Reporting line returns to this person: E00206 > E00060 > E00206,Correct the manager on at least one person in the loop.
+E00224,Engineering,reporting_loop,Reporting line loops back on itself,high,Integrity,Reporting line returns to this person: E00224 > E00152 > E00009 > E00224,Correct the manager on at least one person in the loop.
+E00137,Finance,manager_inactive,Reports to someone who has left,high,Integrity,Manager E00497 left on 2026-09-04,Move this employee to a current manager.
+E00219,Finance,manager_inactive,Reports to someone who has left,high,Integrity,Manager E00496 left on 2026-08-05,Move this employee to a current manager.
+E00493,Sales,manager_inactive,Reports to someone who has left,high,Integrity,Manager E00110 left on 2026-07-12,Move this employee to a current manager.
+E00021,Engineering,salary_outside_band,Salary outside the band for the level,high,Plausibility,"L2 salary is 410000, band is 38000 to 58000","Check against the contract. If correct, record the approved exception."
+E00131,Finance,salary_outside_band,Salary outside the band for the level,high,Plausibility,"L1 salary is 3050, band is 28000 to 42000","Check against the contract. If correct, record the approved exception."
+E00283,Engineering,salary_outside_band,Salary outside the band for the level,high,Plausibility,"L1 salary is 0, band is 28000 to 42000","Check against the contract. If correct, record the approved exception."
+E00294,Marketing,salary_outside_band,Salary outside the band for the level,high,Plausibility,"L2 salary is 0, band is 38000 to 58000","Check against the contract. If correct, record the approved exception."
+E00330,Engineering,salary_outside_band,Salary outside the band for the level,high,Plausibility,"L1 salary is 3050, band is 28000 to 42000","Check against the contract. If correct, record the approved exception."
+E00333,Sales,salary_outside_band,Salary outside the band for the level,high,Plausibility,"L2 salary is 4600, band is 38000 to 58000","Check against the contract. If correct, record the approved exception."
+E00025,Sales,terminated_without_date,Terminated with no leaving date,high,Consistency,"Status is Terminated, leaving date is blank",Enter the leaving date.
+E00059,Operations,terminated_without_date,Terminated with no leaving date,high,Consistency,"Status is Terminated, leaving date is blank",Enter the leaving date.
+E00139,Engineering,terminated_without_date,Terminated with no leaving date,high,Consistency,"Status is Terminated, leaving date is blank",Enter the leaving date.
+E00403,Marketing,terminated_without_date,Terminated with no leaving date,high,Consistency,"Status is Terminated, leaving date is blank",Enter the leaving date.
+E00350,Marketing,underage_at_hire,Under 16 on the hire date,high,Plausibility,"Born 2012-05-14, hired 2024-11-03",Check against an identity document.
+E00385,Engineering,underage_at_hire,Under 16 on the hire date,high,Plausibility,"Born 2007-05-14, hired 2019-10-29",Check against an identity document.
+E00465,Marketing,underage_at_hire,Under 16 on the hire date,high,Plausibility,"Born 2013-05-14, hired 2025-07-10",Check against an identity document.
+E00026,Engineering,duplicate_email,Work email shared by two employees,high,Uniqueness,Shares riley.quillon@example.com,Give each person a unique address.
+E00035,People,duplicate_email,Work email shared by two employees,high,Uniqueness,Shares quinn.stroud@example.com,Give each person a unique address.
+E00095,People,duplicate_email,Work email shared by two employees,high,Uniqueness,Shares quinn.stroud@example.com,Give each person a unique address.
+E00265,Sales,duplicate_email,Work email shared by two employees,high,Uniqueness,Shares riley.quillon@example.com,Give each person a unique address.
+E00485,Engineering,duplicate_email,Work email shared by two employees,high,Uniqueness,Shares tao.pemberton@example.com,Give each person a unique address.
+E00494,Engineering,duplicate_email,Work email shared by two employees,high,Uniqueness,Shares tao.pemberton@example.com,Give each person a unique address.
+E00027,Engineering,fte_out_of_range,Working time outside 0 to 1,high,Validity,FTE is 0.0,Correct the working-time fraction.
+E00031,Sales,fte_out_of_range,Working time outside 0 to 1,high,Validity,FTE is 0.0,Correct the working-time fraction.
+E00217,Finance,fte_out_of_range,Working time outside 0 to 1,high,Validity,FTE is -1.0,Correct the working-time fraction.
+E00232,Engineering,fte_out_of_range,Working time outside 0 to 1,high,Validity,FTE is 80.0,Correct the working-time fraction.
+E00293,Marketing,future_hire_marked_active,Active before the start date,medium,Consistency,"Active, but starts 2026-11-24",Set the status to pending until the start date.
+E00506,Engineering,future_hire_marked_active,Active before the start date,medium,Consistency,"Active, but starts 2027-01-24",Set the status to pending until the start date.
+E00515,Operations,future_hire_marked_active,Active before the start date,medium,Consistency,"Active, but starts 2026-11-20",Set the status to pending until the start date.
+E00010,Sales,unknown_contract_type,Contract type not on the approved list,medium,Validity,"Contract type reads ""CDI""",Choose an approved contract type.
+E00103,Operations,unknown_contract_type,Contract type not on the approved list,medium,Validity,"Contract type reads ""Perm""",Choose an approved contract type.
+E00199,Sales,unknown_contract_type,Contract type not on the approved list,medium,Validity,"Contract type reads ""CDI""",Choose an approved contract type.
+E00508,Finance,unknown_contract_type,Contract type not on the approved list,medium,Validity,"Contract type reads ""CDI""",Choose an approved contract type.
+E00114,Marketing,invalid_email,Work email format is invalid,medium,Validity,"Email reads ""andrea.lorne at example.com""",Correct the address.
+E00154,Customer Support,invalid_email,Work email format is invalid,medium,Validity,"Email reads ""maxime.marlowe#example.com""",Correct the address.
+E00164,People,invalid_email,Work email format is invalid,medium,Validity,"Email reads ""aya.stroud@@example.com""",Correct the address.
+E00273,Engineering,invalid_email,Work email format is invalid,medium,Validity,"Email reads ""dara.calder at example.com""",Correct the address.
+E00351,Finance,invalid_email,Work email format is invalid,medium,Validity,"Email reads ""ivan.wexley2#example.com""",Correct the address.

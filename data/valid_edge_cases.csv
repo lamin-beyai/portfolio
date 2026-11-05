@@ -1,0 +1,10 @@
+employee_id,reason
+E00001,The chief executive has no manager
+E00227,"Shares a name with a colleague, different birth date"
+E00516,"Shares a name with a colleague, different birth date"
+E00322,Salary exactly at the top of the band
+E00451,Salary exactly at the bottom of the band
+E00108,Very low but valid working time
+E00360,"Active with a future leaving date, so serving notice"
+E00395,Exactly at or just above the minimum working age when hired
+E00234,Joined on the extract date

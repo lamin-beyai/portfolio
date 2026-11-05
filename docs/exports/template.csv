@@ -1,0 +1,4 @@
+employee_id,first_name,last_name,work_email,department,cost_centre,job_title,job_level,manager_id,country,hire_date,termination_date,employment_status,contract_type,contract_end_date,fte,annual_salary_eur,date_of_birth
+E00295,Zoe,Selwyn,zoe.selwyn@example.com,Customer Support,CC300,Support Specialist,L2,E00503,Ireland,2018-05-04,2022-08-22,Terminated,Permanent,,1.0,56000,1983-09-03
+E00246,Ivan,Corwin,ivan.corwin@example.com,Engineering,CC100,Engineer,L1,E00182,France,2018-01-04,2023-06-01,Terminated,Permanent,,1.0,38000,1989-09-02
+E00249,Elio,Nettleton,elio.nettleton@example.com,Operations,CC400,Operations Analyst,L2,E00149,Netherlands,2019-06-05,,Active,Permanent,,0.8,50500,1993-12-05

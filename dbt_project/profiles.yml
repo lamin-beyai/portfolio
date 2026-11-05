@@ -1,0 +1,7 @@
+hr_data_quality:
+  target: local
+  outputs:
+    local:
+      type: duckdb
+      path: ../data/hr.duckdb
+      threads: 2
