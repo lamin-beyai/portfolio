@@ -1,0 +1,4 @@
+All fonts here are under the SIL Open Font License 1.1 (https://openfontlicense.org).
+franklin.woff2: Libre Franklin, The Libre Franklin Project Authors
+carlito*.woff2: Carlito, The Carlito Project Authors
+pen.woff2: Reenie Beanie, James Grieshaber (Typeco)

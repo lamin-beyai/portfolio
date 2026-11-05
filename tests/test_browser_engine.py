@@ -54,3 +54,9 @@ def test_kmeans_rediscovers_the_planted_groups():
 
 def test_kmeans_is_repeatable():
     assert rfm.segments() == rfm.segments()
+
+
+def test_prices_stay_out_of_the_published_page_until_switched_on():
+    from hrdq.site import _page
+    html = "a<!-- prices -->€700<!-- /prices --><!-- noprices -->on request<!-- /noprices -->"
+    assert _page(html) == "aon request"
