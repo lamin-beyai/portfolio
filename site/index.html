@@ -25,7 +25,7 @@
   <a class="brand" href="#top">Lamin Beyai</a>
   <span class="links"><a href="#work">Work</a><a href="#entry-2">Your file</a><a href="#cost">Your cost</a><a href="#how">How it works</a><a href="#hiring">Hiring?</a></span>
   <a class="navcta" href="#contact">Send me a report</a>
-</div></nav>
+</div><i class="navprog" id="navProg" aria-hidden="true"></i></nav>
 
 <header class="hero" id="top">
   <div class="page herohead">
@@ -44,14 +44,14 @@
     </div>
     <div class="fwhy">
       <p id="fWhy"></p>
-      <button class="fixbtn" id="fFix" type="button"></button>
+      <span class="fixacts"><button class="plain" id="fUndo" type="button" hidden>Undo</button><button class="fixbtn" id="fFix" type="button"></button></span>
     </div>
     <div class="grid" tabindex="0" role="region" aria-label="Fictional HR records. Scroll sideways on small screens.">
       <table id="fGrid"></table>
     </div>
     <div class="sheettabs">
       <span class="tab on">hr_extract_october.csv</span>
-      <span class="sheetcount" id="fCount"></span>
+      <span class="dots" id="fDots" aria-hidden="true"></span><span class="sheetcount" id="fCount"></span>
     </div>
   </div>
   <p class="page fine heronote">Every name and number here is fictional. The <span id="hRules"></span> rules behind this sheet are real and run in your browser.</p>
@@ -85,7 +85,9 @@
         <select id="dCountry" aria-label="Country"><option value="">All countries</option></select>
         <button class="plain" type="button" id="dAll" hidden>Show all departments</button>
         <p class="delta" id="dDelta" role="status" aria-live="polite"></p>
+        <button class="plain" type="button" id="dWhy" aria-expanded="false">Show me which records</button>
       </div>
+      <div class="whylist" id="dWhyList" hidden></div>
       <div class="kpis" id="dKpis"></div>
       <div class="panels">
         <figure class="panel"><figcaption>Headcount, last 24 months</figcaption><div id="dLine" class="chart"></div></figure>
@@ -163,8 +165,10 @@
       <label class="ink" for="wFile"><input type="file" id="wFile" accept=".csv,text/csv">Load your CSV</label>
       <a class="tool" href="exports/template.csv" download>Get the template</a>
       <button class="tool" type="button" id="wReset">Back to the sample</button>
+      <span class="drophint">or drop a file anywhere here</span>
     </div>
 
+    <div class="autobar"><button class="ink" type="button" id="wAuto"></button><p id="wAutoNote">Watch the machine do in seconds what takes a person days. Anything that needs judgement stays for a person.</p></div>
     <div class="bench">
       <div class="benchmap">
         <canvas id="wField" role="img" aria-label="Map of records. The issue queue beside it gives the same information as text."></canvas>
@@ -185,6 +189,7 @@
           <button type="button" id="wPrev" aria-label="Previous issue">Previous</button>
           <span id="wPos" aria-live="polite"></span>
           <button type="button" id="wNext" aria-label="Next issue">Next</button>
+          <button type="button" id="wUndo" disabled>Undo</button>
         </div>
         <p class="msg" id="wMsg" role="status" aria-live="polite"></p>
       </div>
@@ -263,7 +268,7 @@
     <p class="lede">The extract has <b id="gIssues"></b> problems, about <b id="gHours"></b> of work. You have 4 hours. Tick what your team fixes before payroll locks.</p>
 
     <div class="dock">
-      <div class="clockrow"><span>Time used</span><b id="gTime">0 of 4h</b></div>
+      <div class="clockrow"><span>Time used</span><span class="protect"><b id="gProtect">€0</b> protected</span><b id="gTime">0 of 4h</b></div>
       <div class="ticks" id="gTicks" role="progressbar" aria-label="Time used, in minutes" aria-valuemin="0" aria-valuemax="240" aria-valuenow="0"></div>
       <div class="dockrow">
         <div class="seg" role="group" aria-label="Sort problems">
@@ -324,10 +329,11 @@
 <footer class="colophon"><div class="page">
   <p>Lamin Beyai, Paris region. Designed by me and built with AI assistance. All challenge data is fictional. No cookies, no tracking.</p>
 </div></footer>
+<div class="dropveil" id="dropVeil" aria-hidden="true"><p>Drop your CSV. It stays on this device.</p></div>
 <div class="tip" id="tip"></div>
 <div class="printout" id="printout" aria-hidden="true"></div>
-<script src="data.js"></script>
-<script src="engine.js"></script>
-<script src="app.js"></script>
+<script src="data.js" defer></script>
+<script src="engine.js" defer></script>
+<script src="app.js" defer></script>
 </body>
 </html>
