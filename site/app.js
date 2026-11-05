@@ -2,7 +2,8 @@
   const P = window.PORTFOLIO, E = window.HRDQ;
   const $ = id => document.getElementById(id);
   const el = (tag, props = {}, ...kids) => { const n = Object.assign(document.createElement(tag), props); n.append(...kids); return n; };
-  const euro = n => "€" + Math.round(n).toLocaleString("en-GB");
+  const money = new Intl.NumberFormat("en-GB");
+  const euro = n => "€" + money.format(Math.round(n));
   const signedEuro = n => (n < 0 ? "−€" : "€") + Math.abs(Math.round(n)).toLocaleString("en-GB");
   const hours = m => { const h = Math.floor(m / 60), r = m % 60; return h && r ? `${h}h ${r}m` : h ? `${h}h` : `${r}m`; };
   const calm = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -10,13 +11,13 @@
   const showTip = (x, y, text) => { tip.textContent = text; tip.style.display = "block"; tip.style.left = Math.max(8, Math.min(x + 14, innerWidth - tip.offsetWidth - 8)) + "px"; tip.style.top = Math.max(8, y - tip.offsetHeight - 12) + "px"; };
   const hideTip = () => tip.style.display = "none";
   const sample = E.parseCsv(P.sampleCsv);
-  function countTo(node, to, format, ms = 900) {
+  function countTo(node, to, format, ms = 520) {
     if (calm) { node.textContent = format(to); return; }
-    const from = node._v || 0, t0 = performance.now();
-    node._v = to;
+    const from = node._now ?? 0, t0 = performance.now(), run = node._run = {};
     (function step(t) {
-      const p = Math.min(1, (t - t0) / ms), e = 1 - Math.pow(1 - p, 3);
-      node.textContent = format(from + (to - from) * e);
+      if (node._run !== run) return;
+      const p = Math.max(0, Math.min(1, (t - t0) / ms)), e = 1 - Math.pow(1 - p, 4);
+      node._now = from + (to - from) * e; node.textContent = format(node._now);
       if (p < 1) requestAnimationFrame(step);
     })(t0);
   }
@@ -145,7 +146,8 @@
   function clearVerdict() { $("gResult").hidden = true; rows.forEach(r => r.classList.remove("best")); }
   function drawGame() {
     const u = used();
-    $("gTime").textContent = `${u ? hours(u) : "0"} of 4h · ${hours(BUDGET - u)} left`;
+    $("gTime").textContent = `${u ? hours(u) : "0"} of 4h, ${hours(BUDGET - u)} left`;
+    countTo($("gProtect"), chosen.reduce((s, id) => s + byId(id).risk, 0), euro, 300);
     $("gTicks").setAttribute("aria-valuenow", u);
     const ticks = $("gTicks").children; let at = 0;
     [...ticks].forEach(t => t.className = "");
@@ -206,7 +208,7 @@
     benchField.set(W.result.data.dim.map(r => { const c = counts.get(r.id); return { id: r.id, sev: c && c.sev, n: c ? c.n : 0, wasBad: W.firstBad.has(r.id), heal: c ? 0 : 1, show: 1 }; }));
   }
   function load(rows, columns, name) {
-    Object.assign(W, { rows: rows.map(r => ({ ...r })), columns, fileName: name, changes: 0, pos: 0 });
+    Object.assign(W, { rows: rows.map(r => ({ ...r })), columns, fileName: name, changes: 0, pos: 0, history: [] });
     W.result = E.check(W.rows, W.columns, W.params, P.rules);
     W.firstBad = new Set(W.result.issues.map(i => i.employee_id));
     $("wFixed").textContent = 0; drawW();
@@ -228,7 +230,8 @@
   const rowOf = id => W.rows.find(r => (r.employee_id || "").trim() === id);
   function apply(issue, field, value) {
     const before = W.result.issues.length;
-    rowOf(issue.employee_id)[field] = value; W.changes++; $("wFixed").textContent = W.changes;
+    const target = rowOf(issue.employee_id);
+    W.history.push([{ row: target, field, old: target[field] }]); target[field] = value; W.changes++; $("wFixed").textContent = W.changes;
     rerun();
     const still = W.result.issues.some(i => i.employee_id === issue.employee_id && i.rule_id === issue.rule_id), left = W.result.issues.length;
     if (still) say(`The rule still fails for ${issue.employee_id}. Try another value.`, true);
@@ -237,7 +240,7 @@
   }
   function removeRow(issue) {
     const at = W.rows.map((r, i) => [(r.employee_id || "").trim(), i]).filter(([id]) => id === issue.employee_id).map(([, i]) => i);
-    W.rows.splice(at[at.length - 1], 1); W.changes++; $("wFixed").textContent = W.changes;
+    const gone = W.rows.splice(at[at.length - 1], 1)[0]; W.history.push([{ removed: gone, index: at[at.length - 1] }]); W.changes++; $("wFixed").textContent = W.changes;
     rerun(); say(`Row removed. ${W.result.issues.length} left.`);
   }
   function drawFocus() {
@@ -283,15 +286,50 @@
       .sort((a, b) => order[a.severity] - order[b.severity] || a.title.localeCompare(b.title) || a.employee_id.localeCompare(b.employee_id));
     W.skippedText = skipped.length ? `${skipped.length} ${skipped.length === 1 ? "rule was" : "rules were"} skipped because columns are missing.` : "";
     drawMap(); drawFocus();
+    const n = safeFixes().length; $("wAuto").textContent = n ? `Apply ${n} suggested fixes` : "No suggested fixes left"; $("wAuto").disabled = !n || W.busy;
+    $("wUndo").disabled = !W.history.length;
   }
+  const safeFixes = () => W.result.issues.map(i => { const row = rowOf(i.employee_id), field = FIX[i.rule_id], to = row && field && W.columns.includes(field) ? suggest(i, row) : null; return { row, field, to }; }).filter(f => f.to && f.to !== f.row[f.field]);
+  function undo() {
+    const step = W.history.pop(); if (!step) return;
+    step.slice().reverse().forEach(c => { if (c.removed) W.rows.splice(c.index, 0, c.removed); else c.row[c.field] = c.old; });
+    W.changes = Math.max(0, W.changes - step.length); $("wFixed").textContent = W.changes; rerun(); say(step.length > 1 ? `Undid ${step.length} changes.` : "Undone.");
+  }
+  $("wUndo").onclick = undo;
+  $("entry-2").addEventListener("keydown", e => {
+    if ((e.metaKey || e.ctrlKey) && e.key === "z" && !/INPUT|SELECT/.test(e.target.tagName)) { e.preventDefault(); undo(); }
+    if (/INPUT|SELECT|TEXTAREA/.test(e.target.tagName)) return;
+    if (e.key === "ArrowRight" && !$("wNext").disabled) $("wNext").click();
+    if (e.key === "ArrowLeft" && !$("wPrev").disabled) $("wPrev").click();
+  });
+  $("wAuto").onclick = async () => {
+    const todo = safeFixes(), started = performance.now(), batch = []; if (!todo.length || W.busy) return;
+    W.busy = true; $("wAuto").disabled = true;
+    for (let k = 0; k < todo.length; k++) {
+      const f = todo[k]; batch.push({ row: f.row, field: f.field, old: f.row[f.field] }); f.row[f.field] = f.to; W.changes++;
+      if (!calm) { $("wFixed").textContent = W.changes; rerun(); say(`Fixing ${k + 1} of ${todo.length}`); await new Promise(r => setTimeout(r, 55)); }
+    }
+    W.history.push(batch); W.busy = false; $("wFixed").textContent = W.changes; rerun();
+    const left = W.result.issues.length, secs = ((performance.now() - started) / 1000).toFixed(1);
+    say(`${todo.length} fixed in ${secs} seconds. ${left} left that need a person's decision. Undo is one click away.`);
+  };
   function mapColumns(head) {
     const norm = s => s.trim().toLowerCase().replace(/[_-]+/g, " "), map = {};
     head.forEach(h => { const n = norm(h), hit = FIELDS.find(f => norm(f) === n || (ALIASES[f] || []).includes(n)); if (hit && !Object.values(map).includes(hit)) map[h] = hit; });
     return map;
   }
-  $("wFile").onchange = e => {
-    const file = e.target.files[0]; e.target.value = "";
-    if (!file) return;
+  $("wFile").onchange = e => { const file = e.target.files[0]; e.target.value = ""; if (file) readFile(file); };
+  let dragDepth = 0; const veil = $("dropVeil"), hasFile = e => [...(e.dataTransfer?.types || [])].includes("Files");
+  addEventListener("dragenter", e => { if (hasFile(e)) { dragDepth++; veil.classList.add("on"); } });
+  addEventListener("dragleave", e => { if (hasFile(e) && --dragDepth <= 0) { dragDepth = 0; veil.classList.remove("on"); } });
+  addEventListener("dragover", e => { if (hasFile(e)) e.preventDefault(); });
+  addEventListener("drop", e => {
+    if (!hasFile(e)) return; e.preventDefault(); dragDepth = 0; veil.classList.remove("on");
+    const file = e.dataTransfer.files[0]; if (!file) return;
+    $("entry-2").scrollIntoView({ behavior: calm ? "auto" : "smooth" });
+    if (/\.csv$/i.test(file.name) || file.type === "text/csv") readFile(file); else say("That isn't a CSV. In Excel, use Save As, then CSV.", true);
+  });
+  function readFile(file) {
     if (file.size > 10 * 1024 * 1024) return say("That file is over 10 MB. Try a smaller extract.", true);
     const reader = new FileReader();
     reader.onerror = () => say("That file couldn't be read.", true);
@@ -305,7 +343,7 @@
       say(`Read ${rows.length.toLocaleString("en-GB")} rows on your device. Matched ${Object.keys(map).length} of ${head.length} columns. ${W.skippedText}`.trim());
     };
     reader.readAsText(file);
-  };
+  }
   $("wReset").onclick = () => { W.params.asOf = P.params.asOf; $("wAsOf").value = P.params.asOf; load(sample.rows, sample.head, "cleaned_hr_data.csv"); say("Back to the sample file."); };
   $("wDownload").onclick = () => {
     const url = URL.createObjectURL(new Blob([E.toCsv(W.columns, W.rows)], { type: "text/csv" }));
@@ -398,7 +436,7 @@
     unknown_contract_type: () => "what contract is this?", future_hire_marked_active: () => "hasn't started yet!",
   };
   const COLS = [["employee_id", "Employee ID", 96], ["name", "Name", 160], ["cost_centre", "Cost centre", 96], ["contract_type", "Contract", 112], ["hire_date", "Start date", 96], ["termination_date", "Leaving date", 104], ["employment_status", "Status", 120], ["work_email", "Work email", 214]];
-  const sheet = { rows: sample.rows.map(r => ({ ...r })), cells: [], at: null };
+  const sheet = { rows: sample.rows.map(r => ({ ...r })), cells: [], at: null, done: [] };
   const perPerson = {}; heroRun.issues.forEach(i => perPerson[i.employee_id] = (perPerson[i.employee_id] || 0) + 1);
   const managers = new Set(sample.rows.map(r => (r.manager_id || "").trim()));
   const seenId = {}; sample.rows.forEach(r => { const k = (r.employee_id || "").trim(); seenId[k] = (seenId[k] || 0) + 1; });
@@ -414,8 +452,8 @@
   const grid = $("fGrid"), letters = "ABCDEFGHIJ";
   grid.classList.add(calm ? "still" : "loading");
   const colgroup = el("colgroup", {}, el("col", { style: "width:46px" }), ...COLS.map(c => { const n = el("col"); n.style.width = c[2] + "px"; return n; }), el("col", { style: "width:230px" }));
-  const letterRow = el("tr", {}, el("th", { className: "rn" }), ...[...COLS, ["", ""]].map((c, i) => el("th", { textContent: letters[i] })));
-  const nameRow = el("tr", {}, el("th", { className: "rn", textContent: "1" }), ...COLS.map(c => el("th", { textContent: c[1], scope: "col" })), el("th", { ariaLabel: "Notes" }));
+  const letterRow = el("tr", {}, el("td", { className: "corner" }), ...[...COLS, ["", ""]].map((c, i) => el("th", { textContent: letters[i] })));
+  const nameRow = el("tr", {}, el("th", { className: "rn", textContent: "1" }), ...COLS.map(c => el("th", { textContent: c[1], scope: "col" })), el("th", {}, el("span", { className: "skip-sr", textContent: "Notes" })));
   const tbody = el("tbody");
   const cellValue = (r, key) => key === "name" ? `${r.first_name} ${r.last_name}` : r[key] || "";
   let order = 0;
@@ -427,12 +465,12 @@
         const v = r[key] || "", btn = el("button", { type: "button", className: "cellbtn" + (v ? "" : " empty") }, el("i", { className: "hl" }), el("span", { className: "v", textContent: v || "blank" }));
         btn.setAttribute("aria-label", `Row ${index + 2}, ${COLS[ci][1]}: ${v || "blank"}. ${flag.issue.title}`);
         btn.setAttribute("aria-pressed", "false");
-        btn.style.setProperty("--i", order); btn.onclick = () => pickCell(flag);
-        Object.assign(flag, { btn, ref: letters[ci] + (index + 2), order }); td.append(btn);
+        btn.style.setProperty("--i", order); btn.onclick = e => { pickCell(flag); if (!e.detail && !flag.fixed) $("fFix").focus({ preventScroll: true }); };
+        Object.assign(flag, { btn, ref: letters[ci] + (index + 2), order, was: v }); td.append(btn);
       } else td.append(el("span", { textContent: cellValue(r, key) }));
       tr.append(td);
     });
-    const note = el("td", { className: "note", textContent: flag ? HERO[flag.issue.rule_id](r) : "" });
+    const note = el("td", { className: "note" }, flag ? el("span", { className: "strike", textContent: HERO[flag.issue.rule_id](r) }) : "");
     if (flag) { note.style.setProperty("--i", order++); flag.note = note; }
     tr.append(note); tbody.append(tr);
   });
@@ -442,7 +480,9 @@
   const sheetRun = () => E.check(sheet.rows, sample.head, P.params, P.rules);
   function sheetCount() {
     const run = sheetRun(), bad = new Set(run.issues.map(i => i.employee_id)).size, left = sheet.cells.filter(c => !c.fixed).length;
-    $("fCount").textContent = `${left} of ${sheet.cells.length} on this screen left to correct. Whole file: ${bad} of ${run.data.dim.length} records still wrong.`;
+    $("fCount").textContent = `${left} of ${sheet.cells.length} left on this screen. Whole file: ${bad} of ${run.data.dim.length} records still wrong.`;
+    $("fDots").replaceChildren(...sheet.cells.map(c => el("i", { className: c.fixed ? "on" : "" })));
+    $("fUndo").hidden = !sheet.done.length;
     return bad;
   }
   function pickCell(c) {
@@ -453,18 +493,33 @@
     const box = grid.parentElement, cell = c.btn.getBoundingClientRect(), view = box.getBoundingClientRect();
     if (cell.left < view.left + 46 || cell.right > view.right) box.scrollTo({ left: box.scrollLeft + cell.left - view.left - 60, behavior: calm ? "auto" : "smooth" });
   }
+  function sheetFinished(bad) {
+    sheet.cells.forEach(x => x.btn.setAttribute("aria-pressed", "false")); sheet.at = null;
+    $("fName").textContent = "A1"; $("fText").textContent = `All ${sheet.cells.length} corrected. Every rule reran each time.`;
+    $("fWhy").textContent = `${bad} more records in this file have the same kind of problem. No person should have to do those by hand.`;
+    const go = $("fFix"); go.hidden = false; go.textContent = "See what a machine does with them";
+  }
   $("fFix").onclick = () => {
-    const c = sheet.at; if (!c || c.fixed) return;
-    sheet.rows[c.index][c.field] = c.to; c.fixed = true;
+    const c = sheet.at;
+    if (!c) { $("story").scrollIntoView({ behavior: calm ? "auto" : "smooth" }); return; }
+    if (c.fixed) return;
+    sheet.rows[c.index][c.field] = c.to; c.fixed = true; sheet.done.push(c);
     c.btn.classList.add("fixed"); c.btn.classList.remove("empty"); c.btn.querySelector(".v").textContent = c.to; c.btn.setAttribute("aria-label", `Corrected to ${c.to}`); c.note.classList.add("done");
     const bad = sheetCount(), next = sheet.cells.find(x => !x.fixed);
     drawDash();
-    if (next) { pickCell(next); $("fFix").focus({ preventScroll: true }); return; }
-    sheet.cells.forEach(x => x.btn.setAttribute("aria-pressed", "false"));
-    $("fName").textContent = "A1"; $("fText").textContent = `All ${sheet.cells.length} corrected, and every rule reran each time.`;
-    $("fWhy").textContent = `${bad} more records in this file have the same kind of problem. That is the part a person should never do by hand.`;
-    const go = $("fFix"); go.textContent = "Try it on your own file"; go.onclick = () => $("entry-2").scrollIntoView({ behavior: calm ? "auto" : "smooth" });
+    if (next) { pickCell(next); $("fFix").focus({ preventScroll: true }); } else sheetFinished(bad);
   };
+  $("fUndo").onclick = () => {
+    const c = sheet.done.pop(); if (!c) return;
+    sheet.rows[c.index][c.field] = c.was; c.fixed = false;
+    c.btn.classList.remove("fixed"); c.btn.classList.toggle("empty", !c.was); c.btn.querySelector(".v").textContent = c.was || "blank"; c.note.classList.remove("done");
+    sheetCount(); drawDash(); pickCell(c);
+  };
+  grid.parentElement.addEventListener("keydown", e => {
+    const move = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key]; if (!move) return;
+    e.preventDefault(); const list = sheet.cells.filter(c => !c.fixed); if (!list.length) return;
+    const at = list.indexOf(sheet.at), next = list[(at + move + list.length) % list.length]; pickCell(next); next.btn.focus({ preventScroll: true });
+  });
   $("hRules").textContent = P.rules.length;
   sheetCount(); if (sheet.cells.length) pickCell(sheet.cells[0]);
 
@@ -487,7 +542,7 @@
   function drawCost() {
     const h = +$("cHours").value, rate = +$("cRate").value, s = +$("cShare").value / 100, year = h * 12 * rate, save = year * s, days = Math.round(h * 12 / 7);
     $("cHoursOut").textContent = h + " h"; $("cRateOut").textContent = "€" + rate; $("cShareOut").textContent = Math.round(s * 100) + "%";
-    $("cDays").textContent = `${days} working days`; $("cYear").textContent = euro(year); $("cSave").textContent = euro(save);
+    $("cDays").textContent = `${days} working days`; countTo($("cYear"), year, euro, 260); countTo($("cSave"), save, euro, 260);
     if (PRICED) { const m = 2800 / (save / 12); $("cPayback").innerHTML = ""; $("cPayback").append(el("span", { textContent: "Audit and sprint pay back in" }), el("b", { textContent: m < 1 ? "under a month" : `about ${Math.ceil(m)} months` })); }
     const name = $("cName").value.trim() || "A report";
     const body = `Hi Lamin,\n\nReport: ${name}\nHours each month: ${h}\nCost of an hour: €${rate}\nShare that could run by itself: ${Math.round(s * 100)}%\nThat comes to about ${euro(save)} a year.\n\nCan we talk for 15 minutes?\n`;
@@ -563,19 +618,27 @@
     labels.forEach((list, s) => { const on = Math.max(0, 1 - Math.abs(sp - s) * 3.2); if (on) { sctx.fillStyle = `rgba(255,255,255,${on})`; list.forEach(l => sctx.fillText(l.text, l.x, l.y)); } });
   }
   const stepsEls = [...document.querySelectorAll(".sstep")];
+  let storyTarget = 0, storyLive = false;
+  function storyTick() {
+    const d = storyTarget - sp;
+    if (Math.abs(d) < .0015) { sp = storyTarget; drawStory(); storyLive = false; return; }
+    sp += d * .11; drawStory(); requestAnimationFrame(storyTick);
+  }
   function storyScroll() {
     const line = innerHeight * .55, tops = stepsEls.map(e => { const r = e.getBoundingClientRect(); return r.top + r.height / 2; });
     let p = 0;
     if (line >= tops[3]) p = 3; else if (line > tops[0]) { const i = tops.findIndex((t, k) => line >= t && line < tops[k + 1]); p = i + (line - tops[i]) / (tops[i + 1] - tops[i]); }
-    if (calm) p = Math.round(p);
     stepsEls.forEach((e, i) => e.classList.toggle("on", Math.round(p) === i));
-    if (p !== sp) { sp = p; drawStory(); }
+    if (calm) { sp = storyTarget = Math.round(p); drawStory(); return; }
+    storyTarget = p; if (!storyLive && Math.abs(p - sp) > .0015) { storyLive = true; requestAnimationFrame(storyTick); }
   }
-  let storyQueued = false;
-  addEventListener("scroll", () => { if (!storyQueued) { storyQueued = true; requestAnimationFrame(() => { storyQueued = false; storyScroll(); }); } }, { passive: true });
-  new ResizeObserver(layoutStory).observe(storyCanvas);
-  document.fonts?.ready.then(drawStory);
-  layoutStory(); storyScroll();
+  let storyQueued = false; const prog = $("navProg");
+  addEventListener("scroll", () => { if (!storyQueued) { storyQueued = true; requestAnimationFrame(() => { storyQueued = false; storyScroll(); prog.style.transform = `scaleX(${scrollY / (document.documentElement.scrollHeight - innerHeight || 1)})`; }); } }, { passive: true });
+  const navLinks = [...document.querySelectorAll(".links a")];
+  const spy = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) navLinks.forEach(a => a.setAttribute("aria-current", String(a.hash === "#" + e.target.id))); }), { rootMargin: "-45% 0px -50% 0px" });
+  ["work", "entry-2", "cost", "how", "hiring", "story", "dash", "contact"].forEach(id => spy.observe($(id)));
+  const later = f => (window.requestIdleCallback || (g => setTimeout(g, 200)))(f, { timeout: 1500 });
+  later(() => { new ResizeObserver(layoutStory).observe(storyCanvas); document.fonts?.ready.then(drawStory); layoutStory(); storyScroll(); });
 
   /* ---------- The dashboard, computed from the sheet as it stands ---------- */
   const D = { mode: "raw", dept: "", country: "" }, asOf = P.params.asOf;
@@ -603,9 +666,9 @@
     const ticks = values.map(v => `<line x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}" stroke="#e4e7ec"/><text x="${L - 6}" y="${y(v) + 4}" text-anchor="end">${v}</text>`).join("");
     const months = [0, 6, 12, 18, 23].map(i => `<text x="${x(i)}" y="${H - 6}" text-anchor="middle">${monthEnds[i].slice(0, 7)}</text>`).join("");
     const path = s.line.map((v, i) => (i ? "L" : "M") + x(i).toFixed(1) + " " + y(v).toFixed(1)).join("");
-    $("dLine").innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Headcount over 24 months, ending at ${s.headcount}">${ticks}${months}<path d="${path}" fill="none" stroke="#1f3bb3" stroke-width="2.5" stroke-linejoin="round"/><circle cx="${x(23)}" cy="${y(s.line[23])}" r="4" fill="#1f3bb3"/><text x="${x(23) + 8}" y="${y(s.line[23]) + 5}" style="font-weight:700;fill:#15171c">${s.line[23]}</text><line id="dCross" y1="${T}" y2="${H - B}" stroke="#15171c" visibility="hidden"/></svg>`;
+    $("dLine").innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Headcount over 24 months, ending at ${s.headcount}">${ticks}${months}<path d="${path}" fill="none" stroke="#1f3bb3" stroke-width="2.5" stroke-linejoin="round"/><circle cx="${x(23)}" cy="${y(s.line[23])}" r="4" fill="#1f3bb3"/><text x="${x(23) + 8}" y="${y(s.line[23]) + 5}" style="font-weight:700;fill:#15171c">${Math.round(s.line[23])}</text><line id="dCross" y1="${T}" y2="${H - B}" stroke="#15171c" visibility="hidden"/></svg>`;
     const svg = $("dLine").firstChild, cross = svg.querySelector("#dCross");
-    const peek = e => { const b = svg.getBoundingClientRect(), i = Math.max(0, Math.min(23, Math.round(((e.clientX - b.left) * W / b.width - L) / ((W - L - R) / 23)))); cross.setAttribute("x1", x(i)); cross.setAttribute("x2", x(i)); cross.setAttribute("visibility", "visible"); showTip(e.clientX, e.clientY, `${monthEnds[i].slice(0, 7)}: ${s.line[i]} people`); };
+    const peek = e => { const b = svg.getBoundingClientRect(), i = Math.max(0, Math.min(23, Math.round(((e.clientX - b.left) * W / b.width - L) / ((W - L - R) / 23)))); cross.setAttribute("x1", x(i)); cross.setAttribute("x2", x(i)); cross.setAttribute("visibility", "visible"); showTip(e.clientX, e.clientY, `${monthEnds[i].slice(0, 7)}: ${Math.round(s.line[i])} people`); };
     svg.onpointermove = peek; svg.onpointerdown = peek; svg.onpointerleave = () => { cross.setAttribute("visibility", "hidden"); hideTip(); };
   }
   function drawFlow(s) {
@@ -613,25 +676,66 @@
     const bars = s.flow.map((f, i) => { const x = L + i * bw + 3; return `<rect data-i="${i}" x="${x}" y="${mid - f.j * sc}" width="${bw - 6}" height="${Math.max(f.j * sc, f.j ? 1 : 0)}" fill="#1f3bb3"/><rect data-i="${i}" x="${x}" y="${mid + 1}" width="${bw - 6}" height="${Math.max(f.l * sc, f.l ? 1 : 0)}" fill="#c9281d"/><rect data-i="${i}" x="${L + i * bw}" y="0" width="${bw}" height="${H - B}" fill="transparent"/>`; }).join("");
     const months = [0, 6, 12, 18, 23].map(i => `<text x="${L + (i + .5) * bw}" y="${H - 5}" text-anchor="middle">${monthEnds[i].slice(0, 7)}</text>`).join("");
     $("dFlow").innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Joiners and leavers by month"><line x1="${L}" x2="${W}" y1="${mid}" y2="${mid}" stroke="#8a90a0"/>${bars}${months}</svg>`;
-    const svg = $("dFlow").firstChild, peek = e => { const i = e.target.dataset?.i; if (i != null) showTip(e.clientX, e.clientY, `${monthEnds[i].slice(0, 7)}: ${s.flow[i].j} joined, ${s.flow[i].l} left`); else hideTip(); };
+    const svg = $("dFlow").firstChild, peek = e => { const i = e.target.dataset?.i; if (i != null) showTip(e.clientX, e.clientY, `${monthEnds[i].slice(0, 7)}: ${Math.round(s.flow[i].j)} joined, ${Math.round(s.flow[i].l)} left`); else hideTip(); };
     svg.onpointermove = peek; svg.onpointerdown = peek; svg.onpointerleave = hideTip;
   }
+  const barNodes = new Map();
   function drawBars(mode) {
     const pool = people(mode).filter(p => (!D.country || p.country === D.country) && here(p, asOf, mode)), n = {};
     pool.forEach(p => { const k = p.dept || "Unassigned"; n[k] = (n[k] || 0) + 1; });
-    const list = Object.entries(n).sort((a, b) => b[1] - a[1]), max = list[0]?.[1] || 1, box = $("dBars"); box.replaceChildren();
+    const list = Object.entries(n).sort((a, b) => b[1] - a[1]), max = list[0]?.[1] || 1, box = $("dBars");
     list.forEach(([d, v]) => {
-      const fill = el("i"); fill.style.transform = `scaleX(${v / max})`;
-      const b = el("button", { type: "button", className: "dbar" + (D.dept && D.dept !== d ? " dim" : "") }, el("span", { textContent: d }), el("span", {}, fill), el("em", { textContent: v }));
-      b.setAttribute("aria-pressed", String(D.dept === d)); b.onclick = () => { D.dept = D.dept === d ? "" : d; drawDash(); }; box.append(b);
+      let b = barNodes.get(d);
+      if (!b) { const fill = el("i"), num = el("em"); b = el("button", { type: "button", className: "dbar" }, el("span", { textContent: d }), el("span", {}, fill), num); b.fill = fill; b.num = num; b.onclick = () => { D.dept = D.dept === d ? "" : d; drawDash(); }; barNodes.set(d, b); }
+      b.fill.style.transform = `scaleX(${v / max})`; countTo(b.num, v, x => String(Math.round(x)), 380);
+      b.classList.toggle("dim", !!D.dept && D.dept !== d); b.setAttribute("aria-pressed", String(D.dept === d)); box.append(b);
     });
+    barNodes.forEach((b, d) => { if (!n[d]) b.remove(); });
   }
+  const kpis = [["headcount"], ["joiners, 12 months"], ["leavers, 12 months"], ["turnover, 12 months"], ["average tenure"]].map(([t]) => { const b = el("b", { textContent: "0" }); $("dKpis").append(el("div", { className: "kpi" }, b, el("span", { textContent: t }))); return b; });
+  let dashNow = null, morphId = 0;
+  function morph(s) {
+    const id = ++morphId, from = dashNow;
+    if (calm || !from) { dashNow = s; drawLine(s); drawFlow(s); return; }
+    const t0 = performance.now(), mix = (a, b, e) => a + (b - a) * e;
+    (function step(t) {
+      if (id !== morphId) return;
+      const p = Math.max(0, Math.min(1, (t - t0) / 460)), e = 1 - Math.pow(1 - p, 4);
+      dashNow = { ...s, line: s.line.map((v, i) => mix(from.line[i], v, e)), flow: s.flow.map((f, i) => ({ j: mix(from.flow[i].j, f.j, e), l: mix(from.flow[i].l, f.l, e) })) };
+      drawLine(dashNow); drawFlow(dashNow);
+      if (p < 1) requestAnimationFrame(step); else { dashNow = s; drawLine(s); drawFlow(s); }
+    })(t0);
+  }
+  function gapRecords() {
+    const seenIds = new Set(), persons = new Set(), out = [];
+    E.stage(sheet.rows).all.forEach((p, i) => {
+      const country = sheet.rows[i].country, key = `${p.first}|${p.last}|${p.dob}`, dupId = !p.id || seenIds.has(p.id), dupPerson = !dupId && p.dob && persons.has(key), kept = !dupId && !dupPerson;
+      if (kept) { seenIds.add(p.id); persons.add(key); }
+      if ((D.dept && p.dept !== D.dept) || (D.country && country !== D.country) || !here(p, asOf, "raw")) return;
+      const why = dupId ? "Second row for the same employee ID" : dupPerson ? "Same person under a second ID" : !here(p, asOf, "clean") ? `Still marked active, left on ${p.term}` : null;
+      if (why) out.push({ id: p.id, name: `${sheet.rows[i].first_name} ${sheet.rows[i].last_name}`, why });
+    });
+    return out;
+  }
+  function showWhy(open) {
+    const box = $("dWhyList"), b = $("dWhy"); b.setAttribute("aria-expanded", String(open)); b.textContent = open ? "Hide the records" : "Show me which records"; box.hidden = !open;
+    if (!open) return;
+    box.replaceChildren(...gapRecords().map(r => { const row = el("button", { type: "button", className: "whyrow" }, el("span", { textContent: r.id }), el("span", { textContent: r.name }), el("span", { textContent: r.why }), el("em", { textContent: "Open it" })); row.onclick = () => openRecord(r.id); return row; }));
+  }
+  function openRecord(id) {
+    $("wSev").value = ""; $("wRule").value = ""; drawW();
+    const at = W.list.findIndex(i => i.employee_id === id);
+    if (at >= 0) { W.pos = at; drawFocus(); say(`Opened ${id}.`); } else say(`${id} passes every rule in the workbench now.`);
+    $("entry-2").scrollIntoView({ behavior: calm ? "auto" : "smooth" });
+  }
+  $("dWhy").onclick = () => showWhy($("dWhy").getAttribute("aria-expanded") !== "true");
   function drawDash() {
     const s = stats(D.mode), raw = stats("raw"), clean = stats("clean"), gap = raw.headcount - clean.headcount;
-    const kpi = (v, t) => el("div", { className: "kpi" }, el("b", { textContent: v }), el("span", { textContent: t }));
-    $("dKpis").replaceChildren(kpi(s.headcount, "headcount"), kpi(s.joiners, "joiners, 12 months"), kpi(s.leavers, "leavers, 12 months"), kpi(s.turnover.toFixed(1) + "%", "turnover, 12 months"), kpi(s.tenure.toFixed(1) + " yrs", "average tenure"));
+    const whole = v => String(Math.round(v)), one = u => v => v.toFixed(1) + u;
+    [[s.headcount, whole], [s.joiners, whole], [s.leavers, whole], [s.turnover, one("%")], [s.tenure, one(" yrs")]].forEach(([v, f], i) => countTo(kpis[i], v, f));
     $("dDelta").textContent = gap ? `The raw export ${gap > 0 ? "overstates" : "understates"} headcount by ${Math.abs(gap)}` : "Raw and checked headcount agree here";
-    drawLine(s); drawFlow(s); drawBars(D.mode);
+    $("dWhy").hidden = !gap; if (!gap) showWhy(false); else if ($("dWhy").getAttribute("aria-expanded") === "true") showWhy(true);
+    morph(s); drawBars(D.mode);
     $("dAll").hidden = !D.dept;
     const t = el("table", {}, el("tr", {}, ...["Month", "Headcount", "Joiners", "Leavers"].map(h => el("th", { textContent: h }))), ...monthEnds.map((m, i) => el("tr", {}, ...[m.slice(0, 7), s.line[i], s.flow[i].j, s.flow[i].l].map(v => el("td", { textContent: v })))));
     $("dTable").replaceChildren(t);
@@ -641,7 +745,7 @@
   $("dAll").onclick = () => { D.dept = ""; drawDash(); };
   [...new Set(sample.rows.map(r => r.country).filter(Boolean))].sort().forEach(c => $("dCountry").append(el("option", { value: c, textContent: c })));
   $("dCountry").onchange = e => { D.country = e.target.value; drawDash(); };
-  drawDash();
+  later(drawDash);
 
   /* ---------- SMD assignments ---------- */
   const JOBS = [[2024, "Gender-integrated climate risk analysis, RICAR project", "WFP, UN Women, FAO", "Analysis"], [2024, "UNDP outcome evaluation, governance response", "UNDP", "Evaluation"], [2024, "Ecosystem-based adaptation exit and sustainability strategy", "Framework and roadmap", "Strategy"], [2024, "Financial literacy and inclusion baseline for women and youth", "NACCUG, DSIK", "Baseline"], [2023, "Youth empowerment through TVET evaluation", "UNESCO, KOICA", "Evaluation"], [2023, "Youth skills and volunteering assessment, Banjul", "UNDP, ILO, UNV", "Analysis"], [2022, "Rural integrated climate adaptation baseline", "WFP", "Baseline"], [2022, "Performance management system enhancement", "Social Security and Housing Finance Corporation", "Strategy"], [2022, "Strategic plan development 2021 to 2025", "National Human Rights Commission", "Strategy"], [2022, "Cross-border resilience and cohesion baseline", "IOM, FAO", "Baseline"]];
@@ -681,4 +785,11 @@
     new IntersectionObserver((e, o) => { if (e[0].isIntersecting) { run(); o.disconnect(); } }, { threshold: .4 }).observe(c);
     draw();
   })();
+
+  /* ---------- Small finishes ---------- */
+  const fillRange = r => r.style.setProperty("--p", 100 * (r.value - r.min) / (r.max - r.min) + "%");
+  document.querySelectorAll("input[type=range]").forEach(r => { fillRange(r); r.addEventListener("input", () => fillRange(r)); });
+  new IntersectionObserver((e, o) => { if (e[0].isIntersecting) { o.disconnect(); kpis.forEach(k => k._now = 0); const base = stats(D.mode), flat = Math.min(...base.line); dashNow = { ...base, line: base.line.map(() => flat), flow: base.flow.map(() => ({ j: 0, l: 0 })) }; drawDash(); } }, { threshold: .25 }).observe($("dKpis"));
+  const big = document.querySelector(".count");
+  if (big && !calm) new IntersectionObserver((e, o) => { if (e[0].isIntersecting) { o.disconnect(); big._now = 0; countTo(big, +big.dataset.to, v => String(Math.round(v)), 1100); } }, { threshold: 1 }).observe(big);
 })();
