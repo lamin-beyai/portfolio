@@ -24,7 +24,7 @@
   /* ---------- The field: one pencil mark per record ---------- */
   function Field(canvas, { cell = 20, maxHeight = 420, onPick, label } = {}) {
     const ctx = canvas.getContext("2d"), f = { marks: [], cols: 1, size: cell };
-    const colors = () => { const c = getComputedStyle(document.documentElement); return { ink: c.getPropertyValue("--ink2").trim(), red: c.getPropertyValue("--red").trim(), blue: c.getPropertyValue("--blue").trim() }; };
+    const colors = () => { const c = getComputedStyle(document.documentElement); return { ink: c.getPropertyValue("--ink2").trim(), red: c.getPropertyValue("--red").trim(), blue: c.getPropertyValue("--pen").trim(), hl: c.getPropertyValue("--hl").trim() }; };
     function fit() {
       const w = canvas.clientWidth || 300, n = Math.max(1, f.marks.length);
       let size = Math.min(cell, Math.max(5, Math.sqrt(w * maxHeight / n)));
@@ -37,7 +37,8 @@
     function shape(m, x, y, s, c) {
       const heal = m.heal, r = s * .3 * (1 - heal) + .01;
       if (heal < 1 && m.sev) {
-        ctx.fillStyle = ctx.strokeStyle = c.red; ctx.globalAlpha = (1 - heal) * m.show;
+        ctx.globalAlpha = (1 - heal) * m.show; ctx.fillStyle = c.hl; ctx.fillRect(x - s * .46, y - s * .46, s * .92, s * .92);
+        ctx.fillStyle = ctx.strokeStyle = c.red;
         if (m.sev === "critical") ctx.fillRect(x - r, y - r, 2 * r, 2 * r);
         else if (m.sev === "high") { ctx.beginPath(); ctx.arc(x, y, r * 1.08, 0, 7); ctx.fill(); }
         else { ctx.lineWidth = Math.max(1.4, s * .09); ctx.beginPath(); ctx.moveTo(x, y - r * 1.25); ctx.lineTo(x + r * 1.25, y); ctx.lineTo(x, y + r * 1.25); ctx.lineTo(x - r * 1.25, y); ctx.closePath(); ctx.stroke(); }
@@ -84,36 +85,16 @@
     if (onPick) canvas.addEventListener("click", e => { const m = at(e); if (m) onPick(m); });
     new ResizeObserver(() => { if (f.marks.length) { fit(); f.draw(); } }).observe(canvas);
     addEventListener("load", () => f.marks.length && f.draw());
-    matchMedia("(prefers-color-scheme: dark)").addEventListener("change", f.draw);
+    document.fonts?.ready.then(() => f.marks.length && f.draw());
     return f;
   }
 
-  /* ---------- Hero ---------- */
+  /* ---------- The file as it arrives ---------- */
   const heroRun = E.check(sample.rows, sample.head, P.params, P.rules);
   const heroBy = new Map();
   heroRun.issues.forEach(i => { if (!heroBy.has(i.employee_id)) heroBy.set(i.employee_id, i); });
   const rank = { critical: 3, high: 2, medium: 1 };
   heroRun.issues.forEach(i => { if (rank[i.severity] > rank[heroBy.get(i.employee_id).severity]) heroBy.set(i.employee_id, i); });
-  const heroField = Field($("heroField"), { cell: 22, maxHeight: 330, label: m => {
-    if (!m.issue) return `${m.id}: clean record`;
-    return m.heal > .5 ? `${m.id}: fixed` : `${m.id}: ${m.issue.title}. ${m.issue.why}`;
-  } });
-  heroField.set(heroRun.data.dim.map(r => { const issue = heroBy.get(r.id); return { id: r.id, issue, sev: issue && issue.severity, wasBad: !!issue, heal: 0, show: calm ? 1 : 0 }; }));
-  heroField.animate("show", () => 1, 1300);
-  const heroTotal = heroRun.data.dim.length, heroBad = heroBy.size;
-  const heroCleanPct = 100 * (heroTotal - heroBad) / heroTotal;
-  $("hRules").textContent = P.rules.length;
-  countTo($("hClean"), heroCleanPct, v => v.toFixed(1) + "%", 1300);
-  countTo($("hBad"), heroBad, v => Math.round(v), 1300);
-  let healed = false;
-  $("hHeal").onclick = () => {
-    healed = !healed;
-    heroField.animate("heal", m => m.wasBad && healed ? 1 : 0, 1100);
-    countTo($("hClean"), healed ? 100 : heroCleanPct, v => v.toFixed(1) + "%", 1100);
-    countTo($("hBad"), healed ? 0 : heroBad, v => Math.round(v), 1100);
-    $("hHeal").textContent = healed ? "Show the errors again" : "Fix the whole file";
-  };
-
   /* ---------- Entry 1: payroll ---------- */
   const IMPACT = { // minutes per issue; months of pay at risk, or a flat euro estimate
     duplicate_employee_id: { min: 30, months: 1 }, possible_duplicate_person: { min: 20, months: 0.5 },
@@ -184,9 +165,9 @@
   $("sTime").onclick = () => sortBy("sTime", (a, b) => a.minutes - b.minutes);
   drawGame();
 
-  const reveal = node => { node.hidden = false; node.focus({ preventScroll: true }); node.scrollIntoView({ block: "center", behavior: calm ? "auto" : "smooth" }); };
+  const reveal = node => { node.hidden = false; node.focus({ preventScroll: true }); node.scrollIntoView({ block: "start", behavior: calm ? "auto" : "smooth" }); };
   const barRow = (name, value, max, cls) => {
-    const fill = el("i"); requestAnimationFrame(() => requestAnimationFrame(() => fill.style.width = 100 * value / max + "%"));
+    const fill = el("i"); requestAnimationFrame(() => requestAnimationFrame(() => fill.style.transform = `scaleX(${value / max})`));
     return el("div", { className: "crow " + cls }, el("span", { textContent: name }), el("div", { className: "bar" }, fill), el("span", { className: "m", textContent: euro(value) }));
   };
   $("gGo").onclick = () => {
@@ -202,9 +183,9 @@
     if (critical.length) r.append(el("p", { textContent: `${critical.length} critical ${critical.length === 1 ? "problem type stays" : "problem types stay"} open, ready for the follow-up list after payroll.` }));
     r.append(el("p", { innerHTML: "<b>The analyst's habit:</b> rank by risk per hour of work, then fix the cause so the problem doesn't return next month." }));
     const show = el("button", { className: "tool", type: "button", textContent: "Show the best plan" });
-    show.onclick = () => { rows.forEach((row, id) => row.classList.toggle("best", game.plan.has(id))); show.textContent = "Marked in blue above"; show.disabled = true; };
+    show.onclick = () => { rows.forEach((row, id) => row.classList.toggle("best", game.plan.has(id))); show.textContent = "Highlighted above"; show.disabled = true; };
     const again = el("button", { className: "tool", type: "button", textContent: "Try again" });
-    again.onclick = () => { chosen.length = 0; rows.forEach(row => row.querySelector("input").checked = false); clearVerdict(); drawGame(); $("entry-1").scrollIntoView(); };
+    again.onclick = () => { chosen.length = 0; rows.forEach(row => row.querySelector("input").checked = false); clearVerdict(); drawGame(); $("entry-1").scrollIntoView({ behavior: calm ? "auto" : "smooth" }); };
     r.append(el("div", { className: "vacts" }, show, again));
     reveal(r);
   };
@@ -377,7 +358,7 @@
     $("rBudgetOut").textContent = euro(a.budget); $("rCostOut").textContent = "€" + a.cost.toFixed(2);
     $("rMarginOut").textContent = Math.round(a.margin * 100) + "%"; $("rOrdersOut").textContent = a.orders;
     $("rUsed").textContent = `${euro(spend)} of ${euro(a.budget)}${over ? " · over budget" : ""}`;
-    $("rTrack").style.width = Math.min(100, 100 * spend / a.budget) + "%";
+    $("rTrack").style.transform = `scaleX(${Math.min(1, spend / a.budget)})`;
     $("rTrack").classList.toggle("over", over);
     $("rProfit").textContent = signedEuro(profit);
     $("rReveal").disabled = over;
@@ -408,5 +389,116 @@
     };
     r.append(el("div", { className: "vacts" }, use));
     reveal(r);
+  };
+
+  /* ---------- The live sheet: the first thing a visitor touches ---------- */
+  const HERO = {
+    active_with_past_termination: r => `left in ${r.termination_date.slice(0, 4)}. still active??`,
+    invalid_email: () => "that's not an email", missing_cost_centre: () => "whose budget is this?",
+    unknown_contract_type: () => "what contract is this?", future_hire_marked_active: () => "hasn't started yet!",
+  };
+  const COLS = [["employee_id", "Employee ID", 96], ["name", "Name", 160], ["cost_centre", "Cost centre", 96], ["contract_type", "Contract", 112], ["hire_date", "Start date", 96], ["termination_date", "Leaving date", 104], ["employment_status", "Status", 120], ["work_email", "Work email", 214]];
+  const sheet = { rows: sample.rows.map(r => ({ ...r })), cells: [], at: null };
+  const perPerson = {}; heroRun.issues.forEach(i => perPerson[i.employee_id] = (perPerson[i.employee_id] || 0) + 1);
+  const managers = new Set(sample.rows.map(r => (r.manager_id || "").trim()));
+  const seenId = {}; sample.rows.forEach(r => { const k = (r.employee_id || "").trim(); seenId[k] = (seenId[k] || 0) + 1; });
+  Object.keys(HERO).forEach(rule => {
+    const hit = heroRun.issues.find(i => i.rule_id === rule && perPerson[i.employee_id] === 1 && seenId[i.employee_id] === 1 && !managers.has(i.employee_id));
+    if (hit) { const index = sheet.rows.findIndex(r => r.employee_id.trim() === hit.employee_id); sheet.cells.push({ issue: hit, index, field: FIX[rule], to: suggest(hit, sheet.rows[index]), fixed: false }); }
+  });
+  const flagged = new Map(sheet.cells.map(c => [c.index, c]));
+  const isClean = i => i < sheet.rows.length && !perPerson[(sheet.rows[i].employee_id || "").trim()];
+  const keep = new Set(flagged.keys());
+  for (const step of [1, 2]) [...flagged.keys()].forEach(i => { if (keep.size < 11 && isClean(i + step)) keep.add(i + step); });
+  const shown = [...keep].sort((a, b) => a - b);
+  const grid = $("fGrid"), letters = "ABCDEFGHIJ";
+  grid.classList.add(calm ? "still" : "loading");
+  const colgroup = el("colgroup", {}, el("col", { style: "width:46px" }), ...COLS.map(c => { const n = el("col"); n.style.width = c[2] + "px"; return n; }), el("col", { style: "width:230px" }));
+  const letterRow = el("tr", {}, el("th", { className: "rn" }), ...[...COLS, ["", ""]].map((c, i) => el("th", { textContent: letters[i] })));
+  const nameRow = el("tr", {}, el("th", { className: "rn", textContent: "1" }), ...COLS.map(c => el("th", { textContent: c[1], scope: "col" })), el("th", { ariaLabel: "Notes" }));
+  const tbody = el("tbody");
+  const cellValue = (r, key) => key === "name" ? `${r.first_name} ${r.last_name}` : r[key] || "";
+  let order = 0;
+  shown.forEach(index => {
+    const r = sheet.rows[index], flag = flagged.get(index), tr = el("tr", {}, el("th", { className: "rn", scope: "row", textContent: index + 2 }));
+    COLS.forEach(([key], ci) => {
+      const td = el("td");
+      if (flag && flag.field === key) {
+        const v = r[key] || "", btn = el("button", { type: "button", className: "cellbtn" + (v ? "" : " empty") }, el("i", { className: "hl" }), el("span", { className: "v", textContent: v || "blank" }));
+        btn.setAttribute("aria-label", `Row ${index + 2}, ${COLS[ci][1]}: ${v || "blank"}. ${flag.issue.title}`);
+        btn.setAttribute("aria-pressed", "false");
+        btn.style.setProperty("--i", order); btn.onclick = () => pickCell(flag);
+        Object.assign(flag, { btn, ref: letters[ci] + (index + 2), order }); td.append(btn);
+      } else td.append(el("span", { textContent: cellValue(r, key) }));
+      tr.append(td);
+    });
+    const note = el("td", { className: "note", textContent: flag ? HERO[flag.issue.rule_id](r) : "" });
+    if (flag) { note.style.setProperty("--i", order++); flag.note = note; }
+    tr.append(note); tbody.append(tr);
+  });
+  grid.append(colgroup, el("thead", {}, letterRow, nameRow), tbody);
+  if (!calm) requestAnimationFrame(() => requestAnimationFrame(() => { grid.classList.remove("loading"); grid.classList.add("drawn"); }));
+  sheet.cells.sort((a, b) => a.index - b.index);
+  const sheetRun = () => E.check(sheet.rows, sample.head, P.params, P.rules);
+  function sheetCount() {
+    const run = sheetRun(), bad = new Set(run.issues.map(i => i.employee_id)).size, left = sheet.cells.filter(c => !c.fixed).length;
+    $("fCount").textContent = `${left} of ${sheet.cells.length} on this screen left to correct. Whole file: ${bad} of ${run.data.dim.length} records still wrong.`;
+    return bad;
+  }
+  function pickCell(c) {
+    sheet.at = c; sheet.cells.forEach(x => x.btn.setAttribute("aria-pressed", String(x === c)));
+    $("fName").textContent = c.ref; $("fText").textContent = c.issue.detail;
+    $("fWhy").textContent = c.issue.why;
+    const b = $("fFix"); b.hidden = c.fixed; b.textContent = `Correct it to ${c.to}`;
+    const box = grid.parentElement, cell = c.btn.getBoundingClientRect(), view = box.getBoundingClientRect();
+    if (cell.left < view.left + 46 || cell.right > view.right) box.scrollTo({ left: box.scrollLeft + cell.left - view.left - 60, behavior: calm ? "auto" : "smooth" });
+  }
+  $("fFix").onclick = () => {
+    const c = sheet.at; if (!c || c.fixed) return;
+    sheet.rows[c.index][c.field] = c.to; c.fixed = true;
+    c.btn.classList.add("fixed"); c.btn.classList.remove("empty"); c.btn.querySelector(".v").textContent = c.to; c.btn.setAttribute("aria-label", `Corrected to ${c.to}`); c.note.classList.add("done");
+    const bad = sheetCount(), next = sheet.cells.find(x => !x.fixed);
+    if (next) { pickCell(next); $("fFix").focus({ preventScroll: true }); return; }
+    sheet.cells.forEach(x => x.btn.setAttribute("aria-pressed", "false"));
+    $("fName").textContent = "A1"; $("fText").textContent = `All ${sheet.cells.length} corrected, and every rule reran each time.`;
+    $("fWhy").textContent = `${bad} more records in this file have the same kind of problem. That is the part a person should never do by hand.`;
+    const go = $("fFix"); go.textContent = "Try it on your own file"; go.onclick = () => $("entry-2").scrollIntoView({ behavior: calm ? "auto" : "smooth" });
+  };
+  $("hRules").textContent = P.rules.length;
+  sheetCount(); if (sheet.cells.length) pickCell(sheet.cells[0]);
+
+  /* ---------- Printable summary of whatever file is loaded ---------- */
+  $("wPrint").onclick = () => {
+    const { issues, data } = W.result, tally = new Map();
+    issues.forEach(i => tally.set(i.title, (tally.get(i.title) || 0) + 1));
+    const affected = new Set(issues.map(i => i.employee_id)).size, total = data.dim.length || 1, out = $("printout");
+    const table = el("table", {}, el("tr", {}, el("th", { textContent: "Problem" }), el("th", { className: "n", textContent: "Records" })),
+      ...[...tally].sort((a, b) => b[1] - a[1]).slice(0, 15).map(([t, n]) => el("tr", {}, el("td", { textContent: t }), el("td", { className: "n", textContent: n }))));
+    out.replaceChildren(el("h1", { textContent: "HR file check" }),
+      el("p", { textContent: `${W.fileName.replace(/_cleaned\.csv$/, ".csv")}, checked ${new Date().toLocaleDateString("en-GB")} as of ${W.params.asOf}.` }),
+      el("p", { textContent: `${total.toLocaleString("en-GB")} records, ${affected.toLocaleString("en-GB")} with at least one problem, ${issues.length.toLocaleString("en-GB")} problems in all. ${(100 * (total - affected) / total).toFixed(1)}% clean.` }),
+      table, el("p", { textContent: "Checked in the browser. The file was never uploaded. Tool by Lamin Beyai, mlfbeyai@outlook.com" }));
+    print();
+  };
+
+  /* ---------- What the report costs ---------- */
+  const PRICED = !!$("cPayback");
+  function drawCost() {
+    const h = +$("cHours").value, rate = +$("cRate").value, s = +$("cShare").value / 100, year = h * 12 * rate, save = year * s, days = Math.round(h * 12 / 7);
+    $("cHoursOut").textContent = h + " h"; $("cRateOut").textContent = "€" + rate; $("cShareOut").textContent = Math.round(s * 100) + "%";
+    $("cDays").textContent = `${days} working days`; $("cYear").textContent = euro(year); $("cSave").textContent = euro(save);
+    if (PRICED) { const m = 2800 / (save / 12); $("cPayback").innerHTML = ""; $("cPayback").append(el("span", { textContent: "Audit and sprint pay back in" }), el("b", { textContent: m < 1 ? "under a month" : `about ${Math.ceil(m)} months` })); }
+    const name = $("cName").value.trim() || "A report";
+    const body = `Hi Lamin,\n\nReport: ${name}\nHours each month: ${h}\nCost of an hour: €${rate}\nShare that could run by itself: ${Math.round(s * 100)}%\nThat comes to about ${euro(save)} a year.\n\nCan we talk for 15 minutes?\n`;
+    $("cSend").href = `mailto:mlfbeyai@outlook.com?subject=${encodeURIComponent(name + ": can this be automated?")}&body=${encodeURIComponent(body)}`;
+  }
+  ["cHours", "cRate", "cShare", "cName"].forEach(id => $(id).oninput = drawCost);
+  drawCost();
+
+  $("copyMail").onclick = async e => {
+    const b = e.currentTarget, was = "Copy mlfbeyai@outlook.com";
+    try { await navigator.clipboard.writeText("mlfbeyai@outlook.com"); b.textContent = "Copied"; }
+    catch { b.textContent = "mlfbeyai@outlook.com"; }
+    setTimeout(() => b.textContent = was, 2200);
   };
 })();

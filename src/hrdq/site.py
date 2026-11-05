@@ -3,13 +3,15 @@ from __future__ import annotations
 
 import csv
 import json
+import re
+import shutil
 from collections import Counter
 from pathlib import Path
 
 from . import rfm
 from .checks import RULES
-from .config import (AS_OF, CONTRACT_TYPES, MIN_WORKING_AGE, RAW_CSV, ROOT, SALARY_BANDS,
-                     SITE_DIR)
+from .config import (AS_OF, CONTRACT_TYPES, MIN_WORKING_AGE, PUBLIC_PRICES, RAW_CSV, ROOT,
+                     SALARY_BANDS, SITE_DIR, SITE_URL)
 
 SOURCE = ROOT / "site"
 
@@ -19,6 +21,16 @@ def _write_csv(path: Path, rows: list[dict]) -> None:
         writer = csv.DictWriter(handle, fieldnames=list(rows[0]))
         writer.writeheader()
         writer.writerows(rows)
+
+
+def _page(html: str) -> str:
+    """Keep prices out of the published file, not merely hidden, until they are switched on."""
+    drop, keep = ("noprices", "prices") if PUBLIC_PRICES else ("prices", "noprices")
+    html = re.sub(rf"<!-- {drop} -->.*?<!-- /{drop} -->", "", html, flags=re.S)
+    html = re.sub(rf"<!-- /?{keep} -->", "", html)
+    if not SITE_URL:
+        html = re.sub(r'\s*<(meta property="og:(image|url)"|link rel="canonical")[^>]*__SITE_URL__[^>]*>', "", html)
+    return html.replace("__SITE_URL__", SITE_URL)
 
 
 def build(con, issues: list[dict], result: dict, seconds: float) -> None:
@@ -73,8 +85,12 @@ def build(con, issues: list[dict], result: dict, seconds: float) -> None:
     payload = json.dumps(data, ensure_ascii=False).replace("</", "<\\/")
     html = (SOURCE / "monitor.html").read_text().replace("/*DATA*/null", payload)
     (SITE_DIR / "monitor.html").write_text(html)
-    for name in ("index.html", "style.css", "engine.js", "app.js"):
+    for name in ("style.css", "engine.js", "app.js", "favicon.svg"):
         (SITE_DIR / name).write_text((SOURCE / name).read_text())
+    shutil.copytree(SOURCE / "fonts", SITE_DIR / "fonts", dirs_exist_ok=True)
+    if (SOURCE / "og.png").exists():
+        shutil.copy(SOURCE / "og.png", SITE_DIR / "og.png")
+    (SITE_DIR / "index.html").write_text(_page((SOURCE / "index.html").read_text()))
     raw = RAW_CSV.read_text()
     lines = raw.splitlines()
     (exports / "template.csv").write_text("\n".join(lines[:4]) + "\n")

@@ -26,3 +26,8 @@ SALARY_BANDS = {
     "L6": (150000, 260000),
 }
 CONTRACT_TYPES = ("Permanent", "Fixed-term", "Apprenticeship")
+
+# Public address, with a trailing slash. Set once the site is published.
+SITE_URL = ""
+# Show prices on the public page. Keep off until the business activity covers this work.
+PUBLIC_PRICES = False

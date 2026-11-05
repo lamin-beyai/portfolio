@@ -23,6 +23,8 @@ static site in docs/  (browser rules in site/engine.js)
 - `src/hrdq/checks.py` holds the 21 rules, in SQL plus a Python graph walk for reporting loops.
 - `src/hrdq/rfm.py` builds RFM features and runs K-means written from scratch.
 - `site/engine.js` is the browser version of the rules.
+- `site/index.html`, `style.css` and `app.js` are the public page. Its idea is a report marked up at month end: highlighter for what is wrong, blue pen for what was corrected.
+- `PUBLIC_PRICES` and `SITE_URL` in `src/hrdq/config.py` control the published page. With prices off, they are left out of the file altogether.
 - `tests/` covers detection, false alarms, browser and Python agreement, and K-means.
 
 ## Run it
