@@ -3,130 +3,179 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Lamin Beyai · Data, BI and HRIS Analyst</title>
+<title>Lamin Beyai, Data Analyst</title>
 <meta name="description" content="An interactive portfolio. Solve three business problems the way a data analyst would. All data is fictional.">
+<meta name="theme-color" content="#e4ece0">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<nav class="top"><div class="wrap navrow">
+<a class="skip" href="#entry-1">Skip to the first challenge</a>
+<nav class="top"><div class="page navrow">
   <a class="brand" href="#top">Lamin Beyai</a>
-  <span class="links"><a href="#payroll">Payroll</a><a href="#workbench">Workbench</a><a href="#winback">Win-back</a><a href="#proof">Real work</a><a href="#contact">Contact</a></span>
+  <span class="links"><a href="#entry-1">Payroll</a><a href="#entry-2">Workbench</a><a href="#entry-3">Win-back</a><a href="#record">Record</a><a class="hire" href="#contact">Contact</a></span>
 </div></nav>
 
-<header class="hero wrap" id="top">
-  <p class="eyebrow">Data, BI and HRIS Analyst · Paris region</p>
-  <h1>Don't read my CV.<br>Solve the problems I solve.</h1>
-  <p class="lede">Three short business challenges, built on working analytics. Make the decisions yourself, then see what the data says.</p>
-  <div class="cards3">
-    <a class="pick" href="#payroll"><span class="n">1</span><b>Payroll closes in 4 hours</b><span>You can't fix everything. What do you fix first?</span><em>About 1 minute</em></a>
-    <a class="pick" href="#workbench"><span class="n">2</span><b>Clean a broken HR file</b><span>Fix records live, or test your own CSV privately.</span><em>Your pace</em></a>
-    <a class="pick" href="#winback"><span class="n">3</span><b>Spend a marketing budget</b><span>Find who is worth contacting. It may not be your best customers.</span><em>About 1 minute</em></a>
+<header class="hero" id="top">
+  <div class="page">
+    <p class="eyebrow">Data, BI and HRIS Analyst · Paris region</p>
+    <h1>Every mark is an employee record. <em>The red ones will cost you money.</em></h1>
   </div>
-  <p class="fine">Every person, company and figure in these challenges is fictional.</p>
+  <div class="page fieldwrap">
+    <canvas id="heroField" role="img" aria-label="A grid of marks, one per employee record in a fictional company. Clean records are small pencil strokes. Records with problems are red shapes."></canvas>
+  </div>
+  <div class="page herofoot">
+    <p class="lede">A fictional company's HR file, checked by <span id="hRules"></span> live rules. Point at or tap a mark to read its record, then solve three business problems below.</p>
+    <div class="herostats">
+      <div><b id="hClean">0%</b><span>of records clean</span></div>
+      <div><b id="hBad">0</b><span>records need work</span></div>
+      <button class="ink" id="hHeal" type="button">Fix the whole file</button>
+    </div>
+  </div>
+  <div class="page">
+    <ol class="index">
+      <li><a href="#entry-1"><span class="no">1</span><b>Payroll closes in 4 hours</b><i></i><small>Prioritisation · 1 min</small></a></li>
+      <li><a href="#entry-2"><span class="no">2</span><b>Clean a broken HR file</b><i></i><small>Data quality · your pace</small></a></li>
+      <li><a href="#entry-3"><span class="no">3</span><b>Spend a win-back budget</b><i></i><small>Customer analytics · 1 min</small></a></li>
+    </ol>
+  </div>
 </header>
 
-<main class="wrap">
+<main>
+<section class="entry" id="entry-1">
+  <div class="page">
+    <header class="ehead"><span class="numeral" aria-hidden="true">1</span><div>
+      <p class="eyebrow">Entry 1 of 3 · Prioritisation</p>
+      <h2>Payroll closes in 4 hours</h2>
+      <p class="lede">The extract has <b id="gIssues"></b> problems, about <b id="gHours"></b> of work. You have 4 hours. Tick what your team fixes before payroll locks.</p>
+    </div></header>
 
-<section class="block" id="payroll">
-  <p class="eyebrow">Challenge 1 · Prioritisation</p>
-  <h2>Payroll closes in 4 hours</h2>
-  <p class="lede2">The HR extract has <b id="gIssues"></b> problems and would take about <b id="gHours"></b> to clear. You have 4. Choose which problems your team fixes before payroll locks.</p>
-  <div class="dock" id="dock">
-    <div class="meter"><div><span>Time used</span><b id="gTime"></b></div><div class="track" role="progressbar" aria-label="Time used" aria-valuemin="0" aria-valuemax="240" id="gTrackWrap"><i id="gTrack"></i></div></div>
-    <button class="primary" id="gGo" type="button">Lock payroll</button>
+    <div class="dock">
+      <div class="clockrow"><span>Time used</span><b id="gTime">0 of 4h</b></div>
+      <div class="ticks" id="gTicks" role="progressbar" aria-label="Time used, in minutes" aria-valuemin="0" aria-valuemax="240" aria-valuenow="0"></div>
+      <div class="dockrow">
+        <div class="seg" role="group" aria-label="Sort problems">
+          <button type="button" id="sCount" aria-pressed="true">Most common</button>
+          <button type="button" id="sRisk" aria-pressed="false">Highest risk</button>
+          <button type="button" id="sTime" aria-pressed="false">Quickest</button>
+        </div>
+        <button class="ink" id="gGo" type="button">Lock payroll</button>
+      </div>
+    </div>
+
+    <div class="ledger" id="gList">
+      <div class="lhead" aria-hidden="true"><span></span><span>Problem</span><span class="r">Records</span><span class="r">Time</span><span class="r">At risk</span></div>
+    </div>
+    <div class="verdict" id="gResult" hidden tabindex="-1"></div>
+    <details class="note"><summary>How the risk figures work</summary><p>The problems are found by the live rules. The risk figures and minutes are fictional estimates for this exercise. Payroll problems use a share of that person's monthly pay. Other problems use a flat estimate of the cost of repairing the damage later.</p></details>
   </div>
-  <div class="options" id="gList"></div>
-  <div class="result" id="gResult" hidden tabindex="-1"></div>
-  <details class="how"><summary>How the risk figures work</summary><p>The risk figures are fictional estimates for this exercise. Payroll problems use one month of that person's salary, or part of it. Other problems use a flat estimate of the cost of fixing the damage later. Minutes are assumptions too. The issues themselves are found by the live rules.</p></details>
 </section>
 
-<section class="block" id="workbench">
-  <p class="eyebrow">Challenge 2 · Data quality</p>
-  <h2>Clean a broken HR file</h2>
-  <p class="lede2">These are <b id="wRuleCount"></b> live rules running in your browser. Fix a record and watch the problem clear, or load your own file.</p>
-  <div class="panel">
-    <div class="wtop">
-      <div class="wstat"><b id="wClean"></b><span id="wCleanText"></span></div>
-      <div class="wstat"><b id="wLeft"></b><span>issues left</span></div>
-      <div class="wstat"><b id="wFixed">0</b><span>changes you made</span></div>
+<section class="entry" id="entry-2">
+  <div class="page">
+    <header class="ehead"><span class="numeral" aria-hidden="true">2</span><div>
+      <p class="eyebrow">Entry 2 of 3 · Data quality</p>
+      <h2>Clean a broken HR file</h2>
+      <p class="lede">Pick a red mark, or follow the queue. Each fix runs all <b id="wRuleCount"></b> rules again, so you see at once whether it worked. You can also load your own CSV.</p>
+    </div></header>
+
+    <div class="bench">
+      <div class="benchmap">
+        <canvas id="wField" role="img" aria-label="Map of records. The issue queue beside it gives the same information as text."></canvas>
+        <div class="legend" aria-hidden="true"><span><i class="k critical"></i>Critical</span><span><i class="k high"></i>High</span><span><i class="k medium"></i>Medium</span><span><i class="k fixed"></i>Fixed</span><span><i class="k clean"></i>Clean</span></div>
+        <div class="benchstats">
+          <div><b id="wClean"></b><span id="wCleanText"></span></div>
+          <div><b id="wLeft"></b><span>issues left</span></div>
+          <div><b id="wFixed">0</b><span>your changes</span></div>
+        </div>
+      </div>
+      <div class="benchq">
+        <div class="qbar">
+          <select id="wSev" aria-label="Show severity"><option value="">All severities</option><option value="critical">Critical</option><option value="high">High</option><option value="medium">Medium</option></select>
+          <select id="wRule" aria-label="Show rule"></select>
+        </div>
+        <div class="focus" id="wFocus"></div>
+        <div class="qnav">
+          <button type="button" id="wPrev" aria-label="Previous issue">Previous</button>
+          <span id="wPos" aria-live="polite"></span>
+          <button type="button" id="wNext" aria-label="Next issue">Next</button>
+        </div>
+        <p class="msg" id="wMsg" role="status" aria-live="polite"></p>
+      </div>
     </div>
-    <div class="track big" aria-hidden="true"><i id="wTrack"></i></div>
-    <div class="tools">
-      <label class="filebtn"><input type="file" id="wFile" accept=".csv,text/csv">Load your CSV</label>
-      <button type="button" id="wReset">Reset to sample</button>
-      <button type="button" id="wDownload">Download cleaned file</button>
-      <a href="exports/template.csv" download>CSV template</a>
+
+    <div class="toolbar">
+      <label class="tool" for="wFile"><input type="file" id="wFile" accept=".csv,text/csv">Load your CSV</label>
+      <button class="tool" type="button" id="wDownload">Download cleaned file</button>
+      <button class="tool" type="button" id="wReset">Reset to sample</button>
+      <a class="tool" href="exports/template.csv" download>Get the CSV template</a>
+      <a class="tool" href="monitor.html">Open the full report</a>
     </div>
-    <p class="fine privacy"><b>Private by design.</b> Your file is read by this page on your device. It is never uploaded, and this site has no server to send it to. Please still avoid real employee data on a shared computer.</p>
-    <p class="msg" id="wMsg" role="status" aria-live="polite"></p>
-    <details class="how"><summary>Change the rules</summary>
+    <p class="fine"><b>Your file stays on your device.</b> This page reads it in your browser. There is no server to send it to, and no tracking. Avoid real employee data on a shared computer.</p>
+    <details class="note"><summary>Change the rules</summary>
       <div class="settings">
-        <label>Salary band tolerance: <output id="wSlackOut">0%</output><input type="range" id="wSlack" min="0" max="30" step="5" value="0"></label>
-        <label>Check as of<input type="date" id="wAsOf"></label>
-        <label>Minimum working age<input type="number" id="wAge" min="14" max="18"></label>
-        <label class="wide">Approved contract types, separated by commas<input type="text" id="wTypes"></label>
+        <label for="wSlack">Salary band tolerance: <output id="wSlackOut">0%</output><input type="range" id="wSlack" min="0" max="30" step="5" value="0"></label>
+        <label for="wAsOf">Check as of<input type="date" id="wAsOf"></label>
+        <label for="wAge">Minimum working age<input type="number" id="wAge" min="14" max="18"></label>
+        <label for="wTypes">Approved contract types, separated by commas<input type="text" id="wTypes"></label>
       </div>
     </details>
-    <div class="filters">
-      <select id="wSev" aria-label="Severity"><option value="">All severities</option><option value="critical">Critical</option><option value="high">High</option><option value="medium">Medium</option></select>
-      <select id="wRule" aria-label="Rule"></select>
-      <input type="search" id="wQ" placeholder="Search by ID or problem" aria-label="Search by ID or problem">
-    </div>
-    <div id="wList"></div>
-    <button type="button" id="wMore" class="more">Show more</button>
   </div>
-  <p class="fine"><a href="monitor.html">See the full report for the sample file</a>, with headcount trends and exports. The same rules also run in Python on dbt and DuckDB, and automated tests confirm both versions agree.</p>
 </section>
 
-<section class="block" id="winback">
-  <p class="eyebrow">Challenge 3 · Customer analytics</p>
-  <h2>Spend a win-back budget</h2>
-  <p class="lede2">An online retailer gives you <b>€<span id="rBudgetTop"></span></b> to contact customers. K-means grouped <b id="rCustomers"></b> customers by recency, frequency and spend, the method from my MSc thesis. Choose who gets contacted.</p>
-  <div class="panel">
-    <div class="rgrid" id="rSegs"></div>
-    <div class="dock flat">
-      <div class="meter"><div><span>Budget used</span><b id="rUsed"></b></div><div class="track" aria-hidden="true"><i id="rTrack"></i></div></div>
-      <div class="wstat small"><b id="rProfit"></b><span>expected extra profit</span></div>
-      <button class="primary" id="rReveal" type="button">Compare with the data</button>
+<section class="entry" id="entry-3">
+  <div class="page">
+    <header class="ehead"><span class="numeral" aria-hidden="true">3</span><div>
+      <p class="eyebrow">Entry 3 of 3 · Customer analytics</p>
+      <h2>Spend a win-back budget</h2>
+      <p class="lede">A retailer gives you <b>€<span id="rBudgetTop"></span></b>. K-means grouped <b id="rCustomers"></b> customers by recency, frequency and spend, the method from my MSc thesis. Decide who gets contacted.</p>
+    </div></header>
+    <div class="ledger rledger" id="rSegs"></div>
+    <div class="spend">
+      <div class="clockrow"><span>Budget used</span><b id="rUsed"></b></div>
+      <div class="bartrack" aria-hidden="true"><i id="rTrack"></i></div>
+      <div class="dockrow">
+        <div class="bignum"><b id="rProfit"></b><span>expected extra profit</span></div>
+        <button class="ink" id="rReveal" type="button">Compare with the data</button>
+      </div>
     </div>
-    <div class="result" id="rResult" hidden tabindex="-1"></div>
-    <details class="how"><summary>Change the assumptions</summary>
+    <div class="verdict" id="rResult" hidden tabindex="-1"></div>
+    <details class="note"><summary>Change the assumptions</summary>
       <div class="settings">
-        <label>Budget: <output id="rBudgetOut"></output><input type="range" id="rBudget" min="500" max="4000" step="100" value="1500"></label>
-        <label>Cost per contact: <output id="rCostOut"></output><input type="range" id="rCost" min="1" max="10" step="0.5" value="3"></label>
-        <label>Profit margin: <output id="rMarginOut"></output><input type="range" id="rMargin" min="20" max="70" step="5" value="40"></label>
-        <label>Orders from a won-back customer: <output id="rOrdersOut"></output><input type="range" id="rOrders" min="1" max="8" step="1" value="4"></label>
+        <label for="rBudget">Budget: <output id="rBudgetOut"></output><input type="range" id="rBudget" min="500" max="4000" step="100" value="1500"></label>
+        <label for="rCost">Cost per contact: <output id="rCostOut"></output><input type="range" id="rCost" min="1" max="10" step="0.5" value="3"></label>
+        <label for="rMargin">Profit margin: <output id="rMarginOut"></output><input type="range" id="rMargin" min="20" max="70" step="5" value="40"></label>
+        <label for="rOrders">Orders from a won-back customer: <output id="rOrdersOut"></output><input type="range" id="rOrders" min="1" max="8" step="1" value="4"></label>
       </div>
       <p>The extra buyers per segment are assumptions. In a real project they would come from a test group that received no offer.</p>
     </details>
   </div>
 </section>
 
-<section class="block" id="proof">
-  <p class="eyebrow">Real work, not a simulation</p>
-  <h2>What I delivered at Capital Fund Management</h2>
-  <p class="lede2">As HR Business Analyst, I noticed manual HR data validation was taking hours, proposed automating it, and built it.</p>
-  <div class="facts">
-    <div><b>About 20 hours</b><span>of manual reconciliation saved each week</span></div>
-    <div><b>51 checks</b><span>across 500+ employee records in SAP SuccessFactors</span></div>
-    <div><b>Handed over</b><span>HR colleagues trained, with user guides and SOPs</span></div>
-  </div>
-  <p class="fine">No CFM code, data or documents appear on this site. The challenges above were built separately on fictional data.</p>
-  <div class="skills">
-    <div><h3>Data and BI</h3><p>Python, SQL, dbt, Snowflake, DuckDB, Power BI, Tableau, Excel</p></div>
-    <div><h3>HR systems</h3><p>SAP SuccessFactors Employee Central, Story Reports, UAT, process mapping</p></div>
-    <div><h3>Delivery</h3><p>Requirements, stakeholder work, monitoring and evaluation, training</p></div>
-    <div><h3>Education</h3><p>MSc Data Analytics and Artificial Intelligence, EDHEC Business School</p></div>
+<section class="record" id="record">
+  <div class="page">
+    <p class="eyebrow">The real record · Capital Fund Management</p>
+    <p class="huge">About 20 hours a week of manual reconciliation, saved.</p>
+    <div class="recgrid">
+      <p class="lede">As HR Business Analyst, I saw how long manual HR data validation was taking, proposed automating it, and built a Python data-quality system for SAP SuccessFactors. It ran 51 checks across 500+ employee records. I trained HR colleagues and wrote the guides, so it kept running.</p>
+      <dl class="skills">
+        <div><dt>Data and BI</dt><dd>Python, SQL, dbt, Snowflake, DuckDB, Power BI, Tableau, Excel</dd></div>
+        <div><dt>HR systems</dt><dd>SAP SuccessFactors Employee Central, Story Reports, UAT</dd></div>
+        <div><dt>Delivery</dt><dd>Requirements, process mapping, monitoring and evaluation, training</dd></div>
+        <div><dt>Education</dt><dd>MSc Data Analytics and Artificial Intelligence, EDHEC Business School</dd></div>
+      </dl>
+    </div>
+    <p class="fine">No CFM code, data or documents appear on this site. The challenges above were built separately on fictional data.</p>
   </div>
 </section>
 
-<section class="block contact" id="contact">
-  <h2>Have a problem like these?</h2>
-  <p class="lede2">I'm looking for data, BI and HRIS analyst roles in France. I work in English, and my French is A2 and improving.</p>
-  <p class="cta"><a class="primary" href="https://www.linkedin.com/in/lamin-beyai/">Message me on LinkedIn</a><a class="plain" href="mailto:mlfbeyai@outlook.com">mlfbeyai@outlook.com</a></p>
+<section class="sign" id="contact">
+  <div class="page">
+    <h2>Have a file like this one?</h2>
+    <p class="lede">I'm looking for data, BI and HRIS analyst roles in France. I work in English, and my French is A2 and improving.</p>
+    <p class="cta"><a class="ink" href="https://www.linkedin.com/in/lamin-beyai/">Message me on LinkedIn</a><a href="mailto:mlfbeyai@outlook.com">mlfbeyai@outlook.com</a></p>
+    <p class="colophon">Designed by Lamin Beyai and built with AI assistance. All challenge data is fictional. This page uses no cookies or tracking.</p>
+  </div>
 </section>
-
-<footer>Designed by Lamin Beyai and built with AI assistance. All challenge data is fictional. This page uses no cookies or tracking.</footer>
 </main>
 <div class="tip" id="tip"></div>
 <script src="data.js"></script>
