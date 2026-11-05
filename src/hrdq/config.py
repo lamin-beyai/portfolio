@@ -28,6 +28,6 @@ SALARY_BANDS = {
 CONTRACT_TYPES = ("Permanent", "Fixed-term", "Apprenticeship")
 
 # Public address, with a trailing slash. Set once the site is published.
-SITE_URL = "https://modoubeyai.github.io/portfolio/"
+SITE_URL = "https://lamin-beyai.github.io/portfolio/"
 # Show prices on the public page. Keep off until the business activity covers this work.
 PUBLIC_PRICES = False
