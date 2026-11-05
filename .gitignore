@@ -12,3 +12,4 @@ logs/
 .claude/
 INTERVIEW_NOTES.md
 dbt_project/.user.yml
+private/

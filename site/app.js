@@ -458,6 +458,7 @@
     sheet.rows[c.index][c.field] = c.to; c.fixed = true;
     c.btn.classList.add("fixed"); c.btn.classList.remove("empty"); c.btn.querySelector(".v").textContent = c.to; c.btn.setAttribute("aria-label", `Corrected to ${c.to}`); c.note.classList.add("done");
     const bad = sheetCount(), next = sheet.cells.find(x => !x.fixed);
+    drawDash();
     if (next) { pickCell(next); $("fFix").focus({ preventScroll: true }); return; }
     sheet.cells.forEach(x => x.btn.setAttribute("aria-pressed", "false"));
     $("fName").textContent = "A1"; $("fText").textContent = `All ${sheet.cells.length} corrected, and every rule reran each time.`;
@@ -501,4 +502,183 @@
     catch { b.textContent = "mlfbeyai@outlook.com"; }
     setTimeout(() => b.textContent = was, 2200);
   };
+
+  /* ---------- A personal page, from a link: ?for=Company&n=Name ---------- */
+  (function personal() {
+    const q = new URLSearchParams(location.search), safe = v => { const t = (v || "").trim(); return /^[\p{L}\p{N} &.'’-]{1,40}$/u.test(t) ? t : ""; };
+    const who = safe(q.get("for")), name = safe(q.get("n"));
+    if (!who) return;
+    document.querySelector("h1").textContent = `Someone at ${who} checks this by hand every month.`;
+    document.title = `For ${who}: Lamin Beyai`;
+    if (name) document.querySelector(".herohead").before(el("p", { className: "page forwho", textContent: `${name}, I made this for you. Try the yellow cells.` }));
+    document.querySelector(".tab").textContent = who.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, "_") + "_hr_extract.csv";
+    document.querySelector(".heronote").prepend(`This is not ${who}'s data. `);
+    $("mailMe").href = `mailto:mlfbeyai@outlook.com?subject=${encodeURIComponent(who + ": a report that takes too long")}`;
+  })();
+
+  /* ---------- The scroll story: every record, sorted, fixed, rebuilt ---------- */
+  const storyCanvas = $("storyCanvas"), sctx = storyCanvas.getContext("2d");
+  $("sN").textContent = heroRun.data.dim.length; $("sR").textContent = P.rules.length;
+  const worst = new Map(); heroRun.issues.forEach(i => { if (!worst.has(i.employee_id) || rank[i.severity] > rank[worst.get(i.employee_id)]) worst.set(i.employee_id, i.severity); });
+  const marks = heroRun.data.dim.map(r => ({ dept: r.dept || "Unassigned", active: r.status === "Active", sev: worst.get(r.id) || null, seed: (r.id.charCodeAt(5) * 37 + r.id.charCodeAt(4) * 11) % 100 / 100 }));
+  const RGB = { clean: [255, 255, 255, .42], bad: [255, 232, 61, 1], critical: [255, 107, 94, 1], fixed: [150, 170, 255, 1], gone: [255, 255, 255, .05] };
+  const startColour = m => m.sev === "critical" ? RGB.critical : m.sev ? RGB.bad : RGB.clean;
+  let stages = [], labels = [], sw = 0, sh = 0, sp = 0;
+  function layoutStory() {
+    const dpr = devicePixelRatio || 1; sw = storyCanvas.clientWidth; sh = storyCanvas.clientHeight; if (!sw || !sh) return;
+    storyCanvas.width = sw * dpr; storyCanvas.height = sh * dpr; sctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const small = sw < 520, n = marks.length, cell = Math.floor(Math.sqrt(sw * sh * .8 / n)), cols = Math.floor(sw / cell), ox = (sw - cols * cell) / 2, oy = (sh - Math.ceil(n / cols) * cell) / 2;
+    const home = marks.map((m, i) => [ox + (i % cols) * cell, oy + Math.floor(i / cols) * cell]);
+    const c2 = Math.max(4, Math.floor(cell * .72)), groups = [["critical", "Critical"], ["high", "High"], ["medium", "Medium"]], top = small ? 44 : 34, gw = sw / 5.2, sorted = new Array(n), l1 = [];
+    const cleanCols = Math.floor(sw * .4 / c2); let k = 0;
+    marks.forEach((m, i) => { if (!m.sev) { sorted[i] = [(k % cleanCols) * c2, top + Math.floor(k / cleanCols) * c2]; k++; } });
+    if (small) l1.push({ text: "Clean", x: 0, y: 14 }, { text: String(k), x: 0, y: 32 }); else l1.push({ text: `Clean ${k}`, x: 0, y: 20 });
+    groups.forEach(([sev, name], g) => {
+      const x0 = sw * .46 + g * gw, per = Math.max(1, Math.floor((gw - 10) / c2)); let j = 0;
+      marks.forEach((m, i) => { if (m.sev === sev) { sorted[i] = [x0 + (j % per) * c2, top + Math.floor(j / per) * c2]; j++; } });
+      if (small) l1.push({ text: name, x: x0, y: 14 }, { text: String(j), x: x0, y: 32 }); else l1.push({ text: `${name} ${j}`, x: x0, y: 20 });
+    });
+    const depts = [...new Set(marks.filter(m => m.active).map(m => m.dept))].sort((a, b) => marks.filter(m => m.active && m.dept === b).length - marks.filter(m => m.active && m.dept === a).length);
+    const rowH = (sh - 10) / depts.length, labelW = small ? 118 : 136, maxN = Math.max(...depts.map(d => marks.filter(m => m.active && m.dept === d).length));
+    const barW = sw - labelW - 44, c3 = Math.max(3, Math.floor(Math.sqrt(barW * rowH * .66 / maxN))), rowsPer = Math.max(1, Math.ceil(maxN * c3 / barW)), bars = new Array(n), l3 = [];
+    depts.forEach((d, r) => {
+      let j = 0; marks.forEach((m, i) => { if (m.active && m.dept === d) { bars[i] = [labelW + Math.floor(j / rowsPer) * c3, r * rowH + (rowH - rowsPer * c3) / 2 + (j % rowsPer) * c3]; j++; } });
+      l3.push({ text: d, x: 0, y: r * rowH + rowH / 2 + 4 }, { text: String(j), x: labelW + Math.ceil(j / rowsPer) * c3 + 8, y: r * rowH + rowH / 2 + 4 });
+    });
+    marks.forEach((m, i) => { if (!bars[i]) bars[i] = home[i]; });
+    stages = [{ pos: home, size: cell * .78, colour: startColour }, { pos: sorted, size: c2 * .8, colour: startColour }, { pos: home, size: cell * .78, colour: m => m.sev ? RGB.fixed : RGB.clean }, { pos: bars, size: c3 * .84, colour: m => m.active ? RGB.fixed : RGB.gone }];
+    labels = [[], l1, [], l3]; drawStory();
+  }
+  const smooth = t => t * t * (3 - 2 * t);
+  function drawStory() {
+    if (!stages.length) return;
+    sctx.clearRect(0, 0, sw, sh);
+    const a = Math.min(2, Math.floor(sp)), b = a + 1, raw = sp - a, A = stages[a], B = stages[b];
+    marks.forEach((m, i) => {
+      const t = smooth(Math.max(0, Math.min(1, raw * 1.5 - m.seed * .5))), ca = A.colour(m), cb = B.colour(m), mix = q => ca[q] + (cb[q] - ca[q]) * t, size = A.size + (B.size - A.size) * t;
+      sctx.fillStyle = `rgba(${mix(0) | 0},${mix(1) | 0},${mix(2) | 0},${mix(3)})`;
+      sctx.fillRect(A.pos[i][0] + (B.pos[i][0] - A.pos[i][0]) * t, A.pos[i][1] + (B.pos[i][1] - A.pos[i][1]) * t, size, size);
+    });
+    sctx.font = `600 ${sw < 520 ? 12 : 14}px Franklin, Arial, sans-serif`;
+    labels.forEach((list, s) => { const on = Math.max(0, 1 - Math.abs(sp - s) * 3.2); if (on) { sctx.fillStyle = `rgba(255,255,255,${on})`; list.forEach(l => sctx.fillText(l.text, l.x, l.y)); } });
+  }
+  const stepsEls = [...document.querySelectorAll(".sstep")];
+  function storyScroll() {
+    const line = innerHeight * .55, tops = stepsEls.map(e => { const r = e.getBoundingClientRect(); return r.top + r.height / 2; });
+    let p = 0;
+    if (line >= tops[3]) p = 3; else if (line > tops[0]) { const i = tops.findIndex((t, k) => line >= t && line < tops[k + 1]); p = i + (line - tops[i]) / (tops[i + 1] - tops[i]); }
+    if (calm) p = Math.round(p);
+    stepsEls.forEach((e, i) => e.classList.toggle("on", Math.round(p) === i));
+    if (p !== sp) { sp = p; drawStory(); }
+  }
+  let storyQueued = false;
+  addEventListener("scroll", () => { if (!storyQueued) { storyQueued = true; requestAnimationFrame(() => { storyQueued = false; storyScroll(); }); } }, { passive: true });
+  new ResizeObserver(layoutStory).observe(storyCanvas);
+  document.fonts?.ready.then(drawStory);
+  layoutStory(); storyScroll();
+
+  /* ---------- The dashboard, computed from the sheet as it stands ---------- */
+  const D = { mode: "raw", dept: "", country: "" }, asOf = P.params.asOf;
+  const monthEnds = Array.from({ length: 24 }, (_, i) => { const d = new Date(Date.UTC(+asOf.slice(0, 4), +asOf.slice(5, 7) - 23 + i, 0)); return d.toISOString().slice(0, 10); });
+  function people(mode) {
+    const staged = E.stage(sheet.rows).all.map((p, i) => ({ ...p, country: sheet.rows[i].country }));
+    if (mode === "raw") return staged;
+    const ids = new Set(), persons = new Set();
+    return staged.filter(p => { const key = `${p.first}|${p.last}|${p.dob}`; if (!p.id || ids.has(p.id) || (p.dob && persons.has(key))) return false; ids.add(p.id); persons.add(key); return true; });
+  }
+  const here = (p, d, mode) => p.hire && p.hire <= d && (mode === "raw" ? p.status === "Active" || !p.term || p.term > d : !p.term || p.term > d);
+  function stats(mode) {
+    const list = people(mode).filter(p => (!D.dept || p.dept === D.dept) && (!D.country || p.country === D.country));
+    const line = monthEnds.map(d => list.filter(p => here(p, d, mode)).length), start = monthEnds[11];
+    const inMonth = (v, i) => v && v.slice(0, 7) === monthEnds[i].slice(0, 7);
+    const flow = monthEnds.map((_, i) => ({ j: list.filter(p => inMonth(p.hire, i)).length, l: list.filter(p => inMonth(p.term, i)).length }));
+    const year = flow.slice(12), joiners = year.reduce((s, f) => s + f.j, 0), leavers = year.reduce((s, f) => s + f.l, 0), avg = line.slice(12).reduce((s, v) => s + v, 0) / 12 || 1;
+    const now = list.filter(p => here(p, asOf, mode)), tenure = now.reduce((s, p) => s + (Date.parse(asOf) - Date.parse(p.hire)) / 31557600000, 0) / (now.length || 1);
+    return { line, flow, joiners, leavers, turnover: 100 * leavers / avg, tenure, headcount: line[23], now, start };
+  }
+  const niceStep = span => { const m = 10 ** Math.floor(Math.log10(Math.max(span, 1) / 4)), r = span / 4 / m; return Math.max(1, (r <= 1 ? 1 : r <= 2 ? 2 : r <= 5 ? 5 : 10) * m); };
+  function drawLine(s) {
+    const W = 680, H = 230, L = 38, R = 44, T = 12, B = 24, top = Math.max(...s.line, 1), low = Math.min(...s.line), step = niceStep(Math.max(top - low, 4)), lo = Math.floor(low / step) * step, hi = Math.ceil(top / step) * step, x = i => L + i * (W - L - R) / 23, y = v => H - B - (v - lo) * (H - T - B) / (hi - lo || 1);
+    const values = []; for (let v = lo; v <= hi; v += step) values.push(v);
+    const ticks = values.map(v => `<line x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}" stroke="#e4e7ec"/><text x="${L - 6}" y="${y(v) + 4}" text-anchor="end">${v}</text>`).join("");
+    const months = [0, 6, 12, 18, 23].map(i => `<text x="${x(i)}" y="${H - 6}" text-anchor="middle">${monthEnds[i].slice(0, 7)}</text>`).join("");
+    const path = s.line.map((v, i) => (i ? "L" : "M") + x(i).toFixed(1) + " " + y(v).toFixed(1)).join("");
+    $("dLine").innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Headcount over 24 months, ending at ${s.headcount}">${ticks}${months}<path d="${path}" fill="none" stroke="#1f3bb3" stroke-width="2.5" stroke-linejoin="round"/><circle cx="${x(23)}" cy="${y(s.line[23])}" r="4" fill="#1f3bb3"/><text x="${x(23) + 8}" y="${y(s.line[23]) + 5}" style="font-weight:700;fill:#15171c">${s.line[23]}</text><line id="dCross" y1="${T}" y2="${H - B}" stroke="#15171c" visibility="hidden"/></svg>`;
+    const svg = $("dLine").firstChild, cross = svg.querySelector("#dCross");
+    const peek = e => { const b = svg.getBoundingClientRect(), i = Math.max(0, Math.min(23, Math.round(((e.clientX - b.left) * W / b.width - L) / ((W - L - R) / 23)))); cross.setAttribute("x1", x(i)); cross.setAttribute("x2", x(i)); cross.setAttribute("visibility", "visible"); showTip(e.clientX, e.clientY, `${monthEnds[i].slice(0, 7)}: ${s.line[i]} people`); };
+    svg.onpointermove = peek; svg.onpointerdown = peek; svg.onpointerleave = () => { cross.setAttribute("visibility", "hidden"); hideTip(); };
+  }
+  function drawFlow(s) {
+    const W = 1060, H = 170, L = 30, B = 22, mid = 84, max = Math.max(...s.flow.flatMap(f => [f.j, f.l]), 1), bw = (W - L) / 24, sc = (mid - 10) / max;
+    const bars = s.flow.map((f, i) => { const x = L + i * bw + 3; return `<rect data-i="${i}" x="${x}" y="${mid - f.j * sc}" width="${bw - 6}" height="${Math.max(f.j * sc, f.j ? 1 : 0)}" fill="#1f3bb3"/><rect data-i="${i}" x="${x}" y="${mid + 1}" width="${bw - 6}" height="${Math.max(f.l * sc, f.l ? 1 : 0)}" fill="#c9281d"/><rect data-i="${i}" x="${L + i * bw}" y="0" width="${bw}" height="${H - B}" fill="transparent"/>`; }).join("");
+    const months = [0, 6, 12, 18, 23].map(i => `<text x="${L + (i + .5) * bw}" y="${H - 5}" text-anchor="middle">${monthEnds[i].slice(0, 7)}</text>`).join("");
+    $("dFlow").innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Joiners and leavers by month"><line x1="${L}" x2="${W}" y1="${mid}" y2="${mid}" stroke="#8a90a0"/>${bars}${months}</svg>`;
+    const svg = $("dFlow").firstChild, peek = e => { const i = e.target.dataset?.i; if (i != null) showTip(e.clientX, e.clientY, `${monthEnds[i].slice(0, 7)}: ${s.flow[i].j} joined, ${s.flow[i].l} left`); else hideTip(); };
+    svg.onpointermove = peek; svg.onpointerdown = peek; svg.onpointerleave = hideTip;
+  }
+  function drawBars(mode) {
+    const pool = people(mode).filter(p => (!D.country || p.country === D.country) && here(p, asOf, mode)), n = {};
+    pool.forEach(p => { const k = p.dept || "Unassigned"; n[k] = (n[k] || 0) + 1; });
+    const list = Object.entries(n).sort((a, b) => b[1] - a[1]), max = list[0]?.[1] || 1, box = $("dBars"); box.replaceChildren();
+    list.forEach(([d, v]) => {
+      const fill = el("i"); fill.style.transform = `scaleX(${v / max})`;
+      const b = el("button", { type: "button", className: "dbar" + (D.dept && D.dept !== d ? " dim" : "") }, el("span", { textContent: d }), el("span", {}, fill), el("em", { textContent: v }));
+      b.setAttribute("aria-pressed", String(D.dept === d)); b.onclick = () => { D.dept = D.dept === d ? "" : d; drawDash(); }; box.append(b);
+    });
+  }
+  function drawDash() {
+    const s = stats(D.mode), raw = stats("raw"), clean = stats("clean"), gap = raw.headcount - clean.headcount;
+    const kpi = (v, t) => el("div", { className: "kpi" }, el("b", { textContent: v }), el("span", { textContent: t }));
+    $("dKpis").replaceChildren(kpi(s.headcount, "headcount"), kpi(s.joiners, "joiners, 12 months"), kpi(s.leavers, "leavers, 12 months"), kpi(s.turnover.toFixed(1) + "%", "turnover, 12 months"), kpi(s.tenure.toFixed(1) + " yrs", "average tenure"));
+    $("dDelta").textContent = gap ? `The raw export ${gap > 0 ? "overstates" : "understates"} headcount by ${Math.abs(gap)}` : "Raw and checked headcount agree here";
+    drawLine(s); drawFlow(s); drawBars(D.mode);
+    $("dAll").hidden = !D.dept;
+    const t = el("table", {}, el("tr", {}, ...["Month", "Headcount", "Joiners", "Leavers"].map(h => el("th", { textContent: h }))), ...monthEnds.map((m, i) => el("tr", {}, ...[m.slice(0, 7), s.line[i], s.flow[i].j, s.flow[i].l].map(v => el("td", { textContent: v })))));
+    $("dTable").replaceChildren(t);
+  }
+  const setMode = m => { D.mode = m; $("dRaw").setAttribute("aria-pressed", String(m === "raw")); $("dClean").setAttribute("aria-pressed", String(m === "clean")); drawDash(); };
+  $("dRaw").onclick = () => setMode("raw"); $("dClean").onclick = () => setMode("clean");
+  $("dAll").onclick = () => { D.dept = ""; drawDash(); };
+  [...new Set(sample.rows.map(r => r.country).filter(Boolean))].sort().forEach(c => $("dCountry").append(el("option", { value: c, textContent: c })));
+  $("dCountry").onchange = e => { D.country = e.target.value; drawDash(); };
+  drawDash();
+
+  /* ---------- SMD assignments ---------- */
+  const JOBS = [[2024, "Gender-integrated climate risk analysis, RICAR project", "WFP, UN Women, FAO", "Analysis"], [2024, "UNDP outcome evaluation, governance response", "UNDP", "Evaluation"], [2024, "Ecosystem-based adaptation exit and sustainability strategy", "Framework and roadmap", "Strategy"], [2024, "Financial literacy and inclusion baseline for women and youth", "NACCUG, DSIK", "Baseline"], [2023, "Youth empowerment through TVET evaluation", "UNESCO, KOICA", "Evaluation"], [2023, "Youth skills and volunteering assessment, Banjul", "UNDP, ILO, UNV", "Analysis"], [2022, "Rural integrated climate adaptation baseline", "WFP", "Baseline"], [2022, "Performance management system enhancement", "Social Security and Housing Finance Corporation", "Strategy"], [2022, "Strategic plan development 2021 to 2025", "National Human Rights Commission", "Strategy"], [2022, "Cross-border resilience and cohesion baseline", "IOM, FAO", "Baseline"]];
+  function drawJobs(kind) {
+    $("aList").replaceChildren(...JOBS.filter(j => !kind || j[3] === kind).map(j => el("li", {}, el("b", { textContent: j[0] }), el("span", {}, j[1], el("small", { textContent: j[2] })))));
+    [...$("aFilter").children].forEach(b => b.setAttribute("aria-pressed", String(b.dataset.k === kind)));
+  }
+  ["", "Evaluation", "Baseline", "Analysis", "Strategy"].forEach(k => { const b = el("button", { type: "button", textContent: k || "All" }); b.dataset.k = k; b.onclick = () => drawJobs(k); $("aFilter").append(b); });
+  drawJobs("");
+
+  /* ---------- K-means you can watch ---------- */
+  (function cluster() {
+    const c = $("kCanvas"), x = c.getContext("2d"), hue = ["#1f3bb3", "#c9281d", "#107c41", "#15171c"], shapes = 4;
+    let seed = 7; const rnd = () => (seed = seed * 16807 % 2147483647) / 2147483647, gauss = () => (rnd() + rnd() + rnd() - 1.5) / 1.5;
+    const pts = []; P.winback.segments.forEach((s, g) => { const R = P.winback.segments.map(v => v.recency), Sp = P.winback.segments.map(v => Math.log10(v.spend + 10)), cx = .16 + .68 * (s.recency - Math.min(...R)) / (Math.max(...R) - Math.min(...R)), cy = .16 + .68 * (Math.log10(s.spend + 10) - Math.min(...Sp)) / (Math.max(...Sp) - Math.min(...Sp)); for (let i = 0; i < 55; i++) pts.push({ x: Math.min(.98, Math.max(.02, cx + gauss() * .11)), y: Math.min(.98, Math.max(.02, cy + gauss() * .09)), k: 0 }); });
+    let cen = [], timer = null, iter = 0;
+    function draw() {
+      const dpr = devicePixelRatio || 1, w = c.clientWidth, h = c.clientHeight; c.width = w * dpr; c.height = h * dpr; x.setTransform(dpr, 0, 0, dpr, 0, 0);
+      x.font = "13px Franklin, Arial, sans-serif"; x.fillStyle = "#4a5060"; x.fillText("Days since last order", w - 136, h - 8); x.fillText("Spend", 8, 16);
+      pts.forEach(p => { x.fillStyle = hue[p.k]; const X = p.x * w, Y = h - p.y * h; if (p.k % 2) x.fillRect(X - 3, Y - 3, 6, 6); else { x.beginPath(); x.arc(X, Y, 3.3, 0, 7); x.fill(); } });
+      cen.forEach((q, i) => { const X = q.x * w, Y = h - q.y * h; x.strokeStyle = "#fff"; x.lineWidth = 5; x.beginPath(); x.moveTo(X - 8, Y - 8); x.lineTo(X + 8, Y + 8); x.moveTo(X + 8, Y - 8); x.lineTo(X - 8, Y + 8); x.stroke(); x.strokeStyle = hue[i]; x.lineWidth = 2.5; x.stroke(); });
+    }
+    function step() {
+      let moved = 0;
+      pts.forEach(p => { let best = 0, d = 9; cen.forEach((q, i) => { const e = (p.x - q.x) ** 2 + (p.y - q.y) ** 2; if (e < d) { d = e; best = i; } }); p.k = best; });
+      cen.forEach((q, i) => { const m = pts.filter(p => p.k === i); if (!m.length) return; const nx = m.reduce((s, p) => s + p.x, 0) / m.length, ny = m.reduce((s, p) => s + p.y, 0) / m.length; moved += Math.abs(nx - q.x) + Math.abs(ny - q.y); q.x = nx; q.y = ny; });
+      iter++; draw(); $("kNote").textContent = moved < .001 ? `Settled after ${iter} rounds. Fictional customers.` : `Round ${iter}`;
+      return moved >= .001 && iter < 30;
+    }
+    function run() {
+      clearInterval(timer); iter = 0; cen = [{ ...pts[Math.floor(rnd() * pts.length)] }];
+      while (cen.length < shapes) { let far = pts[0], gap = -1; pts.forEach(p => { const d = Math.min(...cen.map(q => (p.x - q.x) ** 2 + (p.y - q.y) ** 2)); if (d > gap) { gap = d; far = p; } }); cen.push({ ...far }); }
+      if (calm) { while (step()); return; }
+      timer = setInterval(() => { if (!step()) clearInterval(timer); }, 420);
+    }
+    $("kRun").onclick = run;
+    new IntersectionObserver((e, o) => { if (e[0].isIntersecting) { run(); o.disconnect(); } }, { threshold: .4 }).observe(c);
+    draw();
+  })();
 })();

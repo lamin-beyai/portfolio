@@ -13,14 +13,14 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preload" href="fonts/franklin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/carlito.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=3fd9785f">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Lamin Beyai","jobTitle":"Data, BI and HRIS Analyst","address":{"@type":"PostalAddress","addressRegion":"Île-de-France","addressCountry":"FR"},"alumniOf":"EDHEC Business School","sameAs":["https://www.linkedin.com/in/lamin-beyai/"]}</script>
 </head>
 <body>
 <a class="skip" href="#sheet">Skip to the sheet</a>
 <nav class="top" aria-label="Main"><div class="page navrow">
   <a class="brand" href="#top">Lamin Beyai</a>
-  <span class="links"><a href="#entry-2">Your file</a><a href="#cost">Your cost</a><a href="#how">How it works</a><a href="#hiring">Hiring?</a></span>
+  <span class="links"><a href="#work">Work</a><a href="#entry-2">Your file</a><a href="#cost">Your cost</a><a href="#how">How it works</a><a href="#hiring">Hiring?</a></span>
   <a class="navcta" href="#contact">Send me a report</a>
 </div></nav>
 
@@ -55,15 +55,99 @@
 </header>
 
 <main>
-<section class="proof" id="record">
-  <div class="page proofgrid">
-    <p class="huge">About 20 hours a week of manual reconciliation, gone.</p>
-    <div>
-      <p>At Capital Fund Management, HR data was being checked by hand in SAP SuccessFactors. I saw how long it took, proposed automating it, and built the system in Python: 51 checks across 500+ employee records.</p>
-      <p>Then I trained HR colleagues and wrote the guides, so it kept running without me. That last part is what most automation projects skip.</p>
-      <p class="small">I did this as an employee. No CFM code, data or documents appear on this site.</p>
+<section class="story" id="story" aria-label="How a messy file becomes a report">
+  <div class="storygrid">
+    <div class="storystick"><canvas id="storyCanvas" role="img" aria-label="Every record in the fictional file, shown as a small square. As you scroll, the wrong records are sorted by severity, corrected, and rebuilt into a headcount chart by department."></canvas></div>
+    <div class="steps-s">
+      <article class="sstep"><h2><span id="sN"></span> records. One person. A highlighter.</h2><p>This is how the job starts. Every square is a record from the file you just touched. The yellow and red ones are wrong, and someone has to find them.</p></article>
+      <article class="sstep"><h2><span id="sR"></span> rules find all of them in under a second.</h2><p>They come out sorted by the damage each can do, so the team deals with payroll risks first and typing errors last.</p></article>
+      <article class="sstep"><h2>Fixed once, at the source.</h2><p>Each error goes to the person who owns it, with the reason and the fix. Next month, the same rule catches it before anyone opens a report.</p></article>
+      <article class="sstep"><h2>Then the report builds itself.</h2><p>The same records, now trustworthy, become the headcount report. Nobody rebuilt it by hand. Here it is, working.</p></article>
     </div>
   </div>
+</section>
+
+<section class="dash" id="dash">
+  <div class="page">
+    <div class="split">
+      <h2>Bad data doesn't look bad. It looks like a report.</h2>
+      <p class="lede">This dashboard runs on the same fictional file, and it includes the cells you corrected. Press a department, then switch between the raw export and the checked file.</p>
+    </div>
+    <div class="board">
+      <div class="slicers">
+        <div class="seg" role="group" aria-label="Which data">
+          <button type="button" id="dRaw" aria-pressed="true">Raw export</button>
+          <button type="button" id="dClean" aria-pressed="false">After the checks</button>
+        </div>
+        <select id="dCountry" aria-label="Country"><option value="">All countries</option></select>
+        <button class="plain" type="button" id="dAll" hidden>Show all departments</button>
+        <p class="delta" id="dDelta" role="status" aria-live="polite"></p>
+      </div>
+      <div class="kpis" id="dKpis"></div>
+      <div class="panels">
+        <figure class="panel"><figcaption>Headcount, last 24 months</figcaption><div id="dLine" class="chart"></div></figure>
+        <figure class="panel"><figcaption>Headcount by department</figcaption><div id="dBars" class="dbars"></div></figure>
+        <figure class="panel flow"><figcaption>Joiners <i class="sw j"></i> and leavers <i class="sw l"></i> each month</figcaption><div id="dFlow" class="chart"></div></figure>
+      </div>
+      <details class="note"><summary>See the numbers as a table</summary><div class="tablewrap" id="dTable"></div></details>
+    </div>
+  </div>
+</section>
+
+<section class="work" id="work">
+  <div class="page"><h2>The work behind it</h2></div>
+
+  <article class="case lead-case" id="record">
+    <div class="page">
+      <p class="casefor">Capital Fund Management, Paris. HR Business Analyst, 2025 to 2026</p>
+      <p class="huge">About <span class="count" data-to="20">20</span> hours a week of manual reconciliation, gone.</p>
+      <div class="casegrid">
+        <div><h3>The problem</h3><p>HR data in SAP SuccessFactors was being reviewed by hand every week, in the middle of a live HRIS transformation. Errors reached reports before anyone caught them.</p></div>
+        <div><h3>What I built</h3><p>I proposed and built a data-quality system: a Python FastAPI backend with a browser dashboard, running <b>51 checks across 500+ employee records</b>. Polars and DuckDB pipelines ran 10 to 100 times faster than row-by-row processing.</p></div>
+        <div><h3>Why it lasted</h3><p>I trained HR colleagues and wrote the guides and SOPs, so the tools kept running without me. Most automation projects skip that part.</p></div>
+      </div>
+      <p class="small">I did this as an employee. No CFM code, data or documents appear on this site.</p>
+    </div>
+  </article>
+
+  <article class="case">
+    <div class="page casesplit">
+      <div>
+        <p class="casefor">SMD Policy Management Group, The Gambia. 2021 to 2024</p>
+        <h3 class="casehead">15+ assignments for international agencies, measured properly.</h3>
+        <p>As Program Manager for Projects and M&amp;E, I designed indicators and results frameworks, led field survey teams, and built Python tools that automated indicator tracking previously done by hand.</p>
+        <p>I also wrote proposals that won contracts with UNDP, UNESCO, WFP and credit union associations. This was consulting through SMD, not direct UN employment.</p>
+      </div>
+      <div>
+        <div class="seg chips" id="aFilter" role="group" aria-label="Filter assignments"></div>
+        <ol class="assign" id="aList"></ol>
+      </div>
+    </div>
+  </article>
+
+  <article class="case">
+    <div class="page casesplit flip">
+      <div>
+        <p class="casefor">EDHEC Business School. MSc thesis</p>
+        <h3 class="casehead">Who is worth winning back, and who would buy anyway?</h3>
+        <p>My thesis combined rule-based RFM scoring with K-means clustering on retail transactions, then profiled each cluster and wrote recommendations per segment.</p>
+        <p><a class="tool" href="#entry-3">Try the same method on a budget</a></p>
+      </div>
+      <div class="cluster"><canvas id="kCanvas" role="img" aria-label="Fictional customers as dots, grouped by K-means into four segments."></canvas><button class="tool" type="button" id="kRun">Run K-means again</button><p class="fine" id="kNote"></p></div>
+    </div>
+  </article>
+
+  <article class="case">
+    <div class="page casesplit">
+      <div>
+        <p class="casefor">This site. Personal project</p>
+        <h3 class="casehead">A monitor tested against errors I planted on purpose.</h3>
+        <p>Python, SQL, dbt and DuckDB, with the same rules rebuilt in the browser and tested to agree. It found all 91 planted errors and raised no false alarm on 9 unusual but valid records.</p>
+        <p><a class="tool" href="monitor.html">Open the full monitoring report</a></p>
+      </div>
+      <dl class="tally"><div><dt>91 of 91</dt><dd>planted errors found</dd></div><div><dt>0 of 9</dt><dd>valid edge cases flagged</dd></div><div><dt>21</dt><dd>rules, same result in Python and browser</dd></div></dl>
+    </div>
+  </article>
 </section>
 
 <section class="entry bench-section" id="entry-2">
@@ -106,8 +190,7 @@
     <div class="toolbar">
       <button class="tool" type="button" id="wDownload">Download the cleaned file</button>
       <button class="tool" type="button" id="wPrint">Print a one-page summary</button>
-      <a class="tool" href="monitor.html">See the full monitoring report</a>
-    </div>
+          </div>
     <details class="note"><summary>Change the rules</summary>
       <div class="settings">
         <label for="wSlack">Salary band tolerance: <output id="wSlackOut">0%</output><input type="range" id="wSlack" min="0" max="30" step="5" value="0"></label>
@@ -241,7 +324,7 @@
 <div class="tip" id="tip"></div>
 <div class="printout" id="printout" aria-hidden="true"></div>
 <script src="data.js"></script>
-<script src="engine.js"></script>
-<script src="app.js"></script>
+<script src="engine.js?v=f31b5688"></script>
+<script src="app.js?v=453a1cba"></script>
 </body>
 </html>

@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import csv
+import hashlib
 import json
 import re
 import shutil
@@ -30,7 +31,11 @@ def _page(html: str) -> str:
     html = re.sub(rf"<!-- /?{keep} -->", "", html)
     if not SITE_URL:
         html = re.sub(r'\s*<(meta property="og:(image|url)"|link rel="canonical")[^>]*__SITE_URL__[^>]*>', "", html)
-    return html.replace("__SITE_URL__", SITE_URL)
+    html = html.replace("__SITE_URL__", SITE_URL)
+    for name in ("style.css", "engine.js", "app.js"):  # a new build never serves stale files
+        stamp = hashlib.sha1((SOURCE / name).read_bytes()).hexdigest()[:8]
+        html = html.replace(f'"{name}"', f'"{name}?v={stamp}"')
+    return html
 
 
 def build(con, issues: list[dict], result: dict, seconds: float) -> None:
