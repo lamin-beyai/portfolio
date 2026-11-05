@@ -54,6 +54,7 @@
       <span class="dots" id="fDots" aria-hidden="true"></span><span class="sheetcount" id="fCount"></span>
     </div>
   </div>
+  <p class="page trust">Built at <b>Capital Fund Management</b>. Trained at <b>EDHEC Business School</b>. Assignments for <b>UNDP, WFP, UNESCO and IOM</b> through SMD Policy Management Group.</p>
   <p class="page fine heronote">Every name and number here is fictional. The <span id="hRules"></span> rules behind this sheet are real and run in your browser.</p>
 </header>
 
@@ -215,21 +216,35 @@
   <div class="page costgrid">
     <div>
       <h2>What does your worst report cost?</h2>
-      <p class="lede">Use your own numbers. Think of the one report your team dreads.</p>
+      <p class="lede">Use your own numbers. The page beside them writes itself, ready to forward to whoever signs off.</p>
       <div class="sliders">
-        <label for="cName">Which report is it?<input type="text" id="cName" placeholder="Monthly headcount pack" maxlength="80"></label>
+        <label for="cName">Which report is it?<input type="text" id="cName" placeholder="Monthly headcount pack" maxlength="60"></label>
+        <label for="cCompany">Your company<input type="text" id="cCompany" placeholder="Optional" maxlength="40"></label>
         <label for="cHours"><span>Hours spent on it each month</span><output id="cHoursOut"></output><input type="range" id="cHours" min="2" max="120" step="1" value="16"></label>
         <label for="cRate"><span>Cost of an hour of that person's time</span><output id="cRateOut"></output><input type="range" id="cRate" min="20" max="90" step="5" value="35"></label>
         <label for="cShare"><span>Share you think could run by itself</span><output id="cShareOut"></output><input type="range" id="cShare" min="20" max="90" step="5" value="60"></label>
       </div>
     </div>
-    <div class="bill" aria-live="polite">
-      <p class="billrow"><span>Time spent in a year</span><b id="cDays"></b></p>
-      <p class="billrow"><span>What that time costs</span><b id="cYear"></b></p>
-      <p class="billtotal"><span>Yours to take back each year</span><b id="cSave"></b></p>
-      <!-- prices --><p class="billrow" id="cPayback"></p><!-- /prices -->
-      <a class="ink wide" id="cSend" href="#">Send me these numbers</a>
-      <p class="fine">Opens an email to me with your figures filled in. The figures are your estimates, not a promise. Nothing is stored.</p>
+    <div class="caseside">
+      <article class="paper" id="caseDoc" aria-live="polite">
+        <p class="pfor" id="pFor">Business case</p>
+        <h3 id="pTitle"></h3>
+        <p class="billrow"><span>Time spent in a year</span><b id="cDays"></b></p>
+        <p class="billrow"><span>What that time costs</span><b id="cYear"></b></p>
+        <p class="billtotal"><span>Yours to take back each year</span><b id="cSave"></b></p>
+        <!-- prices --><p class="billrow" id="cPayback"></p><!-- /prices -->
+        <p class="pline" id="pFound" hidden></p>
+        <p class="pline"><b>First step.</b> A two-day report audit: a map of the process, the errors in it, and a written plan that is yours whether or not you continue.</p>
+        <p class="pline"><b>Track record.</b> At Capital Fund Management, a system Lamin built as HR Business Analyst ran 51 checks across 500+ employee records and saved about 20 hours a week.</p>
+        <p class="psign">Lamin Beyai</p>
+        <p class="pfine">mlfbeyai@outlook.com. Draft for discussion, based on your own estimates. Not a quote or a contract.</p>
+      </article>
+      <div class="caseacts">
+        <a class="ink" id="cSend" href="#">Send this to Lamin</a>
+        <button class="tool" type="button" id="cShareLink">Copy a link for my manager</button>
+        <button class="tool" type="button" id="cPrint">Save as PDF</button>
+      </div>
+      <p class="fine">Nothing is stored. The link carries only these figures.</p>
     </div>
   </div>
 </section>
@@ -244,6 +259,20 @@
       <li><h3>Monthly support, if you want it</h3><p>Maintenance, new checks and new reports for what has been built.</p><span>2 days a month<!-- prices -->, €700<!-- /prices --></span></li>
     </ol>
     <p class="fine wide-fine"><!-- noprices -->Fixed scope and a fixed price, agreed in writing before any work starts. <!-- /noprices --><!-- prices -->Fixed scope, agreed in writing before any work starts. The audit fee comes off a sprint booked within 30 days. Prices exclude VAT. <!-- /prices -->Your data stays in your systems wherever possible. I work in English, and my French is A2. I don't do payroll processing or give legal or HR advice.</p>
+  </div>
+</section>
+
+<section class="faq" id="faq">
+  <div class="page faqgrid">
+    <h2>The questions you'd ask anyway</h2>
+    <div>
+      <details open><summary>Does my employee data have to leave the company?</summary><p>Your data stays in your systems wherever possible, and any personal data is covered by a data protection agreement. The checks on this page run entirely in your browser, and the same approach can run inside your own environment.</p></details>
+      <details><summary>What happens when you're gone?</summary><p>You get a user guide and a handover session, so your team can run it without me. That is how the work at CFM kept running. Monthly support is optional.</p></details>
+      <details><summary>What will it cost?</summary><p>A fixed price for a fixed scope, agreed in writing before any work starts. The 15-minute call is free, and I'll tell you honestly if automating isn't worth it.</p></details>
+      <details><summary>Which systems do you work with?</summary><p>SAP SuccessFactors, SQL, Python, dbt, Snowflake, Power BI, Tableau and Excel. If yours isn't listed, tell me: what matters is an agreed way to reach the data.</p></details>
+      <details><summary>Do you work in French?</summary><p>I work in English, and my French is A2 and improving. I'm a good fit for teams that work in English.</p></details>
+      <details><summary>What don't you do?</summary><p>Payroll processing, and legal or HR advice. I build the checks and reports around that work.</p></details>
+    </div>
   </div>
 </section>
 
@@ -329,6 +358,7 @@
 <footer class="colophon"><div class="page">
   <p>Lamin Beyai, Paris region. Designed by me and built with AI assistance. All challenge data is fictional. No cookies, no tracking.</p>
 </div></footer>
+<aside class="nudge" id="nudge" hidden aria-label="Suggested next step"><p id="nudgeText"></p><a class="navcta" id="nudgeGo" href="#cost"></a><button type="button" class="nudgex" id="nudgeX" aria-label="Dismiss">&times;</button></aside>
 <div class="dropveil" id="dropVeil" aria-hidden="true"><p>Drop your CSV. It stays on this device.</p></div>
 <div class="tip" id="tip"></div>
 <div class="printout" id="printout" aria-hidden="true"></div>
