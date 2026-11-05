@@ -311,6 +311,7 @@
     }
     W.history.push(batch); W.busy = false; $("wFixed").textContent = W.changes; rerun();
     const left = W.result.issues.length, secs = ((performance.now() - started) / 1000).toFixed(1);
+    if (!J.file) nudge(`${todo.length} fixes in ${secs} seconds. Want this on your own reports?`, "Build my business case", "#cost");
     say(`${todo.length} fixed in ${secs} seconds. ${left} left that need a person's decision. Undo is one click away.`);
   };
   function mapColumns(head) {
@@ -340,11 +341,12 @@
       const mapped = rows.map(r => { const o = {}; for (const h in map) o[map[h]] = r[h]; return o; });
       $("wAsOf").value = W.params.asOf = new Date().toISOString().slice(0, 10);
       load(mapped, Object.values(map), file.name.replace(/\.csv$/i, "") + "_cleaned.csv");
+      noteFile(file.name);
       say(`Read ${rows.length.toLocaleString("en-GB")} rows on your device. Matched ${Object.keys(map).length} of ${head.length} columns. ${W.skippedText}`.trim());
     };
     reader.readAsText(file);
   }
-  $("wReset").onclick = () => { W.params.asOf = P.params.asOf; $("wAsOf").value = P.params.asOf; load(sample.rows, sample.head, "cleaned_hr_data.csv"); say("Back to the sample file."); };
+  $("wReset").onclick = () => { J.file = null; drawCost(); W.params.asOf = P.params.asOf; $("wAsOf").value = P.params.asOf; load(sample.rows, sample.head, "cleaned_hr_data.csv"); say("Back to the sample file."); };
   $("wDownload").onclick = () => {
     const url = URL.createObjectURL(new Blob([E.toCsv(W.columns, W.rows)], { type: "text/csv" }));
     el("a", { href: url, download: W.fileName }).click();
@@ -431,11 +433,11 @@
 
   /* ---------- The live sheet: the first thing a visitor touches ---------- */
   const HERO = {
-    active_with_past_termination: r => `left in ${r.termination_date.slice(0, 4)}. still active??`,
+    active_with_past_termination: r => `left in ${r.termination_date.slice(0, 4)}, still active?`,
     invalid_email: () => "that's not an email", missing_cost_centre: () => "whose budget is this?",
     unknown_contract_type: () => "what contract is this?", future_hire_marked_active: () => "hasn't started yet!",
   };
-  const COLS = [["employee_id", "Employee ID", 96], ["name", "Name", 160], ["cost_centre", "Cost centre", 96], ["contract_type", "Contract", 112], ["hire_date", "Start date", 96], ["termination_date", "Leaving date", 104], ["employment_status", "Status", 120], ["work_email", "Work email", 214]];
+  const COLS = [["employee_id", "Employee ID", 96], ["name", "Name", 150], ["cost_centre", "Cost centre", 96], ["contract_type", "Contract", 112], ["hire_date", "Start date", 96], ["termination_date", "Leaving date", 104], ["employment_status", "Status", 120], ["work_email", "Work email", 190]];
   const sheet = { rows: sample.rows.map(r => ({ ...r })), cells: [], at: null, done: [] };
   const perPerson = {}; heroRun.issues.forEach(i => perPerson[i.employee_id] = (perPerson[i.employee_id] || 0) + 1);
   const managers = new Set(sample.rows.map(r => (r.manager_id || "").trim()));
@@ -498,6 +500,7 @@
     $("fName").textContent = "A1"; $("fText").textContent = `All ${sheet.cells.length} corrected. Every rule reran each time.`;
     $("fWhy").textContent = `${bad} more records in this file have the same kind of problem. No person should have to do those by hand.`;
     const go = $("fFix"); go.hidden = false; go.textContent = "See what a machine does with them";
+    nudge(`That was ${sheet.cells.length} cells. How many hours does your team spend on this?`, "Work out your cost", "#cost");
   }
   $("fFix").onclick = () => {
     const c = sheet.at;
@@ -538,18 +541,59 @@
   };
 
   /* ---------- What the report costs ---------- */
-  const PRICED = !!$("cPayback");
-  function drawCost() {
-    const h = +$("cHours").value, rate = +$("cRate").value, s = +$("cShare").value / 100, year = h * 12 * rate, save = year * s, days = Math.round(h * 12 / 7);
-    $("cHoursOut").textContent = h + " h"; $("cRateOut").textContent = "€" + rate; $("cShareOut").textContent = Math.round(s * 100) + "%";
-    $("cDays").textContent = `${days} working days`; countTo($("cYear"), year, euro, 260); countTo($("cSave"), save, euro, 260);
-    if (PRICED) { const m = 2800 / (save / 12); $("cPayback").innerHTML = ""; $("cPayback").append(el("span", { textContent: "Audit and sprint pay back in" }), el("b", { textContent: m < 1 ? "under a month" : `about ${Math.ceil(m)} months` })); }
-    const name = $("cName").value.trim() || "A report";
-    const body = `Hi Lamin,\n\nReport: ${name}\nHours each month: ${h}\nCost of an hour: €${rate}\nShare that could run by itself: ${Math.round(s * 100)}%\nThat comes to about ${euro(save)} a year.\n\nCan we talk for 15 minutes?\n`;
-    $("cSend").href = `mailto:mlfbeyai@outlook.com?subject=${encodeURIComponent(name + ": can this be automated?")}&body=${encodeURIComponent(body)}`;
+  const PRICED = !!$("cPayback"), J = { file: null, touched: false, nudged: false, closed: false };
+  const clean1 = (v, n) => String(v || "").replace(/[\u0000-\u001f<>]/g, "").trim().slice(0, n);
+  function caseText() {
+    const h = +$("cHours").value, rate = +$("cRate").value, share = +$("cShare").value, year = h * 12 * rate, save = year * share / 100;
+    return { h, rate, share, year, save, days: Math.round(h * 12 / 7), name: clean1($("cName").value, 60) || "this report", company: clean1($("cCompany").value, 40) };
   }
-  ["cHours", "cRate", "cShare", "cName"].forEach(id => $(id).oninput = drawCost);
+  function drawCost() {
+    const c = caseText();
+    $("cHoursOut").textContent = c.h + " h"; $("cRateOut").textContent = "€" + c.rate; $("cShareOut").textContent = c.share + "%";
+    $("cDays").textContent = `${c.days} working days`; countTo($("cYear"), c.year, euro, 260); countTo($("cSave"), c.save, euro, 260);
+    $("pFor").textContent = c.company ? `Business case for ${c.company}` : "Business case"; $("pTitle").textContent = c.name === "this report" ? "Stop building this report by hand" : `Stop building “${c.name}” by hand`;
+    if (PRICED) { const m = 2800 / (c.save / 12); $("cPayback").replaceChildren(el("span", { textContent: "Audit and sprint pay back in" }), el("b", { textContent: m < 1 ? "under a month" : `about ${Math.ceil(m)} months` })); }
+    const found = $("pFound"); found.hidden = !J.file; found.replaceChildren();
+    if (J.file) found.append(el("b", { textContent: "What the check found. " }), `${J.file.name}: ${J.file.issues.toLocaleString("en-GB")} problems across ${J.file.records.toLocaleString("en-GB")} records, ${J.file.clean}% clean. Most common: ${J.file.top}.`);
+    const body = `Hi Lamin,\n\nReport: ${c.name}\n${c.company ? "Company: " + c.company + "\n" : ""}Hours each month: ${c.h}\nCost of an hour: €${c.rate}\nShare that could run by itself: ${c.share}%\nThat comes to about ${euro(c.save)} a year.\n${J.file ? `\nOur file check found ${J.file.issues} problems across ${J.file.records} records.\n` : ""}\nCan we talk for 15 minutes?\n`;
+    $("cSend").href = `mailto:mlfbeyai@outlook.com?subject=${encodeURIComponent(c.name + ": can this be automated?")}&body=${encodeURIComponent(body)}`;
+  }
+  ["cHours", "cRate", "cShare", "cName", "cCompany"].forEach(id => $(id).addEventListener("input", () => { J.touched = true; drawCost(); }));
+  $("cShareLink").onclick = async e => {
+    const c = caseText(), b = e.currentTarget, data = { n: c.name === "this report" ? "" : c.name, c: c.company, h: c.h, r: c.rate, s: c.share };
+    const url = location.origin + location.pathname + "?case=" + encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify(data)))));
+    try { await navigator.clipboard.writeText(url); b.textContent = "Link copied"; } catch { prompt("Copy this link", url); }
+    setTimeout(() => b.textContent = "Copy a link for my manager", 2200);
+  };
+  $("cPrint").onclick = () => { $("printout").replaceChildren($("caseDoc").cloneNode(true)); print(); };
+  (function openShared() {
+    const raw = new URLSearchParams(location.search).get("case"); if (!raw) return;
+    try {
+      const d = JSON.parse(decodeURIComponent(escape(atob(raw)))), set = (id, v) => { const r = $(id), n = Math.min(+r.max, Math.max(+r.min, +v || +r.value)); r.value = n; };
+      $("cName").value = clean1(d.n, 60); $("cCompany").value = clean1(d.c, 40); set("cHours", d.h); set("cRate", d.r); set("cShare", d.s);
+      addEventListener("load", () => $("cost").scrollIntoView());
+    } catch { /* a damaged link just opens the normal page */ }
+  })();
   drawCost();
+
+  /* ---------- One quiet prompt, based on what the visitor just did ---------- */
+  function nudge(text, label, target) {
+    if (J.closed) return; J.nudged = true;
+    $("nudgeText").textContent = text; $("nudgeGo").textContent = label; $("nudgeGo").href = target; placeNudge();
+  }
+  let nudgeHidden = false;
+  function placeNudge() { $("nudge").hidden = !J.nudged || J.closed || nudgeHidden; }
+  $("nudgeX").onclick = () => { J.closed = true; placeNudge(); };
+  const nudgeWatch = new Set(), watcher = new IntersectionObserver(es => { es.forEach(e => e.isIntersecting ? nudgeWatch.add(e.target) : nudgeWatch.delete(e.target)); nudgeHidden = nudgeWatch.size > 0; placeNudge(); }, { threshold: .12 });
+  ["cost", "contact"].forEach(id => watcher.observe($(id)));
+  function noteFile(name) {
+    const { issues, data } = W.result, total = data.dim.length || 1, affected = new Set(issues.map(i => i.employee_id)).size, tally = {};
+    issues.forEach(i => tally[i.title] = (tally[i.title] || 0) + 1);
+    const minutes = issues.reduce((s, i) => s + (IMPACT[i.rule_id]?.min || 10), 0), hoursByHand = Math.max(1, Math.round(minutes / 60));
+    J.file = { name, records: total, issues: issues.length, clean: (100 * (total - affected) / total).toFixed(1), top: Object.entries(tally).sort((a, b) => b[1] - a[1])[0]?.[0].toLowerCase() || "none" };
+    drawCost();
+    nudge(issues.length ? `${issues.length} problems in your file. Roughly ${hoursByHand} ${hoursByHand === 1 ? "hour" : "hours"} by hand.` : "Your file passed every rule that ran.", issues.length ? "Add it to my business case" : "Work out a report's cost", "#cost");
+  }
 
   $("copyMail").onclick = async e => {
     const b = e.currentTarget, was = "Copy mlfbeyai@outlook.com";
@@ -569,6 +613,7 @@
     document.querySelector(".tab").textContent = who.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, "_") + "_hr_extract.csv";
     document.querySelector(".heronote").prepend(`This is not ${who}'s data. `);
     $("mailMe").href = `mailto:mlfbeyai@outlook.com?subject=${encodeURIComponent(who + ": a report that takes too long")}`;
+    if (!$("cCompany").value) { $("cCompany").value = who; drawCost(); }
   })();
 
   /* ---------- The scroll story: every record, sorted, fixed, rebuilt ---------- */

@@ -59,11 +59,11 @@ h3{font-weight:700;letter-spacing:-.012em}
 .fixbtn:hover{background:var(--night)}
 .fixbtn[hidden]{display:none}
 a.fixbtn{text-decoration:none}
-.grid{overflow-x:auto;-webkit-overflow-scrolling:touch;min-height:432px}
+.grid{position:relative;overflow-x:auto;-webkit-overflow-scrolling:touch;min-height:432px}
 #fGrid{border-collapse:collapse;font:15px/1.2 var(--cell);min-width:1060px;width:100%;table-layout:fixed}
-#fGrid th{background:var(--chrome);font-weight:400;color:var(--ink2);border:1px solid var(--grid);padding:3px 4px;text-align:center;font-size:13px}
+#fGrid th{position:relative;background:var(--chrome);font-weight:400;color:var(--ink2);border:1px solid var(--grid);padding:3px 4px;text-align:center;font-size:13px}
 #fGrid thead tr:nth-child(2) th{background:var(--sheet);color:var(--ink);font-weight:700;text-align:left;padding:6px 8px;font-size:14px}
-#fGrid th.rn{width:46px;font-variant-numeric:tabular-nums;position:sticky;left:0;z-index:1}
+#fGrid th.rn{position:sticky;width:46px;font-variant-numeric:tabular-nums;position:sticky;left:0;z-index:1}
 #fGrid td{border:1px solid var(--grid);height:33px;padding:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #fGrid td>span{display:block;padding:0 8px;overflow:hidden;text-overflow:ellipsis}
 #fGrid td.note{border:0;overflow:visible;font:25px/1 var(--hand);color:var(--pen);padding-left:12px;white-space:nowrap}
@@ -273,6 +273,38 @@ input[type=range]:active::-webkit-slider-thumb{transform:scale(1.18)}
 .billtotal span{display:block;font-size:16px}
 .billtotal b{display:inline-block;background:var(--hl);font-weight:800;font-size:clamp(48px,6.4vw,76px);line-height:1;letter-spacing:-.035em;padding:6px 10px 8px;margin-top:6px;font-variant-numeric:tabular-nums}
 
+/* The business case */
+.caseside{position:sticky;top:84px}
+.paper{background:#fff;padding:clamp(22px,3vw,36px);box-shadow:0 1px 2px rgba(16,26,82,.12),0 24px 48px -28px rgba(16,26,82,.45);transition:box-shadow .2s}
+.pfor{margin:0;font-size:14px;color:var(--ink2)}
+.paper h3{font-weight:800;font-size:clamp(24px,2.5vw,32px);line-height:1.08;letter-spacing:-.025em;margin:6px 0 14px;text-wrap:balance}
+.pline{margin:12px 0 0;font-size:15px;line-height:1.45;color:var(--ink2)}
+.pline b{color:var(--ink)}
+.psign{font:42px/1 var(--hand);color:var(--pen);margin:18px 0 2px}
+.pfine{margin:0;font-size:13px;color:var(--ink2)}
+.caseacts{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px;align-items:center}
+.trust{margin-top:14px;margin-bottom:0;font-size:15px;color:var(--ink2)}
+.trust b{color:var(--ink);font-weight:650}
+
+/* Objections */
+.faq{padding:clamp(64px,8vw,104px) 0 0}
+.faqgrid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(20px,5vw,72px);align-items:start}
+.faq details{border-top:1px solid var(--grid)}
+.faq details:last-child{border-bottom:1px solid var(--grid)}
+.faq summary{cursor:pointer;font-weight:650;font-size:18px;padding:14px 30px 14px 0;list-style:none;position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;right:4px;top:10px;font-size:24px;font-weight:400;transition:transform .2s var(--out)}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{margin:0 0 16px;color:var(--ink2);max-width:60ch}
+
+/* The next step */
+.nudge{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:var(--z-nav);display:flex;gap:14px;align-items:center;width:max-content;max-width:calc(100% - 24px);background:var(--ink);color:#fff;padding:9px 10px 9px 18px;box-shadow:0 12px 30px -10px rgba(16,26,82,.6);animation:nudgein .45s var(--out) both}
+.nudge[hidden]{display:none}
+.nudge p{margin:0;font-size:15px;line-height:1.3}
+.nudge .navcta{flex:none}
+.nudgex{background:none;border:0;color:#fff;font-size:22px;line-height:1;cursor:pointer;width:32px;height:32px;flex:none}
+@keyframes nudgein{from{opacity:0;transform:translate(-50%,12px)}to{opacity:1;transform:translate(-50%,0)}}
+
 /* How */
 .how{padding:clamp(64px,9vw,120px) 0 0}
 .steps{list-style:none;counter-reset:s;margin:30px 0 0;padding:0;border-top:2px solid var(--ink)}
@@ -362,6 +394,7 @@ input[type=range]:active::-webkit-slider-thumb{transform:scale(1.18)}
 @media (max-width:980px){
   .storygrid{display:block}.storystick{height:46vh;top:60px;padding:12px 18px;background:var(--night);z-index:2}.steps-s{padding:0 18px}.sstep{min-height:70vh;justify-content:flex-end;padding-bottom:28px}
   .whyrow{grid-template-columns:80px minmax(0,1fr)}.whyrow span:nth-child(3){grid-column:1/-1}.whyrow em{display:none}.autobar{flex-direction:column;align-items:stretch}.drophint{display:none}
+  .caseside{position:static}.faqgrid{grid-template-columns:minmax(0,1fr)}.nudge{left:12px;right:12px;width:auto;transform:none;animation:none;bottom:10px;flex-wrap:wrap;padding:10px 8px 10px 14px}.nudge p{flex:1 1 60%}
   .panels,.casegrid,.casesplit,.casesplit.flip{grid-template-columns:minmax(0,1fr)}.kpis{grid-template-columns:1fr 1fr}.kpi:first-child{grid-column:1/-1}.kpi:nth-child(2),.kpi:nth-child(4){border-left:0;padding-left:0}.delta{margin-left:0}
   .links{display:none}.navcta{margin-left:auto}
   .herohead,.proofgrid,.split,.costgrid,.bench{grid-template-columns:minmax(0,1fr)}
@@ -380,6 +413,7 @@ input[type=range]:active::-webkit-slider-thumb{transform:scale(1.18)}
   body{background:#fff}
   body>*:not(.printout){display:none!important}
   .printout{display:block;font:12pt/1.45 var(--body);color:#000}
+  .printout .paper{box-shadow:none;padding:0;background:none}.printout .billtotal b{-webkit-print-color-adjust:exact;print-color-adjust:exact}
   .printout h1{font-size:26pt;line-height:1.05;margin:0 0 6pt}
   .printout table{border-collapse:collapse;width:100%;margin:14pt 0;font:11pt var(--cell)}
   .printout td,.printout th{border:1px solid #bbb;padding:4pt 6pt;text-align:left}
