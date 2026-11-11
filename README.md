@@ -47,4 +47,4 @@ That shows the rules do what they were written to do. It doesn't show how they w
 
 ## Credits
 
-Designed by Lamin Beyai and built with AI assistance. No code, data or documents from any employer were used.
+Designed by Lamin Beyai. No code, data or documents from any employer were used.
