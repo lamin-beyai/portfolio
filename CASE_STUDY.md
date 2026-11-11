@@ -14,4 +14,4 @@
 
 **Limits.** This has never run on real company data. Risk figures and campaign uplift are assumptions. In practice, uplift should come from a holdout test.
 
-**The real-world basis.** At Capital Fund Management, I proposed and built a Python data-quality system for SAP SuccessFactors that ran 51 checks across 500+ employee records and saved about 20 hours of manual reconciliation a week. Nothing from that system is reused here.
+**The real-world basis.** At Capital Fund Management, I proposed and built a Python data-quality system for SAP SuccessFactors that ran 91+ checks across 500+ employee records and saved about 20 hours of manual reconciliation a week. Nothing from that system is reused here.
