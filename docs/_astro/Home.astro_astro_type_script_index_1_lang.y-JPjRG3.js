@@ -1,0 +1,2 @@
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["_astro/report-proof.BQVXa9Cy.js","_astro/monitor.DNWaa04V.js","_astro/rolldown-runtime.WkwZ5CU-.js"])))=>i.map(i=>d[i]);
+import{t as e}from"./preload-helper.CPAj0Vv9.js";var t=document.getElementById(`report-proof`);if(t){let n=new IntersectionObserver(r=>{r.some(e=>e.isIntersecting)&&(n.disconnect(),e(()=>import(`./report-proof.BQVXa9Cy.js`).then(e=>e.mountReportProof(t)),__vite__mapDeps([0,1,2])))},{rootMargin:`600px`});n.observe(t)}

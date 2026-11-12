@@ -9,7 +9,8 @@ TRUTH_CSV = DATA_DIR / "injected_errors.csv"
 DECOYS_CSV = DATA_DIR / "valid_edge_cases.csv"
 DB_PATH = DATA_DIR / "hr.duckdb"
 DBT_DIR = ROOT / "dbt_project"
-SITE_DIR = ROOT / "docs"
+# The portfolio at docs/ is built in a separate project since 12 November 2026. This build only writes the first edition, at docs/monitor.
+SITE_DIR = ROOT / "docs" / "monitor"
 
 AS_OF = date(2026, 10, 31)
 SEED = 20261105

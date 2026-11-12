@@ -837,4 +837,11 @@
   new IntersectionObserver((e, o) => { if (e[0].isIntersecting) { o.disconnect(); kpis.forEach(k => k._now = 0); const base = stats(D.mode), flat = Math.min(...base.line); dashNow = { ...base, line: base.line.map(() => flat), flow: base.flow.map(() => ({ j: 0, l: 0 })) }; drawDash(); } }, { threshold: .25 }).observe($("dKpis"));
   const big = document.querySelector(".count");
   if (big && !calm) new IntersectionObserver((e, o) => { if (e[0].isIntersecting) { o.disconnect(); big._now = 0; countTo(big, +big.dataset.to, v => String(Math.round(v)), 1100); } }, { threshold: 1 }).observe(big);
+  /* A link to a section (#dash) lands on it at once. Smooth scrolling never runs in a background tab, so it can't be trusted on load. */
+  addEventListener("load", () => {
+    const target = location.hash.length > 1 && document.getElementById(decodeURIComponent(location.hash.slice(1)));
+    if (!target) return;
+    const root = document.documentElement, was = root.style.scrollBehavior;
+    root.style.scrollBehavior = "auto"; target.scrollIntoView(); root.style.scrollBehavior = was;
+  });
 })();

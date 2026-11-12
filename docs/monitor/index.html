@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lamin Beyai: HR data and reporting automation, Paris</title>
+<meta name="description" content="I automate the HR and finance reports your team rebuilds by hand. Try it on a live sheet, or check your own file in your browser.">
+<meta name="theme-color" content="#f3f5f8">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Someone on your team checks this by hand every month">
+<meta property="og:description" content="Correct a live HR sheet, check your own file in your browser, and work out what your manual report costs. By Lamin Beyai.">
+<meta property="og:image" content="https://lamin-beyai.github.io/portfolio/og.png">
+<meta property="og:url" content="https://lamin-beyai.github.io/portfolio/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://lamin-beyai.github.io/portfolio/">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" href="fonts/franklin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/carlito.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="style.css?v=28f3370c">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Lamin Beyai","jobTitle":"Data, BI and HRIS Analyst","address":{"@type":"PostalAddress","addressRegion":"Île-de-France","addressCountry":"FR"},"alumniOf":"EDHEC Business School","sameAs":["https://www.linkedin.com/in/lamin-beyai/"]}</script>
+</head>
+<body>
+<a class="skip" href="#sheet">Skip to the sheet</a>
+<nav class="top" aria-label="Main"><div class="page navrow">
+  <a class="brand" href="#top">Lamin Beyai</a>
+  <span class="links"><a href="#work">Work</a><a href="#entry-2">Your file</a><a href="#cost">Your cost</a><a href="#how">How it works</a><a href="#hiring">Hiring?</a></span>
+  <a class="navcta" href="#contact">Send me a report</a>
+</div><i class="navprog" id="navProg" aria-hidden="true"></i></nav>
+
+<header class="hero" id="top">
+  <div class="page herohead">
+    <h1>Someone on your team checks this by hand every month.</h1>
+    <div class="herocopy">
+      <p class="lede">I replace that job with a check that runs itself. As HR Business Analyst at Capital Fund Management, I built one that saved about 20 hours a week.</p>
+      <p class="lede"><b>This sheet is live.</b> Press a yellow cell and correct it.</p>
+    </div>
+  </div>
+
+  <div class="sheetwrap" id="sheet">
+    <div class="fbar">
+      <span class="namebox" id="fName" aria-label="Selected cell">A1</span>
+      <span class="fx" aria-hidden="true">fx</span>
+      <p class="ftext" id="fText" role="status" aria-live="polite"></p>
+    </div>
+    <div class="fwhy">
+      <p id="fWhy"></p>
+      <span class="fixacts"><button class="plain" id="fUndo" type="button" hidden>Undo</button><button class="fixbtn" id="fFix" type="button"></button></span>
+    </div>
+    <div class="grid" tabindex="0" role="region" aria-label="Fictional HR records. Scroll sideways on small screens.">
+      <table id="fGrid"></table>
+    </div>
+    <div class="sheettabs">
+      <span class="tab on">hr_extract_october.csv</span>
+      <span class="dots" id="fDots" aria-hidden="true"></span><span class="sheetcount" id="fCount"></span>
+    </div>
+  </div>
+  <p class="page trust">Built at <b>Capital Fund Management</b>. Trained at <b>EDHEC Business School</b>. Assignments for <b>UNDP, WFP, UNESCO and IOM</b> through SMD Policy Management Group.</p>
+  <p class="page fine heronote">Every name and number here is fictional. The <span id="hRules"></span> rules behind this sheet are real and run in your browser.</p>
+</header>
+
+<main>
+<section class="story" id="story" aria-label="How a messy file becomes a report">
+  <div class="storygrid">
+    <div class="storystick"><canvas id="storyCanvas" role="img" aria-label="Every record in the fictional file, shown as a small square. As you scroll, the wrong records are sorted by severity, corrected, and rebuilt into a headcount chart by department."></canvas></div>
+    <div class="steps-s">
+      <article class="sstep"><h2><span id="sN"></span> records. One person. A highlighter.</h2><p>This is how the job starts. Every square is a record from the file you just touched. The yellow and red ones are wrong, and someone has to find them.</p></article>
+      <article class="sstep"><h2><span id="sR"></span> rules find all of them in under a second.</h2><p>They come out sorted by the damage each can do, so the team deals with payroll risks first and typing errors last.</p></article>
+      <article class="sstep"><h2>Fixed once, at the source.</h2><p>Each error goes to the person who owns it, with the reason and the fix. Next month, the same rule catches it before anyone opens a report.</p></article>
+      <article class="sstep"><h2>Then the report builds itself.</h2><p>The same records, now trustworthy, become the headcount report. Nobody rebuilt it by hand. Here it is, working.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="dash" id="dash">
+  <div class="page">
+    <div class="split">
+      <h2>Bad data doesn't look bad. It looks like a report.</h2>
+      <p class="lede">This dashboard runs on the same fictional file, and it includes the cells you corrected. Press a department, then switch between the raw export and the checked file.</p>
+    </div>
+    <div class="board">
+      <div class="slicers">
+        <div class="seg" role="group" aria-label="Which data">
+          <button type="button" id="dRaw" aria-pressed="true">Raw export</button>
+          <button type="button" id="dClean" aria-pressed="false">After the checks</button>
+        </div>
+        <select id="dCountry" aria-label="Country"><option value="">All countries</option></select>
+        <button class="plain" type="button" id="dAll" hidden>Show all departments</button>
+        <p class="delta" id="dDelta" role="status" aria-live="polite"></p>
+        <button class="plain" type="button" id="dWhy" aria-expanded="false">Show me which records</button>
+      </div>
+      <div class="whylist" id="dWhyList" hidden></div>
+      <div class="kpis" id="dKpis"></div>
+      <div class="panels">
+        <figure class="panel"><figcaption>Headcount, last 24 months</figcaption><div id="dLine" class="chart"></div></figure>
+        <figure class="panel"><figcaption>Headcount by department</figcaption><div id="dBars" class="dbars"></div></figure>
+        <figure class="panel flow"><figcaption>Joiners <i class="sw j"></i> and leavers <i class="sw l"></i> each month</figcaption><div id="dFlow" class="chart"></div></figure>
+      </div>
+      <details class="note"><summary>See the numbers as a table</summary><div class="tablewrap" id="dTable"></div></details>
+    </div>
+  </div>
+</section>
+
+<section class="work" id="work">
+  <div class="page"><h2>The work behind it</h2></div>
+
+  <article class="case lead-case" id="record">
+    <div class="page">
+      <p class="casefor">Capital Fund Management, Paris. HR Business Analyst, 2025 to 2026</p>
+      <p class="huge">About <span class="count" data-to="20">20</span> hours a week of manual reconciliation, gone.</p>
+      <div class="casegrid">
+        <div><h3>The problem</h3><p>HR data in SAP SuccessFactors was being reviewed by hand every week, in the middle of a live HRIS transformation. Errors reached reports before anyone caught them.</p></div>
+        <div><h3>What I built</h3><p>I proposed and built a data-quality system: a Python FastAPI backend with a browser dashboard, running <b>91+ checks across 500+ employee records</b>. Polars and DuckDB pipelines ran 10 to 100 times faster than row-by-row processing.</p></div>
+        <div><h3>Why it lasted</h3><p>I trained HR colleagues and wrote the guides and SOPs, so the tools kept running without me. Most automation projects skip that part.</p></div>
+      </div>
+      <p class="small">I did this as an employee. No CFM code, data or documents appear on this site.</p>
+    </div>
+  </article>
+
+  <article class="case">
+    <div class="page casesplit">
+      <div>
+        <p class="casefor">SMD Policy Management Group, The Gambia. 2021 to 2024</p>
+        <h3 class="casehead">15+ assignments for international agencies, measured properly.</h3>
+        <p>As Program Manager for Projects and M&amp;E, I designed indicators and results frameworks, led field survey teams, and built Python tools that automated indicator tracking previously done by hand.</p>
+        <p>I also wrote proposals that won contracts with UNDP, UNESCO, WFP and credit union associations. This was consulting through SMD, not direct UN employment.</p>
+      </div>
+      <div>
+        <div class="seg chips" id="aFilter" role="group" aria-label="Filter assignments"></div>
+        <ol class="assign" id="aList"></ol>
+      </div>
+    </div>
+  </article>
+
+  <article class="case">
+    <div class="page casesplit flip">
+      <div>
+        <p class="casefor">EDHEC Business School. MSc thesis</p>
+        <h3 class="casehead">Who is worth winning back, and who would buy anyway?</h3>
+        <p>My thesis combined rule-based RFM scoring with K-means clustering on retail transactions, then profiled each cluster and wrote recommendations per segment.</p>
+        <p><a class="tool" href="#entry-3">Try the same method on a budget</a></p>
+      </div>
+      <div class="cluster"><canvas id="kCanvas" role="img" aria-label="Fictional customers as dots, grouped by K-means into four segments."></canvas><button class="tool" type="button" id="kRun">Run K-means again</button><p class="fine" id="kNote"></p></div>
+    </div>
+  </article>
+
+  <article class="case">
+    <div class="page casesplit">
+      <div>
+        <p class="casefor">This site. Personal project</p>
+        <h3 class="casehead">A monitor tested against errors I planted on purpose.</h3>
+        <p>Python, SQL, dbt and DuckDB, with the same rules rebuilt in the browser and tested to agree. It found all 91 planted errors and raised no false alarm on 9 unusual but valid records.</p>
+        <p><a class="tool" href="monitor.html">Open the full monitoring report</a></p>
+      </div>
+      <dl class="tally"><div><dt>91 of 91</dt><dd>planted errors found</dd></div><div><dt>0 of 9</dt><dd>valid edge cases flagged</dd></div><div><dt>21</dt><dd>rules, same result in Python and browser</dd></div></dl>
+    </div>
+  </article>
+</section>
+
+<section class="entry bench-section" id="entry-2">
+  <div class="page">
+    <div class="split">
+      <h2>Now try it on your own file.</h2>
+      <p class="lede">Load a CSV and <b id="wRuleCount"></b> rules check it on your device. Nothing is uploaded, because there is no server to upload it to. Each fix reruns every rule, so you see at once whether it worked.</p>
+    </div>
+    <div class="toolbar lead">
+      <label class="ink" for="wFile"><input type="file" id="wFile" accept=".csv,text/csv">Load your CSV</label>
+      <a class="tool" href="exports/template.csv" download>Get the template</a>
+      <button class="tool" type="button" id="wReset">Back to the sample</button>
+      <span class="drophint">or drop a file anywhere here</span>
+    </div>
+
+    <div class="autobar"><button class="ink" type="button" id="wAuto"></button><p id="wAutoNote">Watch the machine do in seconds what takes a person days. Anything that needs judgement stays for a person.</p></div>
+    <div class="bench">
+      <div class="benchmap">
+        <canvas id="wField" role="img" aria-label="Map of records. The issue queue beside it gives the same information as text."></canvas>
+        <div class="legend" aria-hidden="true"><span><i class="k critical"></i>Critical</span><span><i class="k high"></i>High</span><span><i class="k medium"></i>Medium</span><span><i class="k fixed"></i>Fixed</span><span><i class="k clean"></i>Clean</span></div>
+        <div class="benchstats">
+          <div><b id="wClean"></b><span id="wCleanText"></span></div>
+          <div><b id="wLeft"></b><span>issues left</span></div>
+          <div><b id="wFixed">0</b><span>your changes</span></div>
+        </div>
+      </div>
+      <div class="benchq">
+        <div class="qbar">
+          <select id="wSev" aria-label="Show severity"><option value="">All severities</option><option value="critical">Critical</option><option value="high">High</option><option value="medium">Medium</option></select>
+          <select id="wRule" aria-label="Show rule"></select>
+        </div>
+        <div class="focus" id="wFocus"></div>
+        <div class="qnav">
+          <button type="button" id="wPrev" aria-label="Previous issue">Previous</button>
+          <span id="wPos" aria-live="polite"></span>
+          <button type="button" id="wNext" aria-label="Next issue">Next</button>
+          <button type="button" id="wUndo" disabled>Undo</button>
+        </div>
+        <p class="msg" id="wMsg" role="status" aria-live="polite"></p>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <button class="tool" type="button" id="wDownload">Download the cleaned file</button>
+      <button class="tool" type="button" id="wPrint">Print a one-page summary</button>
+          </div>
+    <details class="note"><summary>Change the rules</summary>
+      <div class="settings">
+        <label for="wSlack">Salary band tolerance: <output id="wSlackOut">0%</output><input type="range" id="wSlack" min="0" max="30" step="5" value="0"></label>
+        <label for="wAsOf">Check as of<input type="date" id="wAsOf"></label>
+        <label for="wAge">Minimum working age<input type="number" id="wAge" min="14" max="18"></label>
+        <label for="wTypes">Approved contract types, separated by commas<input type="text" id="wTypes"></label>
+      </div>
+    </details>
+    <p class="fine">Please avoid real employee data on a shared computer.</p>
+  </div>
+</section>
+
+<section class="cost" id="cost">
+  <div class="page costgrid">
+    <div>
+      <h2>What does your worst report cost?</h2>
+      <p class="lede">Use your own numbers. The page beside them writes itself, ready to forward to whoever signs off.</p>
+      <div class="sliders">
+        <label for="cName">Which report is it?<input type="text" id="cName" placeholder="Monthly headcount pack" maxlength="60"></label>
+        <label for="cCompany">Your company<input type="text" id="cCompany" placeholder="Optional" maxlength="40"></label>
+        <label for="cHours"><span>Hours spent on it each month</span><output id="cHoursOut"></output><input type="range" id="cHours" min="2" max="120" step="1" value="16"></label>
+        <label for="cRate"><span>Cost of an hour of that person's time</span><output id="cRateOut"></output><input type="range" id="cRate" min="20" max="90" step="5" value="35"></label>
+        <label for="cShare"><span>Share you think could run by itself</span><output id="cShareOut"></output><input type="range" id="cShare" min="20" max="90" step="5" value="60"></label>
+      </div>
+    </div>
+    <div class="caseside">
+      <article class="paper" id="caseDoc" aria-live="polite">
+        <p class="pfor" id="pFor">Business case</p>
+        <h3 id="pTitle"></h3>
+        <p class="billrow"><span>Time spent in a year</span><b id="cDays"></b></p>
+        <p class="billrow"><span>What that time costs</span><b id="cYear"></b></p>
+        <p class="billtotal"><span>Yours to take back each year</span><b id="cSave"></b></p>
+        
+        <p class="pline" id="pFound" hidden></p>
+        <p class="pline"><b>First step.</b> A two-day report audit: a map of the process, the errors in it, and a written plan that is yours whether or not you continue.</p>
+        <p class="pline"><b>Track record.</b> At Capital Fund Management, a system Lamin built as HR Business Analyst ran 91+ checks across 500+ employee records and saved about 20 hours a week.</p>
+        <p class="psign">Lamin Beyai</p>
+        <p class="pfine">mlfbeyai@outlook.com. Draft for discussion, based on your own estimates. Not a quote or a contract.</p>
+      </article>
+      <div class="caseacts">
+        <a class="ink" id="cSend" href="#">Send this to Lamin</a>
+        <button class="tool" type="button" id="cShareLink">Copy a link for my manager</button>
+        <button class="tool" type="button" id="cPrint">Save as PDF</button>
+      </div>
+      <p class="fine">Nothing is stored. The link carries only these figures.</p>
+    </div>
+  </div>
+</section>
+
+<section class="how" id="how">
+  <div class="page">
+    <h2>How we would work</h2>
+    <ol class="steps">
+      <li><h3>A 15-minute call</h3><p>You tell me about one report. I tell you honestly whether automating it is worth it.</p><span>Free</span></li>
+      <li><h3>Report audit</h3><p>A map of the process, the errors and risks in it, the time it costs, and a written plan. It is yours whether or not we continue.</p><span>2 days</span></li>
+      <li><h3>Automation sprint</h3><p>The report or check automated in Python or SQL, a Power BI dashboard where useful, a user guide and a handover session.</p><span>6 days</span></li>
+      <li><h3>Monthly support, if you want it</h3><p>Maintenance, new checks and new reports for what has been built.</p><span>2 days a month</span></li>
+    </ol>
+    <p class="fine wide-fine">Fixed scope and a fixed price, agreed in writing before any work starts. Your data stays in your systems wherever possible. I work in English, and my French is A2. I don't do payroll processing or give legal or HR advice.</p>
+  </div>
+</section>
+
+<section class="faq" id="faq">
+  <div class="page faqgrid">
+    <h2>The questions you'd ask anyway</h2>
+    <div>
+      <details open><summary>Does my employee data have to leave the company?</summary><p>Your data stays in your systems wherever possible, and any personal data is covered by a data protection agreement. The checks on this page run entirely in your browser, and the same approach can run inside your own environment.</p></details>
+      <details><summary>What happens when you're gone?</summary><p>You get a user guide and a handover session, so your team can run it without me. That is how the work at CFM kept running. Monthly support is optional.</p></details>
+      <details><summary>What will it cost?</summary><p>A fixed price for a fixed scope, agreed in writing before any work starts. The 15-minute call is free, and I'll tell you honestly if automating isn't worth it.</p></details>
+      <details><summary>Which systems do you work with?</summary><p>SAP SuccessFactors, SQL, Python, dbt, Snowflake, Power BI, Tableau and Excel. If yours isn't listed, tell me: what matters is an agreed way to reach the data.</p></details>
+      <details><summary>Do you work in French?</summary><p>I work in English, and my French is A2 and improving. I'm a good fit for teams that work in English.</p></details>
+      <details><summary>What don't you do?</summary><p>Payroll processing, and legal or HR advice. I build the checks and reports around that work.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="hiring" id="hiring">
+  <div class="page split">
+    <h2>Hiring an analyst instead?</h2>
+    <div>
+      <p class="lede">I'm also looking for data, BI and HRIS analyst roles in France. These two problems show how I think. They take about a minute each.</p>
+      <dl class="skills">
+        <div><dt>Data and BI</dt><dd>Python, SQL, dbt, Snowflake, DuckDB, Power BI, Tableau, Excel</dd></div>
+        <div><dt>HR systems</dt><dd>SAP SuccessFactors Employee Central, Story Reports, UAT</dd></div>
+        <div><dt>Delivery</dt><dd>Requirements, process mapping, monitoring and evaluation, training</dd></div>
+        <div><dt>Education</dt><dd>MSc Data Analytics and Artificial Intelligence, EDHEC Business School</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section class="entry" id="entry-1">
+  <div class="page">
+    <h2>Payroll closes in 4 hours.</h2>
+    <p class="lede">The extract has <b id="gIssues"></b> problems, about <b id="gHours"></b> of work. You have 4 hours. Tick what your team fixes before payroll locks.</p>
+
+    <div class="dock">
+      <div class="clockrow"><span>Time used</span><span class="protect"><b id="gProtect">€0</b> protected</span><b id="gTime">0 of 4h</b></div>
+      <div class="ticks" id="gTicks" role="progressbar" aria-label="Time used, in minutes" aria-valuemin="0" aria-valuemax="240" aria-valuenow="0"></div>
+      <div class="dockrow">
+        <div class="seg" role="group" aria-label="Sort problems">
+          <button type="button" id="sCount" aria-pressed="true">Most common</button>
+          <button type="button" id="sRisk" aria-pressed="false">Highest risk</button>
+          <button type="button" id="sTime" aria-pressed="false">Quickest</button>
+        </div>
+        <button class="ink" id="gGo" type="button">Lock payroll</button>
+      </div>
+    </div>
+
+    <div class="ledger" id="gList">
+      <div class="lhead" aria-hidden="true"><span></span><span>Problem</span><span class="r">Records</span><span class="r">Time</span><span class="r">At risk</span></div>
+    </div>
+    <div class="verdict" id="gResult" hidden tabindex="-1"></div>
+    <details class="note"><summary>How the risk figures work</summary><p>The problems are found by the live rules. The risk figures and minutes are fictional estimates for this exercise. Payroll problems use a share of that person's monthly pay. Other problems use a flat estimate of the cost of repairing the damage later.</p></details>
+  </div>
+</section>
+
+<section class="entry" id="entry-3">
+  <div class="page">
+    <h2>Spend a win-back budget.</h2>
+    <p class="lede">A retailer gives you <b>€<span id="rBudgetTop"></span></b>. K-means grouped <b id="rCustomers"></b> customers by recency, frequency and spend, the method from my MSc thesis. Decide who gets contacted.</p>
+    <div class="ledger rledger" id="rSegs"></div>
+    <div class="spend">
+      <div class="clockrow"><span>Budget used</span><b id="rUsed"></b></div>
+      <div class="bartrack" aria-hidden="true"><i id="rTrack"></i></div>
+      <div class="dockrow">
+        <div class="bignum"><b id="rProfit"></b><span>expected extra profit</span></div>
+        <button class="ink" id="rReveal" type="button">Compare with the data</button>
+      </div>
+    </div>
+    <div class="verdict" id="rResult" hidden tabindex="-1"></div>
+    <details class="note"><summary>Change the assumptions</summary>
+      <div class="settings">
+        <label for="rBudget">Budget: <output id="rBudgetOut"></output><input type="range" id="rBudget" min="500" max="4000" step="100" value="1500"></label>
+        <label for="rCost">Cost per contact: <output id="rCostOut"></output><input type="range" id="rCost" min="1" max="10" step="0.5" value="3"></label>
+        <label for="rMargin">Profit margin: <output id="rMarginOut"></output><input type="range" id="rMargin" min="20" max="70" step="5" value="40"></label>
+        <label for="rOrders">Orders from a won-back customer: <output id="rOrdersOut"></output><input type="range" id="rOrders" min="1" max="8" step="1" value="4"></label>
+      </div>
+      <p>The extra buyers per segment are assumptions. In a real project they would come from a test group that received no offer.</p>
+    </details>
+  </div>
+</section>
+
+<section class="sign" id="contact">
+  <div class="page">
+    <h2>Send me your worst report.</h2>
+    <p class="signlede">Just tell me what it is and how long it takes. I'll reply with whether it is worth automating. If you're hiring, say so and I'll send my CV.</p>
+    <p class="cta">
+      <a class="ink" id="mailMe" href="mailto:mlfbeyai@outlook.com?subject=A%20report%20that%20takes%20too%20long">Email me</a>
+      <button class="plain" type="button" id="copyMail">Copy mlfbeyai@outlook.com</button>
+      <a class="plain" href="https://www.linkedin.com/in/lamin-beyai/">LinkedIn</a>
+    </p>
+  </div>
+</section>
+</main>
+<footer class="colophon"><div class="page">
+  <p>Lamin Beyai, Paris region. All challenge data is fictional. No cookies, no tracking.</p>
+</div></footer>
+<aside class="nudge" id="nudge" hidden aria-label="Suggested next step"><p id="nudgeText"></p><a class="navcta" id="nudgeGo" href="#cost"></a><button type="button" class="nudgex" id="nudgeX" aria-label="Dismiss">&times;</button></aside>
+<div class="dropveil" id="dropVeil" aria-hidden="true"><p>Drop your CSV. It stays on this device.</p></div>
+<div class="tip" id="tip"></div>
+<div class="printout" id="printout" aria-hidden="true"></div>
+<script src="data.js" defer></script>
+<script src="engine.js?v=f31b5688" defer></script>
+<script src="app.js?v=a5c9200d" defer></script>
+</body>
+</html>

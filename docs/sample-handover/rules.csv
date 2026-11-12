@@ -1,0 +1,22 @@
+rule_id,title,dimension,severity,why_it_matters,fix
+duplicate_employee_id,Same employee ID on more than one row,Uniqueness,critical,Headcount and payroll feeds count this person twice.,Find which row is correct and remove the other at source.
+possible_duplicate_person,Same person under two employee IDs,Uniqueness,critical,"A rehire or import may have created a second record, splitting pay and history.",Confirm with HR and merge the records.
+duplicate_email,Work email shared by two employees,Uniqueness,high,System sign-in and notifications can reach the wrong person.,Give each person a unique address.
+missing_manager,Active employee with no manager,Completeness,high,Approvals and reviews have nowhere to go.,Assign the correct manager.
+missing_cost_centre,No cost centre,Completeness,high,Pay cost cannot be charged to the right budget.,Add the cost centre for the department.
+missing_hire_date,No hire date,Completeness,critical,"Tenure, leave and headcount trends cannot be calculated.",Enter the date from the contract.
+invalid_hire_date,Hire date cannot be read,Validity,critical,"The value is not a real date, so reports drop this person.",Correct it from the contract.
+invalid_email,Work email format is invalid,Validity,medium,Messages and account creation will fail.,Correct the address.
+fte_out_of_range,Working time outside 0 to 1,Validity,high,Pay and full-time-equivalent reporting are distorted.,Correct the working-time fraction.
+unknown_contract_type,Contract type not on the approved list,Validity,medium,Contract reporting and legal end-date tracking miss this person.,Choose an approved contract type.
+salary_outside_band,Salary outside the band for the level,Plausibility,high,"Often a typing error, and it distorts pay analysis.","Check against the contract. If correct, record the approved exception."
+underage_at_hire,Under 16 on the hire date,Plausibility,high,Almost certainly a wrong birth date or hire date.,Check against an identity document.
+termination_before_hire,Leaving date before hire date,Consistency,critical,Tenure is negative and turnover reports break.,Correct whichever date is wrong.
+active_with_past_termination,Marked active after the leaving date,Consistency,critical,This person may still be paid or keep system access.,Confirm the status and close the record if they have left.
+terminated_without_date,Terminated with no leaving date,Consistency,high,Turnover cannot be placed in the right month.,Enter the leaving date.
+future_hire_marked_active,Active before the start date,Consistency,medium,Headcount is overstated until the person actually joins.,Set the status to pending until the start date.
+fixed_term_missing_end_date,Fixed-term contract with no end date,Consistency,high,The contract can expire with nobody alerted.,Add the end date from the contract.
+manager_not_found,Manager ID does not exist,Integrity,high,"The reporting line is broken, so org charts and approvals fail.",Assign a valid manager.
+manager_inactive,Reports to someone who has left,Integrity,high,Requests go to a person who is no longer there.,Move this employee to a current manager.
+self_manager,Listed as their own manager,Integrity,high,Self-approval bypasses a basic control.,Assign a different manager.
+reporting_loop,Reporting line loops back on itself,Integrity,high,"Nobody at the top of this chain, so org charts and approval routing fail.",Correct the manager on at least one person in the loop.

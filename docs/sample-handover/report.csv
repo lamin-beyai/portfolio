@@ -1,0 +1,8 @@
+employee_id,name,department,employment_status,counted_in_active_headcount,under_review,open_exception
+E-1040,Amina Jallow,Finance,Active,yes,no,
+E-1041,Tom Keller,Finance,Active,yes,no,
+E-1042,Sara Lind,Finance,Active,yes,no,
+E-1043,Jonas Weber,Finance,Terminated,no,no,
+E-1044,Priya Nair,Finance,Active,yes,no,
+E-1045,Leo Martin,Finance,Active,yes,yes,invalid_hire_date
+E-1046,Fatou Ceesay,Finance,Active,yes,no,

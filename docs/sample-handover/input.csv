@@ -1,0 +1,8 @@
+employee_id,first_name,last_name,work_email,department,cost_centre,job_title,job_level,manager_id,hire_date,termination_date,employment_status,contract_type,contract_end_date,fte,annual_salary_eur,date_of_birth
+E-1040,Amina,Jallow,amina.jallow@example.com,Finance,CC-210,Finance director,L6,,2019-02-04,,Active,Permanent,,1,170000,1978-09-02
+E-1041,Tom,Keller,tom.keller@example.com,Finance,CC-210,Finance manager,L4,E-1040,2021-09-01,,Active,Permanent,,1,88000,1984-01-23
+E-1042,Sara,Lind,sara.lind@example.com,Finance,CC-210,Analyst,L3,E-1099,2022-05-16,,Active,Permanent,,1,60000,1991-06-30
+E-1043,Jonas,Weber,jonas.weber@example.com,Finance,CC-210,Analyst,L3,E-1041,2020-01-13,2026-08-31,Active,Permanent,,1,60000,1988-11-08
+E-1044,Priya,Nair,priya.nair@example.com,Finance,CC-210,Analyst,L2,E-1041,2025-11-03,,Active,Fixed-term,,1,44000,1996-03-17
+E-1045,Leo,Martin,leo.martin@example.com,Finance,CC-210,Analyst,L2,E-1041,03/12/2024,,Active,Permanent,,1,46000,1995-07-21
+E-1046,Fatou,Ceesay,fatou.ceesay@example.com,Finance,CC-210,Analyst,L3,E-1041,2023-06-19,,Active,Permanent,,1,60000,1992-12-05
